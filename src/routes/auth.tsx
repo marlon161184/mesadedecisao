@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { RotuloMono } from "@/components/newe/brand";
@@ -26,6 +26,13 @@ function Entrar() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [carregando, setCarregando] = useState(false);
+  useEffect(() => {
+    // Quem entrou por link de reunião e perdeu a sessão vê "Reunião encerrada", não o login.
+    if (localStorage.getItem("newe-reuniao")) {
+      localStorage.removeItem("newe-reuniao");
+      navigate({ to: "/entrar", search: { fim: 1 }, replace: true });
+    }
+  }, [navigate]);
 
   async function entrar(e: FormEvent) {
     e.preventDefault();

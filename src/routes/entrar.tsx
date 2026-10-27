@@ -69,6 +69,7 @@ function EntrarReuniao() {
       const r = await entrar({ data: { token: token.current, nome } });
       if (!r.ok) { setEstado({ tipo: "encerrada" }); return; }
       token.current = null;
+      localStorage.setItem("newe-reuniao", "1");
       qc.clear();
       await supabase.auth.setSession({ access_token: r.access_token, refresh_token: r.refresh_token });
       navigate({ to: "/reuniao", search: { rfp: 2 }, replace: true });
