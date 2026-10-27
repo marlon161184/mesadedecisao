@@ -1,9 +1,9 @@
 # Roadmap
 
 ## Ajuste · janela de reunião
-- [ ] Encerramento livre em Brasília, atalhos e aviso no Admin
-- [ ] Limite de 96 h no formulário, servidor e banco
-- [ ] Selo e lista com data de encerramento; testes unitários, banco e tela sem criar reunião
+- [x] Encerramento livre em Brasília, atalhos e aviso no Admin
+- [x] Limite de 96 h no formulário, servidor e banco
+- [x] Selo e lista com data de encerramento; testes unitários, banco e tela sem criar reunião
 
 ## Prompt 2 · Equalização
 - [x] Dados iniciais, regras P-01..P-09, totais conferidos em teste
@@ -41,7 +41,7 @@
 - [ ] Pontuação em cartões e votação no celular — conferir quando a pontuação for aberta (hoje está bloqueada)
 
 ## Acesso por link de reunião (somente leitura)
-- [x] Admin › Reuniões: criar (nome, data, validade 4h/máx 12h), token de 43 caracteres guardado só como hash, QR, acessos, conectados, encerrar
+- [x] Admin › Reuniões: criar (nome, data, encerramento em Brasília até 96h), token de 43 caracteres guardado só como hash, QR, acessos, conectados, encerrar
 - [x] Entrada /entrar: nome obrigatório, troca token→sessão no servidor, limite 10/min por IP, resposta única "Reunião encerrada", no-referrer, token removido da URL
 - [x] Papel REUNIÃO só com reunião ativa (e 60 min de atividade); RLS bloqueia escrita, notas/pré-mortem/votos não revelados, auditoria, filtros alheios, PDFs; sem exportação nem IA
 - [x] Abre no modo reunião com atalho para a Mesa; selo com nome, horário e conectados; revalida a cada 60 s
