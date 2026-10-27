@@ -221,7 +221,6 @@ function PontuacaoCartoes({ base, m, rasc, setRasc }: {
       </div>
       <article className="mt-3 border border-line-strong p-4" aria-label={`Critério ${c.nome}`}>
         <h3 className="text-xl">{c.nome} <span className="num text-sm text-ink-muted">peso {c.peso}</span></h3>
-        {c.descricao && <p className="mt-1 text-sm text-ink-muted">{c.descricao}</p>}
         <div className="mt-4 space-y-6">
           {m.elegiveis.map((p) => {
             const k = c.id + p.id;
