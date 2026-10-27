@@ -72,7 +72,7 @@ function Entrar() {
           <Button type="submit" className="w-full" size="lg" disabled={carregando}>
             {carregando ? "Entrando" : "Entrar"}
           </Button>
-          <Button type="button" variant="link" onClick={esqueci}>
+          <Button type="button" variant="link" className="h-auto px-0" onClick={esqueci}>
             Esqueci a senha
           </Button>
           <p className="text-sm text-ink-muted">Não há cadastro aberto. O acesso é liberado pelo Admin.</p>
