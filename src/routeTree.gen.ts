@@ -16,6 +16,8 @@ import { Route as DefinirSenhaRouteImport } from './routes/definir-senha'
 import { Route as AuthenticatedAcessosRouteImport } from './routes/_authenticated/acessos'
 import { Route as AuthenticatedInicioRouteImport } from './routes/_authenticated/inicio'
 import { Route as AuthenticatedMesaRouteImport } from './routes/_authenticated/mesa'
+import { Route as AuthenticatedMesaEntregasRouteImport } from './routes/_authenticated/mesa.entregas'
+import { Route as AuthenticatedMesaMatrizRouteImport } from './routes/_authenticated/mesa.matriz'
 import { Route as AuthenticatedMesaVisaoRouteImport } from './routes/_authenticated/mesa.visao'
 
 const IndexRoute = IndexRouteImport.update({
@@ -52,6 +54,17 @@ const AuthenticatedMesaRoute = AuthenticatedMesaRouteImport.update({
   path: '/mesa',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedMesaEntregasRoute =
+  AuthenticatedMesaEntregasRouteImport.update({
+    id: '/entregas',
+    path: '/entregas',
+    getParentRoute: () => AuthenticatedMesaRoute,
+  } as any)
+const AuthenticatedMesaMatrizRoute = AuthenticatedMesaMatrizRouteImport.update({
+  id: '/matriz',
+  path: '/matriz',
+  getParentRoute: () => AuthenticatedMesaRoute,
+} as any)
 const AuthenticatedMesaVisaoRoute = AuthenticatedMesaVisaoRouteImport.update({
   id: '/visao',
   path: '/visao',
@@ -65,6 +78,8 @@ export interface FileRoutesByFullPath {
   '/acessos': typeof AuthenticatedAcessosRoute
   '/inicio': typeof AuthenticatedInicioRoute
   '/mesa': typeof AuthenticatedMesaRouteWithChildren
+  '/mesa/entregas': typeof AuthenticatedMesaEntregasRoute
+  '/mesa/matriz': typeof AuthenticatedMesaMatrizRoute
   '/mesa/visao': typeof AuthenticatedMesaVisaoRoute
 }
 export interface FileRoutesByTo {
@@ -74,6 +89,8 @@ export interface FileRoutesByTo {
   '/acessos': typeof AuthenticatedAcessosRoute
   '/inicio': typeof AuthenticatedInicioRoute
   '/mesa': typeof AuthenticatedMesaRouteWithChildren
+  '/mesa/entregas': typeof AuthenticatedMesaEntregasRoute
+  '/mesa/matriz': typeof AuthenticatedMesaMatrizRoute
   '/mesa/visao': typeof AuthenticatedMesaVisaoRoute
 }
 export interface FileRoutesById {
@@ -85,6 +102,8 @@ export interface FileRoutesById {
   '/_authenticated/acessos': typeof AuthenticatedAcessosRoute
   '/_authenticated/inicio': typeof AuthenticatedInicioRoute
   '/_authenticated/mesa': typeof AuthenticatedMesaRouteWithChildren
+  '/_authenticated/mesa/entregas': typeof AuthenticatedMesaEntregasRoute
+  '/_authenticated/mesa/matriz': typeof AuthenticatedMesaMatrizRoute
   '/_authenticated/mesa/visao': typeof AuthenticatedMesaVisaoRoute
 }
 export interface FileRouteTypes {
@@ -96,6 +115,8 @@ export interface FileRouteTypes {
     | '/acessos'
     | '/inicio'
     | '/mesa'
+    | '/mesa/entregas'
+    | '/mesa/matriz'
     | '/mesa/visao'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -105,6 +126,8 @@ export interface FileRouteTypes {
     | '/acessos'
     | '/inicio'
     | '/mesa'
+    | '/mesa/entregas'
+    | '/mesa/matriz'
     | '/mesa/visao'
   id:
     | '__root__'
@@ -115,6 +138,8 @@ export interface FileRouteTypes {
     | '/_authenticated/acessos'
     | '/_authenticated/inicio'
     | '/_authenticated/mesa'
+    | '/_authenticated/mesa/entregas'
+    | '/_authenticated/mesa/matriz'
     | '/_authenticated/mesa/visao'
   fileRoutesById: FileRoutesById
 }
@@ -176,6 +201,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMesaRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/mesa/entregas': {
+      id: '/_authenticated/mesa/entregas'
+      path: '/entregas'
+      fullPath: '/mesa/entregas'
+      preLoaderRoute: typeof AuthenticatedMesaEntregasRouteImport
+      parentRoute: typeof AuthenticatedMesaRoute
+    }
+    '/_authenticated/mesa/matriz': {
+      id: '/_authenticated/mesa/matriz'
+      path: '/matriz'
+      fullPath: '/mesa/matriz'
+      preLoaderRoute: typeof AuthenticatedMesaMatrizRouteImport
+      parentRoute: typeof AuthenticatedMesaRoute
+    }
     '/_authenticated/mesa/visao': {
       id: '/_authenticated/mesa/visao'
       path: '/visao'
@@ -187,10 +226,14 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedMesaRouteChildren {
+  AuthenticatedMesaEntregasRoute: typeof AuthenticatedMesaEntregasRoute
+  AuthenticatedMesaMatrizRoute: typeof AuthenticatedMesaMatrizRoute
   AuthenticatedMesaVisaoRoute: typeof AuthenticatedMesaVisaoRoute
 }
 
 const AuthenticatedMesaRouteChildren: AuthenticatedMesaRouteChildren = {
+  AuthenticatedMesaEntregasRoute: AuthenticatedMesaEntregasRoute,
+  AuthenticatedMesaMatrizRoute: AuthenticatedMesaMatrizRoute,
   AuthenticatedMesaVisaoRoute: AuthenticatedMesaVisaoRoute,
 }
 
