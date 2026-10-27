@@ -23,10 +23,17 @@ export const Route = createFileRoute("/_authenticated/mesa/entregas")({
 
 function Entregas() {
   const { rfp, analises, premissas } = useMesa();
+  return <EntregasConteudo rfp={rfp} analises={analises} premissas={premissas} />;
+}
+
+type Mesa = ReturnType<typeof useMesa>;
+
+export function EntregasConteudo({ rfp, analises, premissas }: Pick<Mesa, "rfp" | "analises" | "premissas">) {
   const com = analises.filter((a) => a.entregas.length > 0);
+  const comCusto = com.flatMap((a) => (a.custoUnitario != null ? [{ ...a, u: a.custoUnitario }] : []));
   const cats = Object.keys(premissas.volume_base_mensal) as Categoria[];
-  const maxCusto = Math.max(1, ...com.map((a) => a.custoUnitario?.custoMensal ?? 0));
-  const maxVol = Math.max(1, ...com.map((a) => a.custoUnitario?.volumeEntregue ?? 0));
+  const maxCusto = Math.max(1, ...comCusto.map((a) => a.u.custoMensal));
+  const maxVol = Math.max(1, ...comCusto.map((a) => a.u.volumeEntregue));
 
   return (
     <>
@@ -72,6 +79,12 @@ function Entregas() {
               </TableBody>
             </Table>
 
+            {comCusto.length === 0 ? (
+              <p className="mt-16 text-ink-muted">
+                O custo unitário normalizado só se aplica ao módulo de criativo (RFP 2). Este RFP não tem esse módulo.
+              </p>
+            ) : (
+            <>
             <RotuloMono as="p" className="mt-16">Custo unitário normalizado (R4)</RotuloMono>
             <Table className="mt-3">
               <TableHeader>
@@ -84,8 +97,8 @@ function Entregas() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {com.map((a) => {
-                  const u = a.custoUnitario!;
+                {comCusto.map((a) => {
+                  const u = a.u;
                   return (
                     <TableRow key={a.proposta.id}>
                       <TableCell>{a.player.nome} {u.rotuloTeto && <Badge variant="outline" className="ml-2">Teto</Badge>}</TableCell>
@@ -104,8 +117,8 @@ function Entregas() {
 
             <RotuloMono as="p" className="mt-16">Custo mensal e volume entregue</RotuloMono>
             <div className="mt-4 space-y-6" role="list">
-              {com.map((a) => {
-                const u = a.custoUnitario!;
+              {comCusto.map((a) => {
+                const u = a.u;
                 return (
                   <div key={a.proposta.id} role="listitem" className="grid grid-cols-12 items-center gap-4">
                     <p className="col-span-12 font-display text-lg md:col-span-2">{a.player.nome}</p>
@@ -129,6 +142,8 @@ function Entregas() {
                 );
               })}
             </div>
+            </>
+            )}
           </>
         )}
       </Conteudo>
