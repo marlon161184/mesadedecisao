@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { Logo, RotuloMono } from "@/components/newe/brand";
@@ -30,7 +30,7 @@ function DefinirSenha() {
     return () => data.subscription.unsubscribe();
   }, []);
 
-  async function salvar(e: React.FormEvent) {
+  async function salvar(e: FormEvent) {
     e.preventDefault();
     if (senha.length < 8) return toast.error("Use pelo menos 8 caracteres.");
     const { error } = await supabase.auth.updateUser({ password: senha });

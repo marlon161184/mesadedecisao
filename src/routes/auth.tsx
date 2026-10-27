@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { Logo, RotuloMono } from "@/components/newe/brand";
@@ -26,7 +26,7 @@ function Entrar() {
   const [senha, setSenha] = useState("");
   const [carregando, setCarregando] = useState(false);
 
-  async function entrar(e: React.FormEvent) {
+  async function entrar(e: FormEvent) {
     e.preventDefault();
     setCarregando(true);
     const { error } = await supabase.auth.signInWithPassword({ email, password: senha });
