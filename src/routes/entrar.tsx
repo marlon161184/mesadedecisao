@@ -49,7 +49,8 @@ function EntrarReuniao() {
 
   useEffect(() => {
     // O token só vive nesta tela: sai da barra de endereço na hora (replace) e fica em memória.
-    token.current = tokenDoEndereco(window.location.hash, window.location.search);
+    // Lido uma vez só (o efeito pode rodar duas vezes em desenvolvimento).
+    token.current ??= tokenDoEndereco(window.location.hash, window.location.search);
     window.history.replaceState(null, "", "/entrar");
     (async () => {
       if (fim || !token.current) { setEstado({ tipo: "encerrada" }); return; }
