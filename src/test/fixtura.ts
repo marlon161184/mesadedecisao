@@ -44,6 +44,9 @@ const itens: Item[] = [
   novo("F&MD", "P1", "LinkedIn", "recorrente", 2240),
   novo("F&MD", "P2", "Squad", "recorrente", 3350, { unidade: "produto_mes" }),
   novo("F&MD", "P2", "Comissão", "variavel", 0.2),
+  novo("F&MD", "P4", "Site", "pontual", 15000),
+  novo("F&MD", "P4", "Landing page", "pontual", 6000),
+  novo("F&MD", "P4", "3 landing pages de pesquisa", "pontual", 18000),
 ];
 
 export const base = {
