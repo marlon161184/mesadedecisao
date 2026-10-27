@@ -3,7 +3,8 @@ import { useEffect } from "react";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { baseQuery } from "@/lib/base";
 import { resultadoDoCenario } from "@/lib/cenarios";
-import { Logo, RotuloMono } from "@/components/newe/brand";
+import { RotuloMono } from "@/components/newe/brand";
+import { LogoNewe } from "@/components/newe/LogoNewe";
 import { formatarBRL, formatarData, formatarPct } from "@/lib/formato";
 import { ROTULO_SEV } from "@/lib/pontos";
 
@@ -30,10 +31,10 @@ function Imprimir() {
   if (!c) return <p className="p-10">Cenário não encontrado.</p>;
   const r = resultadoDoCenario(base, c);
   return (
-    <div className="mx-auto max-w-[190mm] bg-background p-8 text-[11px] leading-snug text-foreground print:p-0">
+    <div className="mx-auto max-w-[190mm] bg-luz p-8 text-[11px] leading-snug text-preto print:p-0">
       <style>{`@page { size: A4; margin: 12mm; } @media print { html, body { background: var(--luz) !important; color: var(--preto) !important; } }`}</style>
       <header className="flex items-center justify-between border-b border-line-strong pb-3">
-        <Logo height={28} />
+        <LogoNewe variante="preto" height={28} comMargem={false} />
         <RotuloMono>Mesa de Decisão · {formatarData(new Date())}</RotuloMono>
       </header>
       <h1 className="chamada mt-4 text-xl">{c.nome}</h1>

@@ -2,7 +2,8 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { Logo, RotuloMono } from "@/components/newe/brand";
+import { RotuloMono } from "@/components/newe/brand";
+import { LogoNewe } from "@/components/newe/LogoNewe";
 import { AlternarTema } from "@/components/newe/AlternarTema";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -47,13 +48,16 @@ function Entrar() {
   return (
     <div className="grid min-h-screen grid-cols-1 bg-background text-foreground lg:grid-cols-2">
       <div className="hidden flex-col justify-between bg-primary p-16 text-primary-foreground lg:flex">
-        <span className="label-mono">NEWE · Grupo Hyndra</span>
+        <div className="flex items-center gap-4">
+          <LogoNewe variante="preto" height={30} comMargem={false} />
+          <span className="label-mono">Grupo Hyndra</span>
+        </div>
         <p className="chamada max-w-md text-4xl leading-tight">Luxo é para se sentir.</p>
         <span className="label-mono">São José do Rio Preto · SP</span>
       </div>
       <div className="flex flex-col px-8 py-10 md:px-16">
         <div className="flex items-center justify-between">
-          <Logo height={32} />
+          <LogoNewe height={32} />
           <AlternarTema />
         </div>
         <form onSubmit={entrar} className="mx-auto my-auto w-full max-w-sm space-y-6">
