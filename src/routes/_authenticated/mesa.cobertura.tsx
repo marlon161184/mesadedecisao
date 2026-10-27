@@ -11,6 +11,7 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { formatarBRL, formatarData } from "@/lib/formato";
 import type { Cobertura, Requisito } from "@/lib/base";
+import { TabelaAdaptavel } from "@/components/newe/TabelaAdaptavel";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated/mesa/cobertura")({
@@ -66,36 +67,36 @@ function CoberturaTela() {
         Cada célula mostra símbolo, nível e evidência. Clique para ver a nota técnica.
       </AberturaTela>
       <Conteudo>
-        <div className="mb-8 flex flex-wrap items-end gap-6 border border-line p-5">
+        <div className="mb-8 flex flex-wrap items-end gap-4 border border-line p-4 sm:gap-6 sm:p-5">
           <div>
             <RotuloMono as="p" className="mb-1.5">Rigor da evidência</RotuloMono>
-            <div role="radiogroup" aria-label="Rigor da evidência" className="flex border border-line-strong">
+            <div role="radiogroup" aria-label="Rigor da evidência" className="flex flex-wrap border border-line-strong">
               {[1, 0.7, 0].map((v) => (
                 <button key={v} role="radio" aria-checked={premissas.fator_evidencia_declarado === v}
                   onClick={() => set({ rigor: v })}
-                  className={cn("border-r border-line-strong px-3 py-1.5 text-sm last:border-r-0", premissas.fator_evidencia_declarado === v ? "bg-primary text-primary-foreground" : "hover:bg-accent")}>
+                  className={cn("min-h-11 border-r border-line-strong px-3 py-1.5 text-sm last:border-r-0 lg:min-h-0", premissas.fator_evidencia_declarado === v ? "bg-primary text-primary-foreground" : "hover:bg-accent")}>
                   Declarado vale {Math.round(v * 100)}%
                 </button>
               ))}
             </div>
           </div>
-          <label className="flex items-center gap-2 text-sm">
+          <label className="flex min-h-11 items-center gap-2 text-sm">
             <input type="checkbox" className="size-4" checked={f.essenciais} onChange={(e) => set({ essenciais: e.target.checked || undefined })} />
             Somente essenciais
           </label>
           {analises.length > 0 && (
-            <Button variant="secondary" className="ml-auto" onClick={() => setPerguntas(true)}>Gerar perguntas pendentes</Button>
+            <Button variant="secondary" className="sm:ml-auto" onClick={() => setPerguntas(true)}>Gerar perguntas pendentes</Button>
           )}
         </div>
 
         {analises.length === 0 ? (
           <SemPropostas base={base} modulos={modulos} />
         ) : (
-          <div className="overflow-x-auto">
+          <TabelaAdaptavel modo="rolagem" rotulo="Cobertura por requisito">
             <table className="w-full border-collapse text-sm">
               <thead>
                 <tr className="border-b border-line-strong">
-                  <th className="label-mono w-96 px-3 py-3 text-left font-normal text-ink-muted">Requisito</th>
+                  <th className="label-mono w-48 min-w-48 px-3 sm:w-96 py-3 text-left font-normal text-ink-muted">Requisito</th>
                   {analises.map((a) => <th key={a.proposta.id} className="px-2 py-3 text-left font-display text-lg font-normal">{a.player.nome}</th>)}
                 </tr>
               </thead>
@@ -107,7 +108,7 @@ function CoberturaTela() {
                       <tr key={r.id} className="border-b border-line">
                         <th scope="row" className="px-3 py-2 text-left font-normal">
                           <span className="label-mono mr-2 text-ink-muted">{r.codigo}</span>{r.descricao}
-                          <span className="mt-1 flex gap-1.5">
+                          <span className="mt-1 flex flex-wrap gap-1.5">
                             <Badge variant="secondary">Peso {r.peso}</Badge>
                             {r.criticidade === "essencial" && <Badge variant="outline">Essencial</Badge>}
                             {r.eliminatorio && <Badge variant="flamboyant">Eliminatório</Badge>}
@@ -116,7 +117,7 @@ function CoberturaTela() {
                         {analises.map((a) => {
                           const c = cob(a.proposta.id, r.id);
                           return (
-                            <td key={a.proposta.id} className="w-44 p-1">
+                            <td key={a.proposta.id} className="w-44 min-w-36 p-1">
                               <Celula c={c} rotulo={`${r.codigo} ${a.player.nome}`} onClick={() => setSel({ req: r, playerNome: a.player.nome, c })} />
                             </td>
                           );
@@ -139,7 +140,7 @@ function CoberturaTela() {
                 </tr>
               </tfoot>
             </table>
-          </div>
+          </TabelaAdaptavel>
         )}
       </Conteudo>
 
