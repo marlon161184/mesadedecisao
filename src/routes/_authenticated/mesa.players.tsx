@@ -50,7 +50,7 @@ function Players() {
         </div>
 
         {player && (
-          <div className="grid grid-cols-12 gap-8 lg:gap-10">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-10">
             <section className="col-span-12 min-w-0 lg:col-span-4">
               <RotuloMono as="p">Resumo</RotuloMono>
               <h2 className="mt-2 text-3xl">{player.nome}</h2>

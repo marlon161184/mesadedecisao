@@ -160,7 +160,7 @@ function Simulador() {
         <label className="flex min-h-11 items-end gap-2 pb-2 text-sm"><input type="checkbox" className="size-4" checked={comp.incluirNaoValidadas} onChange={(e) => setComp({ ...comp, incluirNaoValidadas: e.target.checked })} /> Incluir não validadas</label>
       </div>
 
-      <div className="grid grid-cols-12 gap-8 px-4 pb-28 pt-8 md:px-8 lg:px-12 xl:py-10">
+      <div className="grid grid-cols-1 gap-8 px-4 pb-28 pt-8 xl:grid-cols-12 md:px-8 lg:px-12 xl:py-10">
         {/* COMPOSIÇÃO */}
         <section id="zona-composicao" className={cn("col-span-12 min-w-0 xl:col-span-3 xl:block", zona !== "composicao" && "hidden")} aria-label="Composição">
           <RotuloMono as="p">Composição</RotuloMono>

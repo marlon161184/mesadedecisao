@@ -42,7 +42,7 @@ function Acessos() {
 
   return (
     <Moldura>
-      <section className="mx-auto grid max-w-[1440px] grid-cols-12 gap-6 px-4 py-10 md:px-8 md:py-16 lg:px-12 lg:py-20">
+      <section className="mx-auto grid max-w-[1440px] grid-cols-1 gap-6 md:grid-cols-12 px-4 py-10 md:px-8 md:py-16 lg:px-12 lg:py-20">
         <RotuloMono as="p" className="col-span-12 md:col-span-2">Acessos</RotuloMono>
         <div className="col-span-12 min-w-0 md:col-span-10">
           <h1 className="chamada text-3xl sm:text-4xl">Quem participa</h1>
