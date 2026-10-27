@@ -16,8 +16,10 @@ import { Route as DefinirSenhaRouteImport } from './routes/definir-senha'
 import { Route as AuthenticatedAcessosRouteImport } from './routes/_authenticated/acessos'
 import { Route as AuthenticatedInicioRouteImport } from './routes/_authenticated/inicio'
 import { Route as AuthenticatedMesaRouteImport } from './routes/_authenticated/mesa'
+import { Route as AuthenticatedMesaCoberturaRouteImport } from './routes/_authenticated/mesa.cobertura'
 import { Route as AuthenticatedMesaEntregasRouteImport } from './routes/_authenticated/mesa.entregas'
 import { Route as AuthenticatedMesaMatrizRouteImport } from './routes/_authenticated/mesa.matriz'
+import { Route as AuthenticatedMesaPontosRouteImport } from './routes/_authenticated/mesa.pontos'
 import { Route as AuthenticatedMesaVisaoRouteImport } from './routes/_authenticated/mesa.visao'
 
 const IndexRoute = IndexRouteImport.update({
@@ -54,6 +56,12 @@ const AuthenticatedMesaRoute = AuthenticatedMesaRouteImport.update({
   path: '/mesa',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedMesaCoberturaRoute =
+  AuthenticatedMesaCoberturaRouteImport.update({
+    id: '/cobertura',
+    path: '/cobertura',
+    getParentRoute: () => AuthenticatedMesaRoute,
+  } as any)
 const AuthenticatedMesaEntregasRoute =
   AuthenticatedMesaEntregasRouteImport.update({
     id: '/entregas',
@@ -63,6 +71,11 @@ const AuthenticatedMesaEntregasRoute =
 const AuthenticatedMesaMatrizRoute = AuthenticatedMesaMatrizRouteImport.update({
   id: '/matriz',
   path: '/matriz',
+  getParentRoute: () => AuthenticatedMesaRoute,
+} as any)
+const AuthenticatedMesaPontosRoute = AuthenticatedMesaPontosRouteImport.update({
+  id: '/pontos',
+  path: '/pontos',
   getParentRoute: () => AuthenticatedMesaRoute,
 } as any)
 const AuthenticatedMesaVisaoRoute = AuthenticatedMesaVisaoRouteImport.update({
@@ -78,8 +91,10 @@ export interface FileRoutesByFullPath {
   '/acessos': typeof AuthenticatedAcessosRoute
   '/inicio': typeof AuthenticatedInicioRoute
   '/mesa': typeof AuthenticatedMesaRouteWithChildren
+  '/mesa/cobertura': typeof AuthenticatedMesaCoberturaRoute
   '/mesa/entregas': typeof AuthenticatedMesaEntregasRoute
   '/mesa/matriz': typeof AuthenticatedMesaMatrizRoute
+  '/mesa/pontos': typeof AuthenticatedMesaPontosRoute
   '/mesa/visao': typeof AuthenticatedMesaVisaoRoute
 }
 export interface FileRoutesByTo {
@@ -89,8 +104,10 @@ export interface FileRoutesByTo {
   '/acessos': typeof AuthenticatedAcessosRoute
   '/inicio': typeof AuthenticatedInicioRoute
   '/mesa': typeof AuthenticatedMesaRouteWithChildren
+  '/mesa/cobertura': typeof AuthenticatedMesaCoberturaRoute
   '/mesa/entregas': typeof AuthenticatedMesaEntregasRoute
   '/mesa/matriz': typeof AuthenticatedMesaMatrizRoute
+  '/mesa/pontos': typeof AuthenticatedMesaPontosRoute
   '/mesa/visao': typeof AuthenticatedMesaVisaoRoute
 }
 export interface FileRoutesById {
@@ -102,8 +119,10 @@ export interface FileRoutesById {
   '/_authenticated/acessos': typeof AuthenticatedAcessosRoute
   '/_authenticated/inicio': typeof AuthenticatedInicioRoute
   '/_authenticated/mesa': typeof AuthenticatedMesaRouteWithChildren
+  '/_authenticated/mesa/cobertura': typeof AuthenticatedMesaCoberturaRoute
   '/_authenticated/mesa/entregas': typeof AuthenticatedMesaEntregasRoute
   '/_authenticated/mesa/matriz': typeof AuthenticatedMesaMatrizRoute
+  '/_authenticated/mesa/pontos': typeof AuthenticatedMesaPontosRoute
   '/_authenticated/mesa/visao': typeof AuthenticatedMesaVisaoRoute
 }
 export interface FileRouteTypes {
@@ -115,8 +134,10 @@ export interface FileRouteTypes {
     | '/acessos'
     | '/inicio'
     | '/mesa'
+    | '/mesa/cobertura'
     | '/mesa/entregas'
     | '/mesa/matriz'
+    | '/mesa/pontos'
     | '/mesa/visao'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -126,8 +147,10 @@ export interface FileRouteTypes {
     | '/acessos'
     | '/inicio'
     | '/mesa'
+    | '/mesa/cobertura'
     | '/mesa/entregas'
     | '/mesa/matriz'
+    | '/mesa/pontos'
     | '/mesa/visao'
   id:
     | '__root__'
@@ -138,8 +161,10 @@ export interface FileRouteTypes {
     | '/_authenticated/acessos'
     | '/_authenticated/inicio'
     | '/_authenticated/mesa'
+    | '/_authenticated/mesa/cobertura'
     | '/_authenticated/mesa/entregas'
     | '/_authenticated/mesa/matriz'
+    | '/_authenticated/mesa/pontos'
     | '/_authenticated/mesa/visao'
   fileRoutesById: FileRoutesById
 }
@@ -201,6 +226,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMesaRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/mesa/cobertura': {
+      id: '/_authenticated/mesa/cobertura'
+      path: '/cobertura'
+      fullPath: '/mesa/cobertura'
+      preLoaderRoute: typeof AuthenticatedMesaCoberturaRouteImport
+      parentRoute: typeof AuthenticatedMesaRoute
+    }
     '/_authenticated/mesa/entregas': {
       id: '/_authenticated/mesa/entregas'
       path: '/entregas'
@@ -215,6 +247,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMesaMatrizRouteImport
       parentRoute: typeof AuthenticatedMesaRoute
     }
+    '/_authenticated/mesa/pontos': {
+      id: '/_authenticated/mesa/pontos'
+      path: '/pontos'
+      fullPath: '/mesa/pontos'
+      preLoaderRoute: typeof AuthenticatedMesaPontosRouteImport
+      parentRoute: typeof AuthenticatedMesaRoute
+    }
     '/_authenticated/mesa/visao': {
       id: '/_authenticated/mesa/visao'
       path: '/visao'
@@ -226,14 +265,18 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedMesaRouteChildren {
+  AuthenticatedMesaCoberturaRoute: typeof AuthenticatedMesaCoberturaRoute
   AuthenticatedMesaEntregasRoute: typeof AuthenticatedMesaEntregasRoute
   AuthenticatedMesaMatrizRoute: typeof AuthenticatedMesaMatrizRoute
+  AuthenticatedMesaPontosRoute: typeof AuthenticatedMesaPontosRoute
   AuthenticatedMesaVisaoRoute: typeof AuthenticatedMesaVisaoRoute
 }
 
 const AuthenticatedMesaRouteChildren: AuthenticatedMesaRouteChildren = {
+  AuthenticatedMesaCoberturaRoute: AuthenticatedMesaCoberturaRoute,
   AuthenticatedMesaEntregasRoute: AuthenticatedMesaEntregasRoute,
   AuthenticatedMesaMatrizRoute: AuthenticatedMesaMatrizRoute,
+  AuthenticatedMesaPontosRoute: AuthenticatedMesaPontosRoute,
   AuthenticatedMesaVisaoRoute: AuthenticatedMesaVisaoRoute,
 }
 
