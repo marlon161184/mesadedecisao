@@ -95,12 +95,22 @@ function LayoutMesa() {
     navigate({ to: "/auth", replace: true });
   }
   const caminho = useRouterState({ select: (s) => s.location.pathname });
+  useEffect(() => {
+    const h = document.getElementById("cabecalho-mesa");
+    if (!h) return;
+    const ro = new ResizeObserver(() => {
+      const fixo = getComputedStyle(h).position === "sticky";
+      document.documentElement.style.setProperty("--altura-cabecalho", fixo ? `${h.offsetHeight}px` : "0px");
+    });
+    ro.observe(h);
+    return () => ro.disconnect();
+  }, []);
   const atual = ITENS.find((i) => i.to && caminho.startsWith(i.to))?.rotulo ?? "Mesa";
   return (
     <div className="flex min-h-screen bg-background text-foreground">
       <BarraLateral />
       <div className="min-w-0 flex-1">
-        <header className="sticky top-0 z-40 border-b border-line bg-background lg:static">
+        <header id="cabecalho-mesa" className="sticky top-0 z-40 border-b border-line bg-background lg:static">
           <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 px-4 py-1.5 md:px-8 lg:hidden">
             <Link to="/mesa/visao" search={true as never} aria-label="NEWE, início" className="inline-flex shrink-0">
               <LogoNewe height={24} comMargem={false} />
