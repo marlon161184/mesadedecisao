@@ -50,6 +50,13 @@
       "when": 1793140360300,
       "tag": "0006_reuniao_sem_perfil",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1793143018510,
+      "tag": "0007_reuniao_encerramento_96h",
+      "breakpoints": true
     }
   ]
 }
