@@ -32,7 +32,7 @@ export function LogoNewe({
   height?: number;
   /** Margem de segurança lateral. Desligue para alinhar a logo a um fio ou a um texto. */
   comMargem?: boolean;
-  className?: string;
+  className?: string | undefined;
 }) {
   const h = Math.max(25, height);
   const w = Math.round((h * LARGURA_OFICIAL) / ALTURA_OFICIAL);
