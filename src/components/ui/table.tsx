@@ -7,7 +7,7 @@ import { TabelaAdaptavel } from "@/components/newe/TabelaAdaptavel";
  *  No celular, com mais de 3 colunas, vira lista de cartões (modo "auto"). */
 const Table = React.forwardRef<
   HTMLTableElement,
-  React.HTMLAttributes<HTMLTableElement> & { modo?: "auto" | "rolagem" }
+  React.HTMLAttributes<HTMLTableElement> & { modo?: "auto" | "rolagem" | "cartoes" }
 >(({ className, modo = "auto", ...props }, ref) => (
   <TabelaAdaptavel modo={modo}>
     <table ref={ref} className={cn("w-full caption-bottom border-collapse text-sm", className)} {...props} />
