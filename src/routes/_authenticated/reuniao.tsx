@@ -60,13 +60,15 @@ function Reuniao() {
 
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
+      <SeloReuniao />
       <header className="sticky top-0 z-10 flex items-center justify-between gap-2 border-b border-line bg-background px-4 py-2 md:px-8 lg:px-10 lg:py-4">
         <div className="flex min-w-0 flex-wrap items-center gap-x-4 gap-y-1 md:gap-6"><LogoNewe height={26} comMargem={false} /><span className="label-mono whitespace-nowrap">RFP {m.rfp.numero} · {i + 1} de {TOPICOS.length}</span>{m.rfp.fase === 2 && <SeloFase fase={2} />}</div>
         <div className="flex shrink-0 items-center gap-1 sm:gap-3">
           <Button variant="outline" size="sm" onClick={() => setCron((c) => ({ ...c, ligado: !c.ligado }))} aria-pressed={cron.ligado}>
             {cron.ligado ? `Cronômetro ${String(Math.floor(cron.seg / 60)).padStart(2, "0")}:${String(cron.seg % 60).padStart(2, "0")}` : "Cronômetro"}
           </Button>
-          <Button asChild variant="ghost" size="icon" aria-label="Sair do modo reunião"><Link to="/mesa/decisao" search={{ rfp } as never}><X strokeWidth={1.5} /></Link></Button>
+          <Button asChild variant="ghost" size="sm" className="hidden sm:inline-flex"><Link to="/mesa/visao" search={{ rfp } as never}>Navegar pela Mesa</Link></Button>
+          <Button asChild variant="ghost" size="icon" aria-label="Sair do modo reunião"><Link to="/mesa/visao" search={{ rfp } as never}><X strokeWidth={1.5} /></Link></Button>
         </div>
       </header>
       <main className="min-w-0 flex-1 px-4 py-8 text-[clamp(1rem,0.85rem+0.8vw,1.25rem)] md:px-10 md:py-10 lg:px-16 lg:py-12">
