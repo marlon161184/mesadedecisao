@@ -14,7 +14,7 @@ export function TabelaAdaptavel({
   className,
   children,
 }: {
-  modo?: "auto" | "rolagem";
+  modo?: "auto" | "rolagem" | "cartoes";
   rotulo?: string;
   className?: string;
   children: ReactNode;
@@ -61,7 +61,7 @@ export function TabelaAdaptavel({
     };
   }, []);
 
-  const cartoes = modo === "auto" && colunas > 3;
+  const cartoes = modo === "cartoes" || (modo === "auto" && colunas > 3);
   return (
     <div className={cn("relative w-full min-w-0", className)}>
       <div

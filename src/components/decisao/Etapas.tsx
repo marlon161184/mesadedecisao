@@ -19,6 +19,7 @@ import { RotuloMono } from "@/components/newe/brand";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { TabelaAdaptavel } from "@/components/newe/TabelaAdaptavel";
 import { ROTULO_STATUS, nomePessoa, nomeProposta, type ModeloDecisao } from "./useDecisao";
 
 type P = { base: Base; d: DadosDecisao; m: ModeloDecisao };
@@ -167,7 +168,9 @@ export function Pontuacao({ base, d, m }: P) {
       {m.socio && m.trilha?.pontuacao_aberta && !m.revelado && (enviado ? (
         <p className="label-mono">Suas notas foram enviadas em {formatarData(m.minhasNotas[0]!.enviado_em)} e estão travadas.</p>
       ) : (
-        <div className="overflow-x-auto">
+        <div>
+          <PontuacaoCartoes base={base} m={m} rasc={rasc} setRasc={setRasc} />
+          <div className="hidden overflow-x-auto md:block">
           <table className="w-full text-sm">
             <thead><tr className="border-b border-line-strong"><th className="label-mono py-2 text-left font-normal">Critério (peso)</th>{m.elegiveis.map((p) => <th key={p.id} className="label-mono px-2 text-left font-normal">{nomeProposta(base, p.id)}</th>)}</tr></thead>
             <tbody>
@@ -192,9 +195,66 @@ export function Pontuacao({ base, d, m }: P) {
               ))}
             </tbody>
           </table>
-          <Button className="mt-4" onClick={enviar}>Enviar notas</Button>
+          </div>
+          <Button className="mt-4 w-full sm:w-auto" onClick={enviar}>Enviar notas</Button>
         </div>
       ))}
+    </div>
+  );
+}
+
+/** Celular: um critério por vez, em cartão, com botões de nota de 44 px e justificativa abaixo. */
+function PontuacaoCartoes({ base, m, rasc, setRasc }: {
+  base: Base; m: ModeloDecisao;
+  rasc: Record<string, { nota: number; justificativa: string }>;
+  setRasc: (r: Record<string, { nota: number; justificativa: string }>) => void;
+}) {
+  const [i, setI] = useState(0);
+  const c = m.criterios[i];
+  if (!c) return null;
+  const feitos = m.criterios.filter((cc) => m.elegiveis.every((p) => rasc[cc.id + p.id])).length;
+  return (
+    <div className="md:hidden">
+      <div className="flex items-center justify-between gap-3">
+        <RotuloMono>Critério {i + 1} de {m.criterios.length}</RotuloMono>
+        <RotuloMono>{feitos} completo(s)</RotuloMono>
+      </div>
+      <article className="mt-3 border border-line-strong p-4" aria-label={`Critério ${c.nome}`}>
+        <h3 className="text-xl">{c.nome} <span className="num text-sm text-ink-muted">peso {c.peso}</span></h3>
+        {c.descricao && <p className="mt-1 text-sm text-ink-muted">{c.descricao}</p>}
+        <div className="mt-4 space-y-6">
+          {m.elegiveis.map((p) => {
+            const k = c.id + p.id;
+            const v = rasc[k];
+            const nome = nomeProposta(base, p.id);
+            return (
+              <fieldset key={p.id} className="border-t border-line pt-4">
+                <legend className="label-mono float-left mb-2 w-full">{nome}</legend>
+                <div role="radiogroup" aria-label={`Nota ${c.nome} ${nome}`} className="clear-both grid grid-cols-5 border border-line-strong">
+                  {[1, 2, 3, 4, 5].map((n) => (
+                    <button key={n} type="button" role="radio" aria-checked={v?.nota === n}
+                      onClick={() => setRasc({ ...rasc, [k]: { nota: n, justificativa: v?.justificativa ?? "" } })}
+                      className={cn("num min-h-11 border-r border-line-strong text-lg last:border-r-0", v?.nota === n ? "bg-primary text-primary-foreground" : "hover:bg-accent")}>
+                      {n}
+                    </button>
+                  ))}
+                </div>
+                <label className="mt-3 block">
+                  <span className="label-mono text-ink-muted">{v && exigeJustificativa(v.nota) ? "Justificativa obrigatória" : "Justificativa (opcional)"}</span>
+                  <textarea rows={2} className="campo mt-1 h-auto w-full py-2" required={!!v && exigeJustificativa(v.nota)}
+                    value={v?.justificativa ?? ""} disabled={!v}
+                    placeholder={v ? "" : "Escolha a nota primeiro"}
+                    onChange={(e) => v && setRasc({ ...rasc, [k]: { ...v, justificativa: e.target.value } })} />
+                </label>
+              </fieldset>
+            );
+          })}
+        </div>
+      </article>
+      <div className="mt-3 grid grid-cols-2 gap-2">
+        <Button variant="outline" disabled={i === 0} onClick={() => setI(i - 1)}>Anterior</Button>
+        <Button variant="outline" disabled={i === m.criterios.length - 1} onClick={() => setI(i + 1)}>Próximo</Button>
+      </div>
     </div>
   );
 }
@@ -213,7 +273,7 @@ export function Revelacao({ base, d, m }: P) {
   if (!m.revelado) return (
     <div className="space-y-3">
       <p>{todos ? "Todos os sócios enviaram." : `${m.enviaram.length} de ${d.socios.length} sócios enviaram.`}</p>
-      {m.admin && <div className="flex gap-2">
+      {m.admin && <div className="flex flex-wrap gap-2">
         <Button disabled={!todos} onClick={() => revelar(false)}>Revelar notas</Button>
         <Button variant="outline" disabled={todos || !quorum} onClick={() => revelar(true)}>Encerrar com quórum</Button>
       </div>}
@@ -225,9 +285,9 @@ export function Revelacao({ base, d, m }: P) {
   return (
     <div className="space-y-6">
       {m.trilha?.encerrada_quorum && <p className="label-mono">Encerrada pelo Admin com quórum</p>}
-      <div className="overflow-x-auto">
+      <TabelaAdaptavel modo="rolagem" rotulo="Notas reveladas">
         <table className="w-full text-sm">
-          <thead><tr className="border-b border-line-strong"><th className="label-mono py-2 text-left font-normal">Critério</th>{m.elegiveis.map((p) => <th key={p.id} className="label-mono px-2 text-left font-normal">{nomeProposta(base, p.id)}</th>)}</tr></thead>
+          <thead><tr className="border-b border-line-strong"><th className="label-mono min-w-32 py-2 pr-2 text-left font-normal">Critério</th>{m.elegiveis.map((p) => <th key={p.id} className="label-mono px-2 text-left font-normal">{nomeProposta(base, p.id)}</th>)}</tr></thead>
           <tbody>
             {m.criterios.map((c) => (
               <tr key={c.id} className="border-b border-line align-top">
@@ -236,7 +296,7 @@ export function Revelacao({ base, d, m }: P) {
                   const dv = m.divs.find((x) => x.criterio_id === c.id && x.proposta_id === p.id);
                   const ns = m.notasRfp.filter((n) => n.criterio_id === c.id && n.proposta_id === p.id);
                   return (
-                    <td key={p.id} className={cn("px-2 py-2", dv && "border border-terracota")}>
+                    <td key={p.id} className={cn("min-w-36 px-2 py-2", dv && "border border-terracota")}>
                       <span className="num text-base">{m.medias[p.id]?.[c.id]?.toFixed(2).replace(".", ",") ?? "—"}</span>
                       <span className="block text-xs text-ink-muted">{socios.map((s) => `${nomePessoa(base, s).split(" ")[0]} ${ns.find((n) => n.socio_id === s)?.nota ?? "—"}`).join(" · ")}</span>
                       {dv && <button className="label-mono mt-1 underline" onClick={() => setAberta(aberta === c.id + p.id ? null : c.id + p.id)}>Divergência · DP {dv.desvio.toFixed(2).replace(".", ",")}</button>}
@@ -248,7 +308,7 @@ export function Revelacao({ base, d, m }: P) {
             <tr className="border-t-2 border-line-strong"><td className="label-mono py-2">Nota ponderada</td>{m.elegiveis.map((p) => <td key={p.id} className="num px-2 text-lg">{rk.find((r) => r.proposta === p.id)?.nota.toFixed(2).replace(".", ",") ?? "—"}</td>)}</tr>
           </tbody>
         </table>
-      </div>
+      </TabelaAdaptavel>
       {m.divs.filter((dv) => aberta === dv.criterio_id + dv.proposta_id).map((dv) => (
         <div key={aberta} className="border border-line p-4" role="region" aria-label="Discussão da divergência">
           <RotuloMono as="p">{m.criterios.find((c) => c.id === dv.criterio_id)?.nome} · {nomeProposta(base, dv.proposta_id)}</RotuloMono>
@@ -287,7 +347,7 @@ export function Sensibilidade({ base, m }: P) {
         {m.criterios.map((c) => (
           <label key={c.id} className="block">
             <span className="flex justify-between text-sm"><span>{c.nome}</span><span className="num">{pesos[c.id]!.toFixed(1).replace(".", ",")}</span></span>
-            <input type="range" className="w-full accent-primary" min={-VARIACAO_MAX} max={VARIACAO_MAX} step={1} value={delta[c.id] ?? 0} aria-label={`Variação do peso de ${c.nome}`}
+            <input type="range" className="h-11 w-full accent-primary lg:h-auto" min={-VARIACAO_MAX} max={VARIACAO_MAX} step={1} value={delta[c.id] ?? 0} aria-label={`Variação do peso de ${c.nome}`}
               onChange={(e) => setDelta({ ...delta, [c.id]: Number(e.target.value) })} />
           </label>
         ))}
@@ -303,7 +363,7 @@ export function Sensibilidade({ base, m }: P) {
           <RotuloMono as="p">Tornado: margem do 1º colocado com cada peso a −10 e +10</RotuloMono>
           <ul className="mt-2 space-y-1.5">
             {s.tornado.map((t) => (
-              <li key={t.criterio_id} className="grid grid-cols-[10rem_1fr_6rem] items-center gap-2 text-xs">
+              <li key={t.criterio_id} className="grid grid-cols-[minmax(0,6rem)_1fr_4.75rem] items-center gap-2 text-xs sm:grid-cols-[10rem_1fr_6rem]">
                 <span className="truncate">{nomeC(t.criterio_id)}</span>
                 <span className="relative h-4 border-x border-line"><span className="absolute inset-y-0 left-1/2 w-px bg-line-strong" />
                   <span className="absolute inset-y-0 bg-primary" style={{ left: `${50 + (t.margemMin / maxAmp) * 50}%`, width: `${((t.margemMax - t.margemMin) / maxAmp) * 50}%` }} />
@@ -313,7 +373,7 @@ export function Sensibilidade({ base, m }: P) {
             ))}
           </ul>
         </div>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div><RotuloMono as="p">Com o critério de custo</RotuloMono><Lista r={rk0} /></div>
           <div><RotuloMono as="p">Sem o critério de custo</RotuloMono><Lista r={sem} /></div>
         </div>
@@ -481,7 +541,8 @@ export function AtaEtapa({ base, d, m }: P) {
       </div>
       <div>
         <RotuloMono as="p">Pontos de atenção abertos</RotuloMono>
-        <table className="mt-2 w-full text-sm">
+        <TabelaAdaptavel modo="cartoes" className="mt-2">
+        <table className="w-full text-sm">
           <thead><tr className="border-b border-line-strong"><th className="label-mono py-1 text-left font-normal">Ponto</th><th className="label-mono text-left font-normal">Responsável</th><th className="label-mono text-left font-normal">Prazo</th></tr></thead>
           <tbody>{pts.map((p, i) => (
             <tr key={i} className="border-b border-line">
@@ -491,8 +552,9 @@ export function AtaEtapa({ base, d, m }: P) {
             </tr>
           ))}</tbody>
         </table>
+        </TabelaAdaptavel>
       </div>
-      {editavel && <div className="flex gap-2"><Button variant="outline" onClick={salvar}>Salvar rascunho</Button><Button onClick={aprovar}>Congelar snapshot e aprovar</Button></div>}
+      {editavel && <div className="flex flex-wrap gap-2"><Button variant="outline" onClick={salvar}>Salvar rascunho</Button><Button onClick={aprovar}>Congelar snapshot e aprovar</Button></div>}
       {ata.status === "aprovada" && (
         <div className="grid gap-4 md:grid-cols-2">
           <div>
