@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Fragment, useState } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { useMesa } from "@/components/mesa/useMesa";
+import { TabelaAdaptavel } from "@/components/newe/TabelaAdaptavel";
 import { AberturaTela, Conteudo, IconeIncerteza, SeloStatus, SemPropostas, Valor } from "@/components/mesa/partes";
 import { Badge } from "@/components/ui/badge";
 import { formatarBRL } from "@/lib/formato";
@@ -22,7 +23,7 @@ export const Route = createFileRoute("/_authenticated/mesa/matriz")({
 function Controles() {
   const { f, set, premissas } = useMesa();
   return (
-    <div className="mb-8 grid grid-cols-2 gap-4 border border-line p-5 md:grid-cols-3 xl:grid-cols-6">
+    <div className="mb-8 grid grid-cols-2 gap-4 border border-line p-4 sm:p-5 md:grid-cols-3 xl:grid-cols-6">
       <label className="text-sm">
         <span className="label-mono mb-1.5 block text-ink-muted">Janela</span>
         <select className="campo" value={premissas.janela_meses} onChange={(e) => set({ janela: Number(e.target.value) })}>
@@ -43,11 +44,11 @@ function Controles() {
         <span className="label-mono mb-1.5 block text-ink-muted">Produtos</span>
         <input type="number" min={1} max={10} className="campo num" value={premissas.produtos_performance} onChange={(e) => set({ produtos: Math.max(1, Number(e.target.value)) })} />
       </label>
-      <label className="flex items-end gap-2 pb-2 text-sm">
+      <label className="flex min-h-11 items-end gap-2 pb-2 text-sm">
         <input type="checkbox" className="size-4" checked={!f.semVariaveis} onChange={(e) => set({ semVariaveis: e.target.checked ? undefined : true })} />
         Incluir itens variáveis
       </label>
-      <label className="flex items-end gap-2 pb-2 text-sm">
+      <label className="flex min-h-11 items-end gap-2 pb-2 text-sm">
         <input type="checkbox" className="size-4" checked={f.validadas} onChange={(e) => set({ validadas: e.target.checked || undefined })} />
         Somente validadas
       </label>
@@ -73,13 +74,13 @@ function Matriz() {
         ) : analises.length === 0 ? (
           <p className="text-ink-muted">Nenhuma proposta com estes filtros.</p>
         ) : (
-          <div className="overflow-x-auto">
+          <TabelaAdaptavel modo="rolagem" rotulo="Matriz por módulo">
             <table className="w-full border-collapse text-sm">
               <thead>
                 <tr className="border-b border-line-strong">
-                  <th className="label-mono w-72 px-3 py-3 text-left font-normal text-ink-muted">Módulo</th>
+                  <th className="label-mono w-36 min-w-36 px-3 py-3 sm:w-72 text-left font-normal text-ink-muted">Módulo</th>
                   {analises.map((a) => (
-                    <th key={a.proposta.id} className="px-3 py-3 text-left font-normal">
+                    <th key={a.proposta.id} className="min-w-44 px-3 py-3 text-left font-normal">
                       <span className="block font-display text-lg">{a.player.nome}</span>
                       <SeloStatus status={a.proposta.status} />
                     </th>
@@ -93,7 +94,7 @@ function Matriz() {
                     <Fragment key={m.id}>
                       <tr className="border-b border-line">
                         <th scope="row" className="px-3 py-4 text-left font-normal">
-                          <button onClick={() => alternar(m.id)} aria-expanded={aberto} className="flex items-start gap-2 text-left">
+                          <button onClick={() => alternar(m.id)} aria-expanded={aberto} className="flex min-h-11 items-start gap-2 text-left">
                             {aberto ? <ChevronDown strokeWidth={1.5} className="mt-0.5 size-4" /> : <ChevronRight strokeWidth={1.5} className="mt-0.5 size-4" />}
                             <span>
                               <span className="label-mono block text-ink-muted">{m.codigo} · peso {Number(m.peso_no_rfp)}</span>
@@ -183,7 +184,7 @@ function Matriz() {
                 </tr>
               </tfoot>
             </table>
-          </div>
+          </TabelaAdaptavel>
         )}
       </Conteudo>
     </>

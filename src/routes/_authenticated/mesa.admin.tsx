@@ -107,10 +107,10 @@ function Admin() {
       </AberturaTela>
       <Conteudo>
         <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
-          <div role="tablist" aria-label="Tabelas" className="flex flex-wrap border-b border-line">
+          <div role="tablist" aria-label="Tabelas" className="flex max-w-full overflow-x-auto border-b border-line">
             {ABAS.map((a) => (
               <button key={a} role="tab" aria-selected={aba === a} onClick={() => setAba(a)}
-                className={cn("border-b-2 px-3 py-2 text-sm", aba === a ? "border-line-strong" : "border-transparent text-ink-muted hover:text-foreground")}>{a}</button>
+                className={cn("min-h-11 shrink-0 whitespace-nowrap border-b-2 px-3 py-2 text-sm", aba === a ? "border-line-strong" : "border-transparent text-ink-muted hover:text-foreground")}>{a}</button>
             ))}
           </div>
           <Link to="/acessos" className="label-mono underline underline-offset-4">Acessos e convites</Link>
@@ -132,7 +132,7 @@ function Admin() {
                   <RotuloMono as="p" className="mt-4">Fluxo: Recebida → Em equalização → Validada</RotuloMono>
                   <div className="mt-6 grid grid-cols-1 gap-2 md:grid-cols-2">
                     {CHECKLIST.map((c) => (
-                      <label key={c.chave} className="flex items-center gap-2 text-sm">
+                      <label key={c.chave} className="flex min-h-11 items-center gap-2 text-sm">
                         <input type="checkbox" className="size-4" checked={marcados.has(c.chave)} disabled={p.status === "validada"}
                           onChange={(e) => marcar(p.id, c.chave, e.target.checked)} />
                         {c.rotulo}
@@ -169,11 +169,11 @@ function Admin() {
 
         {aba === "Itens" && (
           <>
-            <div className="mb-6 flex gap-2">
+            <div className="mb-6 flex flex-wrap gap-2">
               <Button variant="secondary" size="sm" onClick={() => baixar("itens-proposta.csv", paraCsv(base.itens as never, CAMPOS_CSV))}>
                 <Download strokeWidth={1.5} /> Exportar CSV
               </Button>
-              <label className="inline-flex h-8 cursor-pointer items-center gap-2 border border-line-strong px-3 font-mono text-xs uppercase tracking-[0.12em] hover:bg-accent">
+              <label className="inline-flex h-11 cursor-pointer lg:h-8 items-center gap-2 border border-line-strong px-3 font-mono text-xs uppercase tracking-[0.12em] hover:bg-accent">
                 <Upload strokeWidth={1.5} className="size-4" /> Importar CSV
                 <input type="file" accept=".csv,text/csv" className="sr-only" onChange={importar} />
               </label>

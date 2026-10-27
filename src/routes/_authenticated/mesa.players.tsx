@@ -38,10 +38,10 @@ function Players() {
     <>
       <AberturaTela numero={`RFP ${rfp.numero} · Players`} titulo="Dossiê dos players" />
       <Conteudo>
-        <div role="tablist" aria-label="Players" className="mb-10 flex flex-wrap border-b border-line">
+        <div role="tablist" aria-label="Players" className="mb-10 flex overflow-x-auto border-b border-line">
           {doRfp.map((p) => (
             <button key={p.id} role="tab" aria-selected={p.id === player?.id} onClick={() => setEscolhido(p.id)}
-              className={cn("flex items-center gap-2 border-b-2 px-4 py-3 text-sm", p.id === player?.id ? "border-line-strong" : "border-transparent text-ink-muted hover:text-foreground")}>
+              className={cn("flex min-h-11 shrink-0 items-center gap-2 whitespace-nowrap border-b-2 px-4 py-3 text-sm", p.id === player?.id ? "border-line-strong" : "border-transparent text-ink-muted hover:text-foreground")}>
               <span className={cn("size-3", fundoPlayer(p.cor_token), padraoPlayer(p.cor_token))} aria-hidden />
               {p.nome}
               {p.status !== "proponente" && <span className="label-mono text-[0.6rem]">Referência</span>}
@@ -50,8 +50,8 @@ function Players() {
         </div>
 
         {player && (
-          <div className="grid grid-cols-12 gap-10">
-            <section className="col-span-12 lg:col-span-4">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-10">
+            <section className="min-w-0 lg:col-span-4">
               <RotuloMono as="p">Resumo</RotuloMono>
               <h2 className="mt-2 text-3xl">{player.nome}</h2>
               <p className="mt-2 text-sm text-ink-muted">{ROTULO_TIPO_PLAYER[player.tipo]}{player.cidade ? ` · ${player.cidade}` : ""}</p>
@@ -74,7 +74,7 @@ function Players() {
             </section>
 
             {a && (
-              <div className="col-span-12 space-y-14 lg:col-span-8">
+              <div className="min-w-0 space-y-14 lg:col-span-8">
                 <section>
                   <RotuloMono as="p">Itens</RotuloMono>
                   <Table className="mt-3">
@@ -109,7 +109,7 @@ function Players() {
                   <RotuloMono as="p">Pontos de atenção</RotuloMono>
                   <ul className="mt-3 space-y-2 text-sm">
                     {pontosAutomaticos(a, premissas).map((p) => (
-                      <li key={p.id} className="flex gap-3"><Badge variant={p.severidade === "critico" ? "flamboyant" : "outline"}>{ROTULO_SEV[p.severidade]}</Badge>{p.texto}</li>
+                      <li key={p.id} className="flex flex-wrap items-start gap-x-3 gap-y-1"><Badge variant={p.severidade === "critico" ? "flamboyant" : "outline"}>{ROTULO_SEV[p.severidade]}</Badge>{p.texto}</li>
                     ))}
                   </ul>
                 </section>
@@ -136,7 +136,7 @@ function Players() {
                       const r = base.portaoResultados.find((x) => x.portao_id === p.id && x.proposta_id === a.proposta.id);
                       const res = r?.resultado ?? "pendente";
                       return (
-                        <li key={p.id} className="flex items-center gap-3">
+                        <li key={p.id} className="flex flex-wrap items-center gap-x-3 gap-y-1">
                           <Badge variant={res === "reprova" ? "flamboyant" : res === "passa" ? "default" : "secondary"}>{res === "passa" ? "Passa" : res === "reprova" ? "Reprova" : "Pendente"}</Badge>
                           {p.descricao}{r?.justificativa && <span className="text-ink-muted"> · {r.justificativa}</span>}
                         </li>

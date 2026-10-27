@@ -55,6 +55,7 @@ function Simulador() {
   const [parecer, setParecer] = useState<{ texto: string; ia: boolean; revisado: boolean } | null>(null);
   const [gerando, setGerando] = useState(false);
   const [salvar, setSalvar] = useState(false);
+  const [zona, setZona] = useState<"composicao" | "resultado" | "parecer">("composicao");
   const [form, setForm] = useState({ nome: "", descricao: "" });
 
   useEffect(() => {
@@ -138,7 +139,7 @@ function Simulador() {
       </AberturaTela>
 
       {/* Controles de simulação */}
-      <div className="grid grid-cols-2 gap-4 border-b border-line px-8 py-5 md:grid-cols-4 md:px-12 xl:grid-cols-7">
+      <div className="grid grid-cols-2 gap-4 border-b border-line px-4 py-5 md:grid-cols-4 md:px-8 lg:px-12 xl:grid-cols-7">
         <label><span className="label-mono mb-1.5 block text-ink-muted">Janela</span>
           <select className="campo" value={premissas.janela_meses} onChange={(e) => set({ janela: Number(e.target.value) })}>
             {[6, 9, 12].map((n) => <option key={n} value={n}>{n} meses</option>)}
@@ -155,13 +156,13 @@ function Simulador() {
           <select className="campo" value={premissas.fator_evidencia_declarado} onChange={(e) => set({ rigor: Number(e.target.value) })}>
             {[1, 0.7, 0].map((v) => <option key={v} value={v}>Declarado {Math.round(v * 100)}%</option>)}
           </select></label>
-        <label className="flex items-end gap-2 pb-2 text-sm"><input type="checkbox" className="size-4" checked={comp.incluirFase2} onChange={(e) => setComp({ ...comp, incluirFase2: e.target.checked })} /> Incluir fase 2</label>
-        <label className="flex items-end gap-2 pb-2 text-sm"><input type="checkbox" className="size-4" checked={comp.incluirNaoValidadas} onChange={(e) => setComp({ ...comp, incluirNaoValidadas: e.target.checked })} /> Incluir não validadas</label>
+        <label className="flex min-h-11 items-end gap-2 pb-2 text-sm"><input type="checkbox" className="size-4" checked={comp.incluirFase2} onChange={(e) => setComp({ ...comp, incluirFase2: e.target.checked })} /> Incluir fase 2</label>
+        <label className="flex min-h-11 items-end gap-2 pb-2 text-sm"><input type="checkbox" className="size-4" checked={comp.incluirNaoValidadas} onChange={(e) => setComp({ ...comp, incluirNaoValidadas: e.target.checked })} /> Incluir não validadas</label>
       </div>
 
-      <div className="grid grid-cols-12 gap-8 px-8 py-10 md:px-12">
+      <div className="grid grid-cols-1 gap-8 px-4 pb-28 pt-8 xl:grid-cols-12 md:px-8 lg:px-12 xl:py-10">
         {/* COMPOSIÇÃO */}
-        <section className="col-span-12 xl:col-span-3" aria-label="Composição">
+        <section id="zona-composicao" className={cn("min-w-0 xl:col-span-3 xl:block", zona !== "composicao" && "hidden")} aria-label="Composição">
           <RotuloMono as="p">Composição</RotuloMono>
           <div className="mt-4 space-y-8">
             {grupos.map(({ rfp, mods }) => {
@@ -228,7 +229,20 @@ function Simulador() {
         </section>
 
         {/* RESULTADO */}
-        <section className="col-span-12 space-y-10 xl:col-span-6" aria-label="Resultado" aria-live="polite">
+        <section id="zona-resultado" className={cn("min-w-0 space-y-10 xl:col-span-6 xl:block", zona !== "resultado" && "hidden")} aria-label="Resultado" aria-live="polite">
+          <div className="sticky top-[var(--altura-cabecalho,0px)] z-20 -mx-4 grid grid-cols-2 gap-px border-y border-line bg-line md:-mx-8 lg:top-0 xl:hidden" aria-label="Resumo">
+            {[
+              ["Total", formatarBRL(r.total.central)],
+              ["Faixa", r.total.eFaixa ? `${formatarBRL(r.total.min)} a ${formatarBRL(r.total.max)}` : "Sem faixa"],
+              ["Cobertura", `${formatarPct(r.cobertura.conservadora)} a ${formatarPct(r.cobertura.otimista)}`],
+              ["Pontos críticos", String(r.contagem.critico)],
+            ].map(([k, v]) => (
+              <div key={k} className={cn("min-w-0 bg-background px-4 py-2", k === "Pontos críticos" && r.contagem.critico > 0 && "bg-flamboyant text-luz")}>
+                <p className="label-mono text-[0.6875rem] opacity-80">{k}</p>
+                <p className="num truncate text-sm">{v}</p>
+              </div>
+            ))}
+          </div>
           <div className="flex flex-wrap items-center justify-between gap-3">
             <RotuloMono as="p">Resultado · {r.pontos.length} ponto(s) de atenção</RotuloMono>
             <Contagem r={r} />
@@ -273,7 +287,7 @@ function Simulador() {
             </div>
             <div className="mt-6 grid grid-cols-1 gap-3 md:grid-cols-3">
               <CartaoNumero rotulo="Eficiência (R8)" valor={r.eficiencia == null ? "—" : `${r.eficiencia.toFixed(1).replace(".", ",")} pts`} sub="por R$ 100 mil" />
-              <div className="border border-line-strong p-5 md:col-span-2"><p className="label-mono text-ink-muted">Veredito</p><p className="mt-2">{r.veredito}</p></div>
+              <div className="border border-line-strong p-4 sm:p-5 md:col-span-2"><p className="label-mono text-ink-muted">Veredito</p><p className="mt-2">{r.veredito}</p></div>
             </div>
           </div>
 
@@ -287,11 +301,11 @@ function Simulador() {
                     <p className="text-sm">{ls[0]!.modulo.codigo} {ls[0]!.modulo.nome}</p>
                     <ul className="mt-1 divide-y divide-line border-y border-line text-sm">
                       {ls.map((l) => (
-                        <li key={l.requisito.id} className="grid grid-cols-12 gap-2 py-2">
-                          <span className="col-span-5">{l.requisito.codigo} {l.requisito.descricao}{l.requisito.eliminatorio && <Badge variant="flamboyant" className="ml-2">Eliminatório</Badge>}</span>
-                          <span className="col-span-2 text-ink-muted">{l.player} · {l.naoInformado ? "não informado" : "não cobre"}</span>
-                          <span className="col-span-3 text-xs text-ink-muted">{l.nota ?? "Sem nota técnica."}</span>
-                          <span className="num col-span-2 text-right">{l.custo == null ? "sem estimativa" : formatarBRL(l.custo)}</span>
+                        <li key={l.requisito.id} className="grid grid-cols-12 gap-x-2 gap-y-1 py-2">
+                          <span className="col-span-12 sm:col-span-5">{l.requisito.codigo} {l.requisito.descricao}{l.requisito.eliminatorio && <Badge variant="flamboyant" className="ml-2">Eliminatório</Badge>}</span>
+                          <span className="col-span-12 text-ink-muted sm:col-span-2">{l.player} · {l.naoInformado ? "não informado" : "não cobre"}</span>
+                          <span className="col-span-8 text-xs text-ink-muted sm:col-span-3">{l.nota ?? "Sem nota técnica."}</span>
+                          <span className="num col-span-4 text-right sm:col-span-2">{l.custo == null ? "sem estimativa" : formatarBRL(l.custo)}</span>
                         </li>
                       ))}
                     </ul>
@@ -320,7 +334,7 @@ function Simulador() {
         </section>
 
         {/* PARECER */}
-        <section className="col-span-12 space-y-4 xl:col-span-3" aria-label="Parecer técnico">
+        <section id="zona-parecer" className={cn("min-w-0 space-y-4 xl:col-span-3 xl:block", zona !== "parecer" && "hidden")} aria-label="Parecer técnico">
           <RotuloMono as="p">Parecer técnico</RotuloMono>
           <div className="flex flex-wrap gap-2">
             <Button size="sm" variant="secondary" onClick={() => setParecer({ texto: parecerAutomatico(base, r), ia: false, revisado: true })}>
@@ -335,7 +349,7 @@ function Simulador() {
             value={parecer?.texto ?? parecerAutomatico(base, r)}
             onChange={(e) => setParecer({ texto: e.target.value, ia: parecer?.ia ?? false, revisado: parecer?.ia ? parecer.revisado : true })} />
           {parecer?.ia && (
-            <label className="flex items-center gap-2 text-sm">
+            <label className="flex min-h-11 items-center gap-2 text-sm">
               <input type="checkbox" className="size-4" checked={parecer.revisado} onChange={(e) => setParecer({ ...parecer, revisado: e.target.checked })} />
               Revisei o texto e confirmo os fatos
             </label>
@@ -349,6 +363,19 @@ function Simulador() {
         </section>
       </div>
 
+      {/* Abas fixas na base (celular e tablet) */}
+      <nav aria-label="Zonas do simulador" className="fixed inset-x-0 bottom-0 z-30 border-t border-line-strong bg-background pb-[env(safe-area-inset-bottom)] lg:left-60 xl:hidden">
+        <div role="tablist" className="grid grid-cols-3">
+          {([["composicao", "Composição"], ["resultado", "Resultado"], ["parecer", "Parecer"]] as const).map(([k, rot]) => (
+            <button key={k} role="tab" aria-selected={zona === k} aria-controls={`zona-${k}`}
+              onClick={() => { setZona(k); window.scrollTo({ top: 0 }); }}
+              className={cn("label-mono min-h-14 border-r border-line px-2 last:border-r-0", zona === k ? "bg-primary text-primary-foreground" : "hover:bg-accent")}>
+              {rot}{k === "resultado" && r.contagem.critico > 0 && <span className="ml-1">· {r.contagem.critico}</span>}
+            </button>
+          ))}
+        </div>
+      </nav>
+
       <Dialog open={salvar} onOpenChange={setSalvar}>
         <DialogContent className="rounded-none">
           <DialogHeader><DialogTitle className="font-display text-2xl font-normal">Salvar cenário</DialogTitle></DialogHeader>
@@ -357,7 +384,7 @@ function Simulador() {
           <label><span className="label-mono mb-1.5 block text-ink-muted">Descrição</span>
             <textarea className="campo h-auto py-2" rows={3} maxLength={1000} value={form.descricao} onChange={(e) => setForm({ ...form, descricao: e.target.value })} /></label>
           <p className="text-sm text-ink-muted">Total {formatarBRL(r.total.central)} · cobertura {formatarPct(r.cobertura.conservadora)}</p>
-          <div className="flex justify-end gap-2">
+          <div className="flex flex-wrap justify-end gap-2">
             {cenario && <Button variant="secondary" onClick={() => gravar(false)}>Salvar nova versão</Button>}
             <Button onClick={() => gravar(true)}>{cenario ? "Salvar como novo" : "Salvar"}</Button>
           </div>

@@ -40,7 +40,7 @@ function DefinirSenha() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-background px-8 py-10 text-foreground md:px-16">
+    <div className="flex min-h-screen flex-col bg-background px-4 py-6 text-foreground md:px-8 md:py-10 lg:px-12">
       <Logo height={32} />
       <form onSubmit={salvar} className="mx-auto my-auto w-full max-w-sm space-y-6">
         <div>

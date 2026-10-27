@@ -55,16 +55,16 @@ function TelaDecisao() {
       </AberturaTela>
       <Conteudo>
         <div className="flex flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <h1 className="chamada text-3xl">RFP {m.rfp.numero} · {m.rfp.nome}</h1>
+          <div className="flex min-w-0 flex-wrap items-center gap-3">
+            <h1 className="chamada min-w-0 break-words text-2xl sm:text-3xl">RFP {m.rfp.numero} · {m.rfp.nome}</h1>
             {m.rfp.fase === 2 && <SeloFase fase={2} />}
           </div>
           <Button asChild variant="outline"><Link to="/reuniao" search={{ rfp: m.rfp.numero }}><Presentation strokeWidth={1.5} />Modo reunião</Link></Button>
         </div>
-        <ol aria-label="Trilha" className="mt-6 grid grid-cols-2 gap-px border border-line bg-line md:grid-cols-7">
+        <ol aria-label="Trilha de decisão" className="mt-6 flex snap-x gap-px overflow-x-auto border border-line bg-line md:grid md:grid-cols-7 md:overflow-visible">
           {NOMES.map((n, i) => (
-            <li key={n} className="bg-background p-3">
-              <a href={`#etapa-${i + 1}`} className="block focus-visible:outline-2"><span className="label-mono">Etapa {i + 1}</span><span className="mt-1 block text-sm">{n}</span><span className="label-mono mt-1 block text-ink-muted">{ROTULO_STATUS[m.etapas[i]!]}</span></a>
+            <li key={n} className="w-32 shrink-0 snap-start bg-background md:w-auto">
+              <a href={`#etapa-${i + 1}`} className="block min-h-11 p-2.5 focus-visible:outline-2 md:p-3"><span className="label-mono"><span className="md:hidden">Etapa {i + 1}</span><span className="hidden md:inline">Etapa {i + 1}</span></span><span className="mt-1 block text-sm leading-tight">{n}</span><span className="label-mono mt-1 block text-ink-muted">{ROTULO_STATUS[m.etapas[i]!]}</span></a>
             </li>
           ))}
         </ol>
@@ -100,7 +100,7 @@ function TelaDecisao() {
                 <RotuloMono as="p">Log de auditoria (somente leitura, últimos 60)</RotuloMono>
                 <ul className="mt-2 max-h-96 overflow-y-auto text-sm">
                   {(log.data ?? []).map((l) => (
-                    <li key={l.id} className="grid grid-cols-[9rem_1fr] gap-2 border-b border-line py-1">
+                    <li key={l.id} className="grid grid-cols-1 gap-x-2 border-b sm:grid-cols-[9rem_1fr] border-line py-1">
                       <span className="num text-xs">{new Date(l.quando).toLocaleString("pt-BR")}</span>
                       <span>{l.quem ? nomePessoa(base, l.quem) : "Sistema"} · {l.operacao.toLowerCase()} · {l.tabela}</span>
                     </li>

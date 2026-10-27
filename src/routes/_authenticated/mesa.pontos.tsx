@@ -40,7 +40,7 @@ function Pontos() {
         Regras automáticas (P-01 a P-09) e pontos cadastrados pelo Admin, em um só lugar.
       </AberturaTela>
       <Conteudo>
-        <div className="mb-8 grid grid-cols-2 gap-4 border border-line p-5 md:grid-cols-5">
+        <div className="mb-8 grid grid-cols-1 gap-4 border border-line p-4 sm:grid-cols-2 sm:p-5 md:grid-cols-5">
           <label><span className="label-mono mb-1.5 block text-ink-muted">Severidade</span>
             <select className="campo" value={f.severidade ?? ""} onChange={(e) => set({ severidade: e.target.value || undefined })}>
               <option value="">Todas</option>{Object.entries(ROTULO_SEV).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
@@ -72,7 +72,7 @@ function Pontos() {
                 {p.codigo && <Badge variant="outline">{p.codigo}</Badge>}
                 <Badge variant="secondary">{p.origem === "regra" ? "Regra" : "Manual"}</Badge>
               </div>
-              <div className="col-span-12 md:col-span-7">
+              <div className="col-span-12 min-w-0 md:col-span-7">
                 {p.playerNome && <RotuloMono as="p">{p.playerNome}</RotuloMono>}
                 <p className="mt-1">{p.texto}</p>
                 <p className="mt-2 text-sm text-ink-muted"><span className="label-mono">Ação sugerida</span> {p.acao}</p>

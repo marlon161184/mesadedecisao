@@ -51,14 +51,14 @@ function Visao() {
               </div>
             )}
 
-            <div className="grid grid-cols-2 border border-line md:grid-cols-4">
+            <div className="grid grid-cols-2 border-l border-t border-line md:grid-cols-4">
               <Indicador rotulo="Propostas recebidas" valor={analises.length} />
               <Indicador rotulo="Validadas" valor={analises.filter((a) => a.proposta.status === "validada").length} />
               <Indicador rotulo="Pontos críticos" valor={pontos.filter((p) => p.severidade === "critico").length} alerta={pontos.some((p) => p.severidade === "critico")} />
               <Indicador rotulo="Portões reprovados" valor={analises.reduce((s, a) => s + a.portoes.reprova, 0)} />
             </div>
 
-            <div className="mt-12 flex items-end justify-between">
+            <div className="mt-12 flex flex-wrap items-end justify-between gap-3">
               <RotuloMono as="p">Propostas</RotuloMono>
               <label className="flex items-center gap-2 text-sm">
                 <span className="label-mono text-ink-muted">Ordenar por</span>
@@ -75,9 +75,9 @@ function Visao() {
               {ordenadas.map((a) => (
                 <article key={a.proposta.id} className="border border-line">
                   <div className={cn("h-2", fundoPlayer(a.player.cor_token), padraoPlayer(a.player.cor_token))} aria-hidden />
-                  <div className="p-6">
+                  <div className="p-4 sm:p-6">
                     <div className="flex items-start justify-between gap-3">
-                      <h2 className="text-2xl">{a.player.nome}</h2>
+                      <h2 className="min-w-0 break-words text-2xl">{a.player.nome}</h2>
                       <SeloStatus status={a.proposta.status} />
                     </div>
                     <dl className="mt-6 space-y-5">

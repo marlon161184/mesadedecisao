@@ -22,7 +22,7 @@ export function Moldura({ children }: { children: ReactNode }) {
       <Cabecalho email={data?.email ?? ""} papeis={data?.papeis ?? []} />
       <main>{children}</main>
       <footer className="border-t border-line">
-        <div className="mx-auto flex max-w-[1440px] justify-between px-8 py-6 md:px-16">
+        <div className="mx-auto flex max-w-[1440px] flex-wrap justify-between gap-2 px-4 py-6 md:px-8 lg:px-12">
           <span className="label-mono text-ink-muted">NEWE · Grupo Hyndra</span>
           <span className="label-mono text-ink-muted">São José do Rio Preto · SP</span>
         </div>

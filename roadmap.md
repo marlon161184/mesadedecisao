@@ -28,3 +28,9 @@
 - [ ] Notificações por e-mail — aguarda domínio de envio
 - [ ] Segundo fator de login — não implementado (opcional)
 - [ ] Verificação visual logada — aguarda a primeira conta
+
+## Ajuste · versão móvel
+- [x] Menu compacto abaixo de 1024 px, filtros em painel inferior, seletor de RFP em abas, margens 16/32/48 px
+- [x] Tabelas em cartões ou rolagem interna, gráficos adaptáveis, simulador em abas, trilha compacta, pontuação em cartões, modo reunião com setas
+- [x] Varredura 360/390/430/768/1024 px sem estouro
+- [ ] Pontuação em cartões e votação no celular — conferir quando a pontuação for aberta (hoje está bloqueada)

@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { CartesianGrid, Legend, Line, ComposedChart, ResponsiveContainer, Scatter, Tooltip, XAxis, YAxis } from "recharts";
+import { CartesianGrid, Legend, Line, ComposedChart, ResponsiveContainer, Scatter, Symbols, Tooltip, XAxis, YAxis } from "recharts";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { useMesa } from "@/components/mesa/useMesa";
 import { AberturaTela, Conteudo } from "@/components/mesa/partes";
 import { Contagem } from "@/components/mesa/simulacao";
@@ -23,11 +24,25 @@ export const Route = createFileRoute("/_authenticated/mesa/mesa-cenarios")({
 });
 
 const FORMAS = ["circle", "square", "triangle", "diamond", "cross", "star", "wye"] as const;
+/** Ponto com área de toque de 24 px (círculo transparente) e símbolo visível no centro. */
+function pontoTocavel(tipo: (typeof FORMAS)[number]) {
+  return function Ponto(props: unknown) {
+    const { cx, cy, fill } = props as { cx: number; cy: number; fill: string };
+    return (
+      <g>
+        <circle cx={cx} cy={cy} r={12} fill="transparent" />
+        <Symbols cx={cx} cy={cy} type={tipo} size={64} fill={fill} />
+      </g>
+    );
+  };
+}
+
 const CORES = ["var(--flamboyant)", "var(--verde-cerrado)", "var(--ipe-do-cerrado)", "var(--terracota)", "var(--terra-vermelha)", "var(--cinza-quente)", "var(--preto)"];
 
 function MesaCenarios() {
   const { base, premissas } = useMesa();
   const navigate = useNavigate();
+  const movel = useIsMobile();
   const [naoValidadas, setNaoValidadas] = useState(true);
   const cands = useMemo(() => enumerarComposicoes(base, premissas, { incluirNaoValidadas: naoValidadas, dataDecisao: dataDecisao(base) }), [base, premissas, naoValidadas]);
   const { viaveis, pool, nomeados } = useMemo(() => cenariosNomeados(cands), [cands]);
@@ -48,7 +63,7 @@ function MesaCenarios() {
         {cands.length.toLocaleString("pt-BR")} composições da fase 1 calculadas com as premissas atuais.
       </AberturaTela>
       <Conteudo>
-        <label className="mb-6 flex items-center gap-2 text-sm">
+        <label className="mb-6 flex min-h-11 items-center gap-2 text-sm">
           <input type="checkbox" className="size-4" checked={naoValidadas} onChange={(e) => setNaoValidadas(e.target.checked)} />
           Incluir propostas não validadas
         </label>
@@ -60,7 +75,7 @@ function MesaCenarios() {
 
         <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-2 2xl:grid-cols-3">
           {nomeados.map((n) => (
-            <article key={n.titulo} className="flex flex-col border border-line p-6">
+            <article key={n.titulo} className="flex min-w-0 flex-col border border-line p-4 sm:p-6">
               <RotuloMono>{n.titulo}</RotuloMono>
               <p className="num mt-3 text-2xl">{formatarBRL(n.c.r.total.central)}</p>
               <p className="mt-1 text-sm">Cobertura {formatarPct(n.c.r.cobertura.conservadora)} a {formatarPct(n.c.r.cobertura.otimista)} · {n.c.r.nPlayers} player(s) · eficiência {n.c.r.eficiencia?.toFixed(1).replace(".", ",") ?? "—"}</p>
@@ -74,16 +89,16 @@ function MesaCenarios() {
 
         <RotuloMono as="p" className="mt-16">Custo x cobertura conservadora · fronteira de eficiência</RotuloMono>
         <p className="mt-1 text-xs text-ink-muted">Cada ponto é uma composição. Forma e cor indicam o número de players. A linha liga as composições sem alternativa mais barata e mais completa. Clique em um ponto para abrir no simulador.</p>
-        <div className="mt-4 h-[460px]" role="img" aria-label="Gráfico de dispersão custo por cobertura">
+        <div className="mt-4 h-[380px] w-full min-w-0 sm:h-[460px]" role="img" aria-label="Gráfico de dispersão custo por cobertura">
           <ResponsiveContainer>
-            <ComposedChart margin={{ left: 20, right: 20, bottom: 20 }}>
+            <ComposedChart margin={movel ? { left: 0, right: 20, bottom: 8 } : { left: 20, right: 20, bottom: 20 }}>
               <CartesianGrid stroke="var(--line)" />
-              <XAxis type="number" dataKey="x" name="Custo" tickFormatter={(v) => `${Math.round(Number(v) / 1000)} mil`} tick={{ fontFamily: "DM Mono", fontSize: 11, fill: "var(--ink-muted)" }} stroke="var(--line)" />
-              <YAxis type="number" dataKey="y" name="Cobertura" unit="%" tick={{ fontFamily: "DM Mono", fontSize: 11, fill: "var(--ink-muted)" }} stroke="var(--line)" />
+              <XAxis type="number" dataKey="x" name="Custo" tickFormatter={(v) => `${Math.round(Number(v) / 1000)} mil`} tick={{ fontFamily: "DM Mono", fontSize: 11, fill: "var(--ink-muted)" }} stroke="var(--line)" tickCount={movel ? 4 : 6} minTickGap={16} />
+              <YAxis width={movel ? 40 : 60} type="number" dataKey="y" name="Cobertura" unit="%" tick={{ fontFamily: "DM Mono", fontSize: 11, fill: "var(--ink-muted)" }} stroke="var(--line)" />
               <Tooltip formatter={(v, n) => (n === "Custo" ? formatarBRL(Number(v)) : `${v}%`)} contentStyle={{ background: "var(--background)", border: "1px solid var(--line-strong)", borderRadius: 0 }} />
-              <Legend wrapperStyle={{ fontFamily: "DM Mono", fontSize: 11, textTransform: "uppercase" }} />
+              <Legend verticalAlign="bottom" align="left" wrapperStyle={{ fontFamily: "DM Mono", fontSize: 11, textTransform: "uppercase", paddingTop: 12 }} />
               {[...porN.entries()].sort((a, b) => a[0] - b[0]).map(([n, pts], i) => (
-                <Scatter key={n} name={`${n} player(s)`} data={pts} fill={CORES[i % CORES.length]} shape={FORMAS[i % FORMAS.length]}
+                <Scatter key={n} name={`${n} player(s)`} data={pts} fill={CORES[i % CORES.length]} shape={pontoTocavel(FORMAS[i % FORMAS.length]!)} legendType={FORMAS[i % FORMAS.length]}
                   onClick={(d) => abrir((d as unknown as { c: Candidato }).c)} cursor="pointer" />
               ))}
               <Line name="Fronteira de eficiência" data={linhaFront} dataKey="y" type="stepAfter" stroke="var(--foreground)" strokeWidth={2} dot={false} isAnimationActive={false} />

@@ -6,7 +6,7 @@ import type { ComponentType } from "react";
 import { LogoNewe } from "@/components/newe/LogoNewe";
 
 type Destino = "/mesa/visao" | "/mesa/matriz" | "/mesa/entregas" | "/mesa/cobertura" | "/mesa/players" | "/mesa/pontos" | "/mesa/simulador" | "/mesa/cenarios" | "/mesa/mesa-cenarios" | "/mesa/estresse" | "/mesa/decisao" | "/mesa/admin";
-const ITENS: { rotulo: string; to?: Destino; icone: ComponentType<{ strokeWidth?: number; className?: string }>; nota?: string }[] = [
+export const ITENS: { rotulo: string; to?: Destino; icone: ComponentType<{ strokeWidth?: number; className?: string }>; nota?: string }[] = [
   { rotulo: "Visão geral", to: "/mesa/visao", icone: LayoutDashboard },
   { rotulo: "Matriz por módulo", to: "/mesa/matriz", icone: Grid3x3 },
   { rotulo: "Entregas normalizadas", to: "/mesa/entregas", icone: Package },
@@ -21,39 +21,51 @@ const ITENS: { rotulo: string; to?: Destino; icone: ComponentType<{ strokeWidth?
   { rotulo: "Admin", to: "/mesa/admin", icone: Settings },
 ];
 
+/** Lista de seções, compartilhada pela barra lateral (desktop) e pelo menu (celular/tablet). */
+export function ListaSecoes({ aoNavegar, grande = false }: { aoNavegar?: () => void; grande?: boolean }) {
+  return (
+    <ul className="space-y-0.5">
+      {ITENS.map(({ rotulo, to, icone: Icone, nota }) => (
+        <li key={rotulo}>
+          {to ? (
+            <Link
+              to={to}
+              search={true as never}
+              onClick={aoNavegar}
+              className={
+                grande
+                  ? "flex min-h-12 items-center gap-4 px-3 py-3 text-lg text-sidebar-foreground/85 hover:bg-sidebar-accent focus-visible:outline-2 focus-visible:outline-sidebar-ring"
+                  : "flex items-center gap-3 px-3 py-2.5 text-sm text-sidebar-foreground/85 hover:bg-sidebar-accent focus-visible:outline-2 focus-visible:outline-sidebar-ring"
+              }
+              activeProps={{ className: "!text-sidebar-primary border-l-2 border-sidebar-primary", "aria-current": "page" }}
+            >
+              <Icone strokeWidth={1.5} className={grande ? "size-5 shrink-0" : "size-4 shrink-0"} />
+              {rotulo}
+            </Link>
+          ) : (
+            <span aria-disabled="true" className="flex items-center gap-3 px-3 py-2.5 text-sm text-sidebar-foreground/45" title={`Bloqueado: ${nota}`}>
+              <Lock strokeWidth={1.5} className="size-4" />
+              <span className="flex-1">{rotulo}</span>
+              <span className="label-mono text-[0.6rem]">{nota}</span>
+            </span>
+          )}
+        </li>
+      ))}
+    </ul>
+  )
+}
+
 export function BarraLateral() {
   return (
-    <aside className="sticky top-0 flex h-screen w-60 shrink-0 flex-col border-r border-sidebar-border bg-sidebar text-sidebar-foreground">
+    <aside className="sticky top-0 hidden h-screen w-60 shrink-0 flex-col border-r border-sidebar-border bg-sidebar text-sidebar-foreground lg:flex">
       <div className="px-6 py-6">
         <Link to="/mesa/visao" search={true as never} className="inline-flex" aria-label="NEWE, início">
-          <LogoNewe height={28} comMargem={false} />
+          <LogoNewe height={28} comMargem={false} variante="luz" />
         </Link>
         <p className="label-mono mt-1 text-sidebar-foreground/70">Mesa de Decisão</p>
       </div>
       <nav aria-label="Seções" className="flex-1 overflow-y-auto px-3">
-        <ul className="space-y-0.5">
-          {ITENS.map(({ rotulo, to, icone: Icone, nota }) => (
-            <li key={rotulo}>
-              {to ? (
-                <Link
-                  to={to}
-                  search={true as never}
-                  className="flex items-center gap-3 px-3 py-2.5 text-sm text-sidebar-foreground/85 hover:bg-sidebar-accent focus-visible:outline-2 focus-visible:outline-sidebar-ring"
-                  activeProps={{ className: "!text-sidebar-primary border-l-2 border-sidebar-primary" }}
-                >
-                  <Icone strokeWidth={1.5} className="size-4" />
-                  {rotulo}
-                </Link>
-              ) : (
-                <span aria-disabled="true" className="flex items-center gap-3 px-3 py-2.5 text-sm text-sidebar-foreground/45" title={`Bloqueado: ${nota}`}>
-                  <Lock strokeWidth={1.5} className="size-4" />
-                  <span className="flex-1">{rotulo}</span>
-                  <span className="label-mono text-[0.6rem]">{nota}</span>
-                </span>
-              )}
-            </li>
-          ))}
-        </ul>
+        <ListaSecoes />
       </nav>
       <p className="label-mono px-6 py-5 text-sidebar-foreground/60">Grupo Hyndra</p>
     </aside>

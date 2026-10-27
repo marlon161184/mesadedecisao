@@ -14,6 +14,7 @@ import { formatarBRL, formatarData, formatarPct } from "@/lib/formato";
 import { resultadoDoCenario } from "@/lib/cenarios";
 import { baixar, paraCsv } from "@/lib/csv";
 import type { ResultadoComposicao } from "@/lib/composicao";
+import { TabelaAdaptavel } from "@/components/newe/TabelaAdaptavel";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated/mesa/cenarios")({
@@ -104,7 +105,7 @@ function Cenarios() {
             return (
               <li key={c.id} className="py-5">
                 <div className="grid grid-cols-12 items-start gap-4">
-                  <label className="col-span-12 flex items-start gap-3 md:col-span-5">
+                  <label className="col-span-12 flex min-w-0 items-start gap-3 md:col-span-5">
                     <input type="checkbox" className="mt-1.5 size-4" checked={marcado} disabled={!marcado && sel.length >= 4}
                       onChange={(e) => setSel(e.target.checked ? [...sel, c.id] : sel.filter((x) => x !== c.id))} aria-label={`Comparar ${c.nome}`} />
                     <span>
@@ -114,16 +115,16 @@ function Cenarios() {
                       <span className="label-mono mt-1 block text-ink-muted">V{c.versao} · {nome(c.autor)} · {formatarData(c.criado_em)}</span>
                     </span>
                   </label>
-                  <div className="num col-span-6 text-sm md:col-span-3">
+                  <div className="num col-span-12 text-sm md:col-span-3">
                     {formatarBRL(r.total.central)}<span className="block text-xs text-ink-muted">Cobertura {formatarPct(r.cobertura.conservadora)}–{formatarPct(r.cobertura.otimista)}</span>
                   </div>
-                  <div className="col-span-12 flex flex-wrap justify-end gap-1 md:col-span-4">
+                  <div className="col-span-12 flex flex-wrap gap-1 md:col-span-4 md:justify-end">
                     <Button asChild size="sm" variant="secondary"><Link to="/mesa/simulador" search={((p: Record<string, unknown>) => ({ ...p, cenario: c.id })) as never}>Abrir</Link></Button>
                     {podeEditar && <Button size="sm" variant="ghost" onClick={() => duplicar(c.id)} aria-label="Duplicar"><Copy strokeWidth={1.5} /></Button>}
                     {podeEditar && <Button size="sm" variant="ghost" onClick={() => recomendar(c.id)} aria-label="Marcar como recomendado"><Star strokeWidth={1.5} /></Button>}
                     {podeEditar && <Button size="sm" variant="ghost" onClick={() => exportarCsv(c.id)} aria-label="Exportar CSV"><Download strokeWidth={1.5} /></Button>}
                     {podeEditar && <Button asChild size="sm" variant="ghost"><a href={`/imprimir/${c.id}`} target="_blank" rel="noreferrer" aria-label="Exportar PDF"><FileText strokeWidth={1.5} /></a></Button>}
-                    <Button size="sm" variant="ghost" onClick={() => setAberto(aberto === c.id ? null : c.id)}>{aberto === c.id ? "Fechar" : `Histórico (${versoes.length}) · Comentários (${coments.length})`}</Button>
+                    <Button size="sm" variant="ghost" className="whitespace-normal text-left" onClick={() => setAberto(aberto === c.id ? null : c.id)}>{aberto === c.id ? "Fechar" : `Histórico (${versoes.length}) · Comentários (${coments.length})`}</Button>
                   </div>
                 </div>
                 {aberto === c.id && (
@@ -134,7 +135,7 @@ function Cenarios() {
                         {versoes.length === 0 && <li className="text-ink-muted">Versão inicial, sem histórico.</li>}
                         {versoes.map((v) => {
                           const s = v.snapshot as { total?: { central: number }; cobertura?: { conservadora: number } };
-                          return <li key={v.id} className="flex justify-between"><span>V{v.versao} · {nome(v.autor)} · {formatarData(v.criado_em)}</span><span className="num">{formatarBRL(s.total?.central)} · {formatarPct(s.cobertura?.conservadora)}</span></li>;
+                          return <li key={v.id} className="flex flex-wrap justify-between gap-x-3"><span>V{v.versao} · {nome(v.autor)} · {formatarData(v.criado_em)}</span><span className="num">{formatarBRL(s.total?.central)} · {formatarPct(s.cobertura?.conservadora)}</span></li>;
                         })}
                       </ul>
                     </div>
@@ -158,13 +159,14 @@ function Cenarios() {
         </ul>
 
         {comparar.length > 0 && (
-          <div className="mt-16 overflow-x-auto">
+          <div className="mt-16">
             <RotuloMono as="p">Comparação lado a lado</RotuloMono>
-            <table className="mt-3 w-full border-collapse text-sm">
+            <TabelaAdaptavel modo="rolagem" rotulo="Comparação de cenários" className="mt-3">
+            <table className="w-full border-collapse text-sm">
               <thead>
                 <tr className="border-b border-line-strong">
-                  <th className="label-mono w-56 px-3 py-3 text-left font-normal text-ink-muted">Indicador</th>
-                  {comparar.map(({ c }) => <th key={c.id} className="px-3 py-3 text-left font-display text-lg font-normal">{c.nome}</th>)}
+                  <th className="label-mono w-32 min-w-32 px-3 py-3 sm:w-56 text-left font-normal text-ink-muted">Indicador</th>
+                  {comparar.map(({ c }) => <th key={c.id} className="min-w-40 px-3 py-3 text-left font-display text-lg font-normal">{c.nome}</th>)}
                 </tr>
               </thead>
               <tbody>
@@ -201,6 +203,7 @@ function Cenarios() {
                 })}
               </tbody>
             </table>
+            </TabelaAdaptavel>
           </div>
         )}
       </Conteudo>

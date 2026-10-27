@@ -42,16 +42,16 @@ function Acessos() {
 
   return (
     <Moldura>
-      <section className="mx-auto grid max-w-[1440px] grid-cols-12 gap-6 px-8 py-20 md:px-16">
-        <RotuloMono as="p" className="col-span-12 md:col-span-2">Acessos</RotuloMono>
-        <div className="col-span-12 md:col-span-10">
-          <h1 className="chamada text-4xl">Quem participa</h1>
+      <section className="mx-auto grid max-w-[1440px] grid-cols-1 gap-6 md:grid-cols-12 px-4 py-10 md:px-8 md:py-16 lg:px-12 lg:py-20">
+        <RotuloMono as="p" className="md:col-span-2">Acessos</RotuloMono>
+        <div className="min-w-0 md:col-span-10">
+          <h1 className="chamada text-3xl sm:text-4xl">Quem participa</h1>
           {!ehAdmin ? (
             <p className="mt-6 text-ink-muted">Somente o Admin gerencia acessos.</p>
           ) : (
             <>
               <form
-                className="mt-10 grid grid-cols-1 gap-4 border border-line p-6 md:grid-cols-4 md:items-end"
+                className="mt-10 grid grid-cols-1 gap-4 border border-line p-4 sm:p-6 md:grid-cols-4 md:items-end"
                 onSubmit={(e) => {
                   e.preventDefault();
                   convite.mutate();
@@ -71,7 +71,7 @@ function Acessos() {
                     id="papel"
                     value={form.papel}
                     onChange={(e) => setForm({ ...form, papel: e.target.value as Papel })}
-                    className="mt-2 h-9 w-full border border-input bg-background px-3 text-sm"
+                    className="campo mt-2"
                   >
                     <option value="socio">Sócio</option>
                     <option value="observador">Observador</option>
@@ -84,7 +84,7 @@ function Acessos() {
               </form>
 
               <div className="mt-12">
-                <Table>
+                <Table modo="cartoes">
                   <TableHeader>
                     <TableRow>
                       <TableHead>Nome</TableHead>
@@ -96,7 +96,7 @@ function Acessos() {
                     {(membros.data ?? []).map((m) => (
                       <TableRow key={m.id}>
                         <TableCell>{m.nome}</TableCell>
-                        <TableCell className="num">{m.email}</TableCell>
+                        <TableCell className="num break-all">{m.email}</TableCell>
                         <TableCell className="space-x-2">
                           {m.papeis.length === 0 ? (
                             <Badge variant="secondary">Sem papel</Badge>

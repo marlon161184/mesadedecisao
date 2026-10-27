@@ -124,18 +124,18 @@ export function EntregasConteudo({ rfp, analises, premissas }: Pick<Mesa, "rfp" 
                     <p className="col-span-12 font-display text-lg md:col-span-2">{a.player.nome}</p>
                     <div className="col-span-12 space-y-2 md:col-span-10">
                       <div className="flex items-center gap-3">
-                        <span className="label-mono w-20 text-ink-muted">Custo</span>
-                        <div className="h-5 flex-1">
+                        <span className="label-mono w-14 shrink-0 text-ink-muted sm:w-20">Custo</span>
+                        <div className="h-5 min-w-0 flex-1">
                           <div className={cn("h-full", fundoPlayer(a.player.cor_token), padraoPlayer(a.player.cor_token))} style={{ width: `${(u.custoMensal / maxCusto) * 100}%` }} />
                         </div>
-                        <span className="num w-32 text-right text-sm">{formatarBRL(u.custoMensal)}</span>
+                        <span className="num w-28 shrink-0 text-right text-xs sm:w-32 sm:text-sm">{formatarBRL(u.custoMensal)}</span>
                       </div>
                       <div className="flex items-center gap-3">
-                        <span className="label-mono w-20 text-ink-muted">Volume</span>
-                        <div className="h-5 flex-1">
+                        <span className="label-mono w-14 shrink-0 text-ink-muted sm:w-20">Volume</span>
+                        <div className="h-5 min-w-0 flex-1">
                           <div className="hachura h-full border border-line-strong" style={{ width: `${(u.volumeEntregue / maxVol) * 100}%` }} />
                         </div>
-                        <span className="num w-32 text-right text-sm">{u.volumeEntregue} peças{u.rotuloTeto ? " (teto)" : ""}</span>
+                        <span className="num w-28 shrink-0 text-right text-xs sm:w-32 sm:text-sm">{u.volumeEntregue} peças{u.rotuloTeto ? " (teto)" : ""}</span>
                       </div>
                     </div>
                   </div>
