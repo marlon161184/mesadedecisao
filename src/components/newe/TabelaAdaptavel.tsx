@@ -51,12 +51,12 @@ export function TabelaAdaptavel({
     rotular();
     const mo = new MutationObserver(rotular);
     mo.observe(el, { childList: true, subtree: true, characterData: true });
-    const ro = new ResizeObserver(medir);
-    ro.observe(el);
+    const ro = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(medir);
+    ro?.observe(el);
     el.addEventListener("scroll", medir, { passive: true });
     return () => {
       mo.disconnect();
-      ro.disconnect();
+      ro?.disconnect();
       el.removeEventListener("scroll", medir);
     };
   }, []);
