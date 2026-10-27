@@ -53,7 +53,7 @@ export const base = {
   rfps, modulos, players, propostas, itens, requisitos: [
     { id: "q31", modulo_id: "P3", codigo: "Q3.1", descricao: "Portabilidade", peso: 5, criticidade: "essencial", eliminatorio: true, fonte: null },
   ], entregas: [], coberturas: [], pontos: [], comentarios: [], perguntas: [],
-  respostas: [], criterios: [], portoes: [], portaoResultados: [], checklist: [], perfis: [],
+  respostas: [], criterios: [], portoes: [], portaoResultados: [], checklist: [], perfis: [], cenarios: [], cenarioModulos: [], cenarioVersoes: [], cenarioComentarios: [],
   premissas: [{ chave: "imputacao_rebu_c3", valor: 0.5, descricao: null }],
 } as unknown as Base;
 
