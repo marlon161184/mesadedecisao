@@ -26,7 +26,7 @@ export const Route = createFileRoute("/_authenticated/mesa/admin")({
   component: Admin,
 });
 
-export const CHECKLIST: { chave: string; rotulo: string }[] = [
+const CHECKLIST: { chave: string; rotulo: string }[] = [
   { chave: "tributos", rotulo: "Tributos incluídos ou não" },
   { chave: "desconto", rotulo: "Desconto aplicado ou não" },
   { chave: "contrato_janela", rotulo: "Contrato e janela" },
