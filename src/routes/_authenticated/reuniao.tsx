@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { X } from "lucide-react";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { TabelaAdaptavel } from "@/components/newe/TabelaAdaptavel";
 import { baseQuery } from "@/lib/base";
 import { decisaoQuery } from "@/lib/decisao-dados";
 import { resultadoDoCenario, linhaComposicao } from "@/lib/cenarios";
