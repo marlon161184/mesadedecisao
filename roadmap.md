@@ -5,6 +5,12 @@
 - [x] Visão geral, Matriz, Entregas, Cobertura, Players, Pontos, Admin (CRUD, fluxo + checklist, CSV)
 - [ ] Verificação visual logada — bloqueado: não existe conta ainda (criar em Cloud → Users)
 
+## Ajuste de marca (provisório)
+- [x] Logo NEWE salva em src/assets + componente único <LogoNewe variante="auto|preto|luz" />
+- [x] Login, cabeçalho, barra lateral, PDF de cenário e favicon passaram a usar o componente
+- [ ] Trocar pelos arquivos finais da Rebu — aguarda os arquivos (basta substituir os dois .asset.json)
+
+
 ## Prompt 3 · Simulador e cenários
 - [x] cronograma_pagamento + dados iniciais
 - [x] Simulador 3 zonas, totalizadores, desembolso, sobreposição, expectativa x realidade, lacunas, veredito
