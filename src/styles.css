@@ -344,9 +344,3 @@ textarea {
   background-color: var(--background);
   box-shadow: inset -1px 0 0 var(--line-strong);
 }
-@media (width >= 64rem) {
-  .tabela-adaptavel[data-rolagem] tr > :first-child {
-    position: static;
-    box-shadow: none;
-  }
-}
