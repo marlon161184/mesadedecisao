@@ -1,15 +1,18 @@
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
+import { TabelaAdaptavel } from "@/components/newe/TabelaAdaptavel";
 
-/** Tabela NEWE: fios de 1px, cabeçalho em rótulo mono, números tabulares via className="num". */
-const Table = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableElement>>(
-  ({ className, ...props }, ref) => (
-    <div className="relative w-full overflow-auto">
-      <table ref={ref} className={cn("w-full caption-bottom border-collapse text-sm", className)} {...props} />
-    </div>
-  ),
-);
+/** Tabela NEWE: fios de 1px, cabeçalho em rótulo mono, números tabulares via className="num".
+ *  No celular, com mais de 3 colunas, vira lista de cartões (modo "auto"). */
+const Table = React.forwardRef<
+  HTMLTableElement,
+  React.HTMLAttributes<HTMLTableElement> & { modo?: "auto" | "rolagem" }
+>(({ className, modo = "auto", ...props }, ref) => (
+  <TabelaAdaptavel modo={modo}>
+    <table ref={ref} className={cn("w-full caption-bottom border-collapse text-sm", className)} {...props} />
+  </TabelaAdaptavel>
+));
 Table.displayName = "Table";
 
 const TableHeader = React.forwardRef<HTMLTableSectionElement, React.HTMLAttributes<HTMLTableSectionElement>>(
