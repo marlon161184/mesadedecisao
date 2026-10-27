@@ -3,25 +3,11 @@ import { cn } from "@/lib/utils";
 import { LogoNewe } from "./LogoNewe";
 
 /**
- * Logo NEWE. Provisório: etiqueta em texto até chegarem logo-preto.svg / logo-luz.svg.
- * Para trocar, substitua o <span> por <img> dos dois SVGs (claro/escuro), mantendo a caixa.
- * Regras: nunca esticar, girar, sombrear ou contornar. Mínimo 25px de altura.
- * A margem de segurança (padding) equivale à largura da primeira letra E (~0.62em).
+ * Logo NEWE. Alias fino de <LogoNewe/> para as telas que já a usam.
+ * A marca é trocada somente em src/components/newe/LogoNewe.tsx.
  */
 export function Logo({ height = 32, className }: { height?: number; className?: string }) {
-  const h = Math.max(25, height);
-  return (
-    <span
-      role="img"
-      aria-label="NEWE"
-      className={cn("inline-flex items-center justify-center", className)}
-      style={{ height: h, padding: `0 ${h * 0.4}px`, fontSize: h * 0.72 }}
-    >
-      <span aria-hidden className="font-display leading-none tracking-[0.08em] text-foreground">
-        NEWE
-      </span>
-    </span>
-  );
+  return <LogoNewe height={height} className={className} />;
 }
 
 /** Rótulo mono em caixa alta (legendas, seções, números de página). */
