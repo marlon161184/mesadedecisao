@@ -10,6 +10,7 @@ import { useMesa } from "@/components/mesa/useMesa";
 import { AlternarTema } from "@/components/newe/AlternarTema";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useInatividade } from "@/hooks/use-inatividade";
 
 export const Route = createFileRoute("/_authenticated/mesa")({
   validateSearch: (s: Record<string, unknown>) => validarFiltros(s),
@@ -54,6 +55,7 @@ function SeletorRfp() {
 }
 
 function LayoutMesa() {
+  useInatividade();
   const navigate = useNavigate();
   const qc = useQueryClient();
   async function sair() {
