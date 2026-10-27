@@ -48,7 +48,7 @@ function MesaCenarios() {
         {cands.length.toLocaleString("pt-BR")} composições da fase 1 calculadas com as premissas atuais.
       </AberturaTela>
       <Conteudo>
-        <label className="mb-6 flex items-center gap-2 text-sm">
+        <label className="mb-6 flex min-h-11 items-center gap-2 text-sm">
           <input type="checkbox" className="size-4" checked={naoValidadas} onChange={(e) => setNaoValidadas(e.target.checked)} />
           Incluir propostas não validadas
         </label>
@@ -60,7 +60,7 @@ function MesaCenarios() {
 
         <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-2 2xl:grid-cols-3">
           {nomeados.map((n) => (
-            <article key={n.titulo} className="flex flex-col border border-line p-6">
+            <article key={n.titulo} className="flex min-w-0 flex-col border border-line p-4 sm:p-6">
               <RotuloMono>{n.titulo}</RotuloMono>
               <p className="num mt-3 text-2xl">{formatarBRL(n.c.r.total.central)}</p>
               <p className="mt-1 text-sm">Cobertura {formatarPct(n.c.r.cobertura.conservadora)} a {formatarPct(n.c.r.cobertura.otimista)} · {n.c.r.nPlayers} player(s) · eficiência {n.c.r.eficiencia?.toFixed(1).replace(".", ",") ?? "—"}</p>

@@ -38,7 +38,7 @@ function Estresse() {
   const mudou = linhas.some((l) => l.posB !== l.posS);
 
   const chave = (k: keyof typeof c, rotulo: string) => (
-    <label className="flex items-center gap-2 text-sm">
+    <label className="flex min-h-11 items-center gap-2 text-sm">
       <input type="checkbox" className="size-4" checked={!!c[k]} onChange={(e) => setC({ ...c, [k]: e.target.checked })} /> {rotulo}
     </label>
   );
@@ -49,7 +49,7 @@ function Estresse() {
         Uma escolha que só se sustenta no melhor caso não é uma escolha segura.
       </AberturaTela>
       <Conteudo>
-        <div className="mb-8 grid grid-cols-1 gap-3 border border-line p-5 md:grid-cols-3">
+        <div className="mb-8 grid grid-cols-1 gap-3 border border-line p-4 sm:p-5 md:grid-cols-3">
           {chave("volume", "Volume de produção +20%")}
           {chave("verba", "Verba de mídia de R$ 100.000 por mês")}
           {chave("janela", "Janela de 12 meses")}
