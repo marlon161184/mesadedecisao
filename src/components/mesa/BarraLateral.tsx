@@ -5,7 +5,7 @@ import {
 import type { ComponentType } from "react";
 import { LogoNewe } from "@/components/newe/LogoNewe";
 
-type Destino = "/mesa/visao" | "/mesa/matriz" | "/mesa/entregas" | "/mesa/cobertura" | "/mesa/players" | "/mesa/pontos" | "/mesa/simulador" | "/mesa/cenarios" | "/mesa/mesa-cenarios" | "/mesa/estresse" | "/mesa/admin";
+type Destino = "/mesa/visao" | "/mesa/matriz" | "/mesa/entregas" | "/mesa/cobertura" | "/mesa/players" | "/mesa/pontos" | "/mesa/simulador" | "/mesa/cenarios" | "/mesa/mesa-cenarios" | "/mesa/estresse" | "/mesa/decisao" | "/mesa/admin";
 const ITENS: { rotulo: string; to?: Destino; icone: ComponentType<{ strokeWidth?: number; className?: string }>; nota?: string }[] = [
   { rotulo: "Visão geral", to: "/mesa/visao", icone: LayoutDashboard },
   { rotulo: "Matriz por módulo", to: "/mesa/matriz", icone: Grid3x3 },
@@ -17,7 +17,7 @@ const ITENS: { rotulo: string; to?: Destino; icone: ComponentType<{ strokeWidth?
   { rotulo: "Cenários", to: "/mesa/cenarios", icone: Layers },
   { rotulo: "Mesa de cenários", to: "/mesa/mesa-cenarios", icone: ScatterChart },
   { rotulo: "Teste de estresse", to: "/mesa/estresse", icone: Gauge },
-  { rotulo: "Decisão", icone: Vote, nota: "Etapa final" },
+  { rotulo: "Decisão", to: "/mesa/decisao", icone: Vote },
   { rotulo: "Admin", to: "/mesa/admin", icone: Settings },
 ];
 

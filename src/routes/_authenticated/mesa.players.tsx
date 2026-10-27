@@ -1,3 +1,4 @@
+import { LinkFonte } from "@/components/decisao/Documentos";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useMesa, fundoPlayer, padraoPlayer } from "@/components/mesa/useMesa";
@@ -85,7 +86,7 @@ function Players() {
                           <TableCell>{item.descricao}{item.incerteza && <p className="text-xs text-ink-muted">{item.incerteza}</p>}</TableCell>
                           <TableCell><Badge variant="outline">{ROTULO_TIPO[item.tipo_preco]}</Badge></TableCell>
                           <TableCell className="text-right"><Valor faixa={valor} incerteza={f.incerteza} /></TableCell>
-                          <TableCell className="text-xs text-ink-muted">{item.fonte_pagina ?? "—"}</TableCell>
+                          <TableCell><LinkFonte propostaId={item.proposta_id} pagina={item.fonte_pagina} /></TableCell>
                         </TableRow>
                       ))}
                     </TableBody>

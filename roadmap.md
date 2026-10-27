@@ -18,8 +18,13 @@
 - [x] Parecer por regra + rascunho com IA (revisão humana obrigatória)
 - [x] Cenários: salvar, versões, duplicar, recomendado, comentários, comparar 4, CSV, PDF (impressão)
 - [x] Mesa de cenários, teste de estresse, cenários A–D com totais conferidos em teste
-- [ ] Data de decisão (C-08) — aguarda a data dos sócios
+- [x] Data de decisão (C-08): 30/10/2026
 - [ ] Textos das perguntas-filtro dos RFPs 2 e 3 — aguarda os briefings
 
 ## Prompt 4 · Decisão
-- [ ] Aguardando
+- [x] Trilha em 7 etapas, pontuação cega travada, revelação, sensibilidade, pré-mortem, votação, ata com snapshot e hash
+- [x] Modo reunião, PDF da ata com marca d'água, aceite com IP, documentos em área privada, sessão de 30 min, IA desligada por padrão
+- [x] Regras de acesso testadas com Admin e dois sócios fictícios (desfeito ao final)
+- [ ] Notificações por e-mail — aguarda domínio de envio
+- [ ] Segundo fator de login — não implementado (opcional)
+- [ ] Verificação visual logada — aguarda a primeira conta
