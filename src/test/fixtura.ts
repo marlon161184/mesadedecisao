@@ -17,7 +17,7 @@ const novo = (pl: string, m: string, descricao: string, tipo: string, lista: num
   id: `i${n++}`, proposta_id: `p-${pl}`, modulo_id: m, descricao, tipo_preco: tipo, valor_lista: lista, valor_negociado: null,
   valor_min: null, valor_max: null, unidade: tipo === "recorrente" ? "mes" : tipo === "variavel" ? "percentual_verba" : "projeto",
   multiplicador: 1, incluido_no_subtotal_da_proposta: true, incerteza: null, fonte_pagina: null, entrega_chave: null,
-  sujeito_desconto_lista: false, premissa_imputacao: null, ...o,
+  sujeito_desconto_lista: false, premissa_imputacao: null, cronograma_pagamento: null, teto_verba_mensal: null, ...o,
 });
 const xcv = { sujeito_desconto_lista: true };
 const itens: Item[] = [
