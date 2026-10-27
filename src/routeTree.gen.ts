@@ -19,6 +19,7 @@ import { Route as AuthenticatedMesaRouteImport } from './routes/_authenticated/m
 import { Route as AuthenticatedMesaCoberturaRouteImport } from './routes/_authenticated/mesa.cobertura'
 import { Route as AuthenticatedMesaEntregasRouteImport } from './routes/_authenticated/mesa.entregas'
 import { Route as AuthenticatedMesaMatrizRouteImport } from './routes/_authenticated/mesa.matriz'
+import { Route as AuthenticatedMesaPlayersRouteImport } from './routes/_authenticated/mesa.players'
 import { Route as AuthenticatedMesaPontosRouteImport } from './routes/_authenticated/mesa.pontos'
 import { Route as AuthenticatedMesaVisaoRouteImport } from './routes/_authenticated/mesa.visao'
 
@@ -73,6 +74,12 @@ const AuthenticatedMesaMatrizRoute = AuthenticatedMesaMatrizRouteImport.update({
   path: '/matriz',
   getParentRoute: () => AuthenticatedMesaRoute,
 } as any)
+const AuthenticatedMesaPlayersRoute =
+  AuthenticatedMesaPlayersRouteImport.update({
+    id: '/players',
+    path: '/players',
+    getParentRoute: () => AuthenticatedMesaRoute,
+  } as any)
 const AuthenticatedMesaPontosRoute = AuthenticatedMesaPontosRouteImport.update({
   id: '/pontos',
   path: '/pontos',
@@ -94,6 +101,7 @@ export interface FileRoutesByFullPath {
   '/mesa/cobertura': typeof AuthenticatedMesaCoberturaRoute
   '/mesa/entregas': typeof AuthenticatedMesaEntregasRoute
   '/mesa/matriz': typeof AuthenticatedMesaMatrizRoute
+  '/mesa/players': typeof AuthenticatedMesaPlayersRoute
   '/mesa/pontos': typeof AuthenticatedMesaPontosRoute
   '/mesa/visao': typeof AuthenticatedMesaVisaoRoute
 }
@@ -107,6 +115,7 @@ export interface FileRoutesByTo {
   '/mesa/cobertura': typeof AuthenticatedMesaCoberturaRoute
   '/mesa/entregas': typeof AuthenticatedMesaEntregasRoute
   '/mesa/matriz': typeof AuthenticatedMesaMatrizRoute
+  '/mesa/players': typeof AuthenticatedMesaPlayersRoute
   '/mesa/pontos': typeof AuthenticatedMesaPontosRoute
   '/mesa/visao': typeof AuthenticatedMesaVisaoRoute
 }
@@ -122,6 +131,7 @@ export interface FileRoutesById {
   '/_authenticated/mesa/cobertura': typeof AuthenticatedMesaCoberturaRoute
   '/_authenticated/mesa/entregas': typeof AuthenticatedMesaEntregasRoute
   '/_authenticated/mesa/matriz': typeof AuthenticatedMesaMatrizRoute
+  '/_authenticated/mesa/players': typeof AuthenticatedMesaPlayersRoute
   '/_authenticated/mesa/pontos': typeof AuthenticatedMesaPontosRoute
   '/_authenticated/mesa/visao': typeof AuthenticatedMesaVisaoRoute
 }
@@ -137,6 +147,7 @@ export interface FileRouteTypes {
     | '/mesa/cobertura'
     | '/mesa/entregas'
     | '/mesa/matriz'
+    | '/mesa/players'
     | '/mesa/pontos'
     | '/mesa/visao'
   fileRoutesByTo: FileRoutesByTo
@@ -150,6 +161,7 @@ export interface FileRouteTypes {
     | '/mesa/cobertura'
     | '/mesa/entregas'
     | '/mesa/matriz'
+    | '/mesa/players'
     | '/mesa/pontos'
     | '/mesa/visao'
   id:
@@ -164,6 +176,7 @@ export interface FileRouteTypes {
     | '/_authenticated/mesa/cobertura'
     | '/_authenticated/mesa/entregas'
     | '/_authenticated/mesa/matriz'
+    | '/_authenticated/mesa/players'
     | '/_authenticated/mesa/pontos'
     | '/_authenticated/mesa/visao'
   fileRoutesById: FileRoutesById
@@ -247,6 +260,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMesaMatrizRouteImport
       parentRoute: typeof AuthenticatedMesaRoute
     }
+    '/_authenticated/mesa/players': {
+      id: '/_authenticated/mesa/players'
+      path: '/players'
+      fullPath: '/mesa/players'
+      preLoaderRoute: typeof AuthenticatedMesaPlayersRouteImport
+      parentRoute: typeof AuthenticatedMesaRoute
+    }
     '/_authenticated/mesa/pontos': {
       id: '/_authenticated/mesa/pontos'
       path: '/pontos'
@@ -268,6 +288,7 @@ interface AuthenticatedMesaRouteChildren {
   AuthenticatedMesaCoberturaRoute: typeof AuthenticatedMesaCoberturaRoute
   AuthenticatedMesaEntregasRoute: typeof AuthenticatedMesaEntregasRoute
   AuthenticatedMesaMatrizRoute: typeof AuthenticatedMesaMatrizRoute
+  AuthenticatedMesaPlayersRoute: typeof AuthenticatedMesaPlayersRoute
   AuthenticatedMesaPontosRoute: typeof AuthenticatedMesaPontosRoute
   AuthenticatedMesaVisaoRoute: typeof AuthenticatedMesaVisaoRoute
 }
@@ -276,6 +297,7 @@ const AuthenticatedMesaRouteChildren: AuthenticatedMesaRouteChildren = {
   AuthenticatedMesaCoberturaRoute: AuthenticatedMesaCoberturaRoute,
   AuthenticatedMesaEntregasRoute: AuthenticatedMesaEntregasRoute,
   AuthenticatedMesaMatrizRoute: AuthenticatedMesaMatrizRoute,
+  AuthenticatedMesaPlayersRoute: AuthenticatedMesaPlayersRoute,
   AuthenticatedMesaPontosRoute: AuthenticatedMesaPontosRoute,
   AuthenticatedMesaVisaoRoute: AuthenticatedMesaVisaoRoute,
 }
