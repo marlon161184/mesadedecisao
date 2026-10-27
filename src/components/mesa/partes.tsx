@@ -12,7 +12,7 @@ export function AberturaTela({ numero, titulo, children }: { numero: string; tit
 }
 
 export function Conteudo({ children, className }: { children: ReactNode; className?: string }) {
-  return <div className={cn("px-8 py-12 md:px-12", className)}>{children}</div>;
+  return <div className={cn("min-w-0 px-4 py-8 md:px-8 md:py-10 lg:px-12 lg:py-12", className)}>{children}</div>;
 }
 
 export function Valor({ faixa, incerteza = true, className }: { faixa: Faixa | null; incerteza?: boolean; className?: string }) {
@@ -74,9 +74,9 @@ export function IconeIncerteza({ texto }: { texto: string }) {
 
 export function Indicador({ rotulo, valor, alerta }: { rotulo: string; valor: ReactNode; alerta?: boolean }) {
   return (
-    <div className={cn("border-r border-line px-6 py-5 last:border-r-0", alerta && "bg-flamboyant text-luz")}>
+    <div className={cn("min-w-0 border-b border-r border-line px-4 py-4 sm:px-6 sm:py-5", alerta && "bg-flamboyant text-luz")}>
       <p className={cn("label-mono", alerta ? "text-luz" : "text-ink-muted")}>{rotulo}</p>
-      <p className="num mt-2 text-3xl">{valor}</p>
+      <p className="num mt-2 break-words text-2xl sm:text-3xl">{valor}</p>
     </div>
   );
 }
@@ -92,8 +92,8 @@ export function SemPropostas({ base, modulos }: { base: Base; modulos: Modulo[] 
       </div>
       <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-2">
         {modulos.map((m) => (
-          <div key={m.id} className="border border-line p-6">
-            <div className="flex items-baseline justify-between">
+          <div key={m.id} className="border border-line p-4 sm:p-6">
+            <div className="flex flex-wrap items-baseline justify-between gap-2">
               <RotuloMono>{m.codigo} · peso {Number(m.peso_no_rfp)}</RotuloMono>
               {m.descricao && <RotuloMono>{m.descricao}</RotuloMono>}
             </div>

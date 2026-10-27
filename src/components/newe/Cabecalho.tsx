@@ -18,16 +18,16 @@ export function Cabecalho({ email, papeis }: { email: string; papeis: Papel[] })
   }
   return (
     <header className="border-b border-line">
-      <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-6 px-8 py-4 md:px-16">
-        <Link to="/inicio" className="flex items-center gap-4" aria-label="Início">
+      <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-3 px-4 py-2 md:px-8 md:py-4 lg:px-12">
+        <Link to="/inicio" className="flex min-w-0 items-center gap-4" aria-label="Início">
           <LogoNewe height={30} />
           <span className="label-mono hidden text-ink-muted sm:inline">Mesa de Decisão</span>
         </Link>
-        <nav className="flex items-center gap-2">
+        <nav className="flex shrink-0 items-center gap-1 sm:gap-2">
           {papeis.includes("admin") && (
             <Link
               to="/acessos"
-              className="label-mono px-3 py-2 text-foreground hover:bg-accent"
+              className="label-mono inline-flex min-h-11 items-center px-3 text-foreground hover:bg-accent"
               activeProps={{ className: "underline underline-offset-4" }}
             >
               Acessos
