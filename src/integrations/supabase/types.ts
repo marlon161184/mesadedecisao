@@ -54,45 +54,98 @@ export type Database = {
       }
       cenario: {
         Row: {
+          atualizado_em: string
           autor: string | null
+          config: Json
           criado_em: string
           descricao: string | null
           id: string
           nome: string
+          parecer: string | null
+          parecer_revisado: boolean
           recomendado: boolean
+          versao: number
         }
         Insert: {
+          atualizado_em?: string
           autor?: string | null
+          config?: Json
           criado_em?: string
           descricao?: string | null
           id?: string
           nome: string
+          parecer?: string | null
+          parecer_revisado?: boolean
           recomendado?: boolean
+          versao?: number
         }
         Update: {
+          atualizado_em?: string
           autor?: string | null
+          config?: Json
           criado_em?: string
           descricao?: string | null
           id?: string
           nome?: string
+          parecer?: string | null
+          parecer_revisado?: boolean
           recomendado?: boolean
+          versao?: number
         }
         Relationships: []
+      }
+      cenario_comentario: {
+        Row: {
+          autor: string
+          cenario_id: string
+          criado_em: string
+          id: string
+          texto: string
+        }
+        Insert: {
+          autor?: string
+          cenario_id: string
+          criado_em?: string
+          id?: string
+          texto: string
+        }
+        Update: {
+          autor?: string
+          cenario_id?: string
+          criado_em?: string
+          id?: string
+          texto?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cenario_comentario_cenario_id_fkey"
+            columns: ["cenario_id"]
+            isOneToOne: false
+            referencedRelation: "cenario"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       cenario_modulo: {
         Row: {
           cenario_id: string
+          comentario: string | null
           modulo_id: string
+          opcao: string
           proposta_id: string | null
         }
         Insert: {
           cenario_id: string
+          comentario?: string | null
           modulo_id: string
+          opcao?: string
           proposta_id?: string | null
         }
         Update: {
           cenario_id?: string
+          comentario?: string | null
           modulo_id?: string
+          opcao?: string
           proposta_id?: string | null
         }
         Relationships: [
@@ -115,6 +168,41 @@ export type Database = {
             columns: ["proposta_id"]
             isOneToOne: false
             referencedRelation: "proposta"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cenario_versao: {
+        Row: {
+          autor: string | null
+          cenario_id: string
+          criado_em: string
+          id: string
+          snapshot: Json
+          versao: number
+        }
+        Insert: {
+          autor?: string | null
+          cenario_id: string
+          criado_em?: string
+          id?: string
+          snapshot: Json
+          versao: number
+        }
+        Update: {
+          autor?: string | null
+          cenario_id?: string
+          criado_em?: string
+          id?: string
+          snapshot?: Json
+          versao?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cenario_versao_cenario_id_fkey"
+            columns: ["cenario_id"]
+            isOneToOne: false
+            referencedRelation: "cenario"
             referencedColumns: ["id"]
           },
         ]
@@ -337,6 +425,7 @@ export type Database = {
       }
       item_proposta: {
         Row: {
+          cronograma_pagamento: Json | null
           descricao: string
           entrega_chave: string | null
           fonte_pagina: string | null
@@ -348,6 +437,7 @@ export type Database = {
           premissa_imputacao: string | null
           proposta_id: string
           sujeito_desconto_lista: boolean
+          teto_verba_mensal: number | null
           tipo_preco: string
           unidade: string
           valor_lista: number | null
@@ -356,6 +446,7 @@ export type Database = {
           valor_negociado: number | null
         }
         Insert: {
+          cronograma_pagamento?: Json | null
           descricao: string
           entrega_chave?: string | null
           fonte_pagina?: string | null
@@ -367,6 +458,7 @@ export type Database = {
           premissa_imputacao?: string | null
           proposta_id: string
           sujeito_desconto_lista?: boolean
+          teto_verba_mensal?: number | null
           tipo_preco: string
           unidade?: string
           valor_lista?: number | null
@@ -375,6 +467,7 @@ export type Database = {
           valor_negociado?: number | null
         }
         Update: {
+          cronograma_pagamento?: Json | null
           descricao?: string
           entrega_chave?: string | null
           fonte_pagina?: string | null
@@ -386,6 +479,7 @@ export type Database = {
           premissa_imputacao?: string | null
           proposta_id?: string
           sujeito_desconto_lista?: boolean
+          teto_verba_mensal?: number | null
           tipo_preco?: string
           unidade?: string
           valor_lista?: number | null
@@ -992,6 +1086,7 @@ export type Database = {
       is_member: { Args: { _user_id: string }; Returns: boolean }
       notas_reveladas: { Args: { _criterio: string }; Returns: boolean }
       pode_editar_cenario: { Args: { _cenario: string }; Returns: boolean }
+      recomendar_cenario: { Args: { _cenario: string }; Returns: undefined }
     }
     Enums: {
       app_role: "admin" | "socio" | "observador"
