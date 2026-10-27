@@ -16,7 +16,9 @@ import { Route as DefinirSenhaRouteImport } from './routes/definir-senha'
 import { Route as AuthenticatedAcessosRouteImport } from './routes/_authenticated/acessos'
 import { Route as AuthenticatedInicioRouteImport } from './routes/_authenticated/inicio'
 import { Route as AuthenticatedMesaRouteImport } from './routes/_authenticated/mesa'
+import { Route as AuthenticatedImprimirIdRouteImport } from './routes/_authenticated/imprimir.$id'
 import { Route as AuthenticatedMesaAdminRouteImport } from './routes/_authenticated/mesa.admin'
+import { Route as AuthenticatedMesaCenariosRouteImport } from './routes/_authenticated/mesa.cenarios'
 import { Route as AuthenticatedMesaCoberturaRouteImport } from './routes/_authenticated/mesa.cobertura'
 import { Route as AuthenticatedMesaEntregasRouteImport } from './routes/_authenticated/mesa.entregas'
 import { Route as AuthenticatedMesaMatrizRouteImport } from './routes/_authenticated/mesa.matriz'
@@ -59,11 +61,22 @@ const AuthenticatedMesaRoute = AuthenticatedMesaRouteImport.update({
   path: '/mesa',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedImprimirIdRoute = AuthenticatedImprimirIdRouteImport.update({
+  id: '/imprimir/$id',
+  path: '/imprimir/$id',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedMesaAdminRoute = AuthenticatedMesaAdminRouteImport.update({
   id: '/admin',
   path: '/admin',
   getParentRoute: () => AuthenticatedMesaRoute,
 } as any)
+const AuthenticatedMesaCenariosRoute =
+  AuthenticatedMesaCenariosRouteImport.update({
+    id: '/cenarios',
+    path: '/cenarios',
+    getParentRoute: () => AuthenticatedMesaRoute,
+  } as any)
 const AuthenticatedMesaCoberturaRoute =
   AuthenticatedMesaCoberturaRouteImport.update({
     id: '/cobertura',
@@ -111,7 +124,9 @@ export interface FileRoutesByFullPath {
   '/acessos': typeof AuthenticatedAcessosRoute
   '/inicio': typeof AuthenticatedInicioRoute
   '/mesa': typeof AuthenticatedMesaRouteWithChildren
+  '/imprimir/$id': typeof AuthenticatedImprimirIdRoute
   '/mesa/admin': typeof AuthenticatedMesaAdminRoute
+  '/mesa/cenarios': typeof AuthenticatedMesaCenariosRoute
   '/mesa/cobertura': typeof AuthenticatedMesaCoberturaRoute
   '/mesa/entregas': typeof AuthenticatedMesaEntregasRoute
   '/mesa/matriz': typeof AuthenticatedMesaMatrizRoute
@@ -127,7 +142,9 @@ export interface FileRoutesByTo {
   '/acessos': typeof AuthenticatedAcessosRoute
   '/inicio': typeof AuthenticatedInicioRoute
   '/mesa': typeof AuthenticatedMesaRouteWithChildren
+  '/imprimir/$id': typeof AuthenticatedImprimirIdRoute
   '/mesa/admin': typeof AuthenticatedMesaAdminRoute
+  '/mesa/cenarios': typeof AuthenticatedMesaCenariosRoute
   '/mesa/cobertura': typeof AuthenticatedMesaCoberturaRoute
   '/mesa/entregas': typeof AuthenticatedMesaEntregasRoute
   '/mesa/matriz': typeof AuthenticatedMesaMatrizRoute
@@ -145,7 +162,9 @@ export interface FileRoutesById {
   '/_authenticated/acessos': typeof AuthenticatedAcessosRoute
   '/_authenticated/inicio': typeof AuthenticatedInicioRoute
   '/_authenticated/mesa': typeof AuthenticatedMesaRouteWithChildren
+  '/_authenticated/imprimir/$id': typeof AuthenticatedImprimirIdRoute
   '/_authenticated/mesa/admin': typeof AuthenticatedMesaAdminRoute
+  '/_authenticated/mesa/cenarios': typeof AuthenticatedMesaCenariosRoute
   '/_authenticated/mesa/cobertura': typeof AuthenticatedMesaCoberturaRoute
   '/_authenticated/mesa/entregas': typeof AuthenticatedMesaEntregasRoute
   '/_authenticated/mesa/matriz': typeof AuthenticatedMesaMatrizRoute
@@ -163,7 +182,9 @@ export interface FileRouteTypes {
     | '/acessos'
     | '/inicio'
     | '/mesa'
+    | '/imprimir/$id'
     | '/mesa/admin'
+    | '/mesa/cenarios'
     | '/mesa/cobertura'
     | '/mesa/entregas'
     | '/mesa/matriz'
@@ -179,7 +200,9 @@ export interface FileRouteTypes {
     | '/acessos'
     | '/inicio'
     | '/mesa'
+    | '/imprimir/$id'
     | '/mesa/admin'
+    | '/mesa/cenarios'
     | '/mesa/cobertura'
     | '/mesa/entregas'
     | '/mesa/matriz'
@@ -196,7 +219,9 @@ export interface FileRouteTypes {
     | '/_authenticated/acessos'
     | '/_authenticated/inicio'
     | '/_authenticated/mesa'
+    | '/_authenticated/imprimir/$id'
     | '/_authenticated/mesa/admin'
+    | '/_authenticated/mesa/cenarios'
     | '/_authenticated/mesa/cobertura'
     | '/_authenticated/mesa/entregas'
     | '/_authenticated/mesa/matriz'
@@ -264,11 +289,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMesaRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/imprimir/$id': {
+      id: '/_authenticated/imprimir/$id'
+      path: '/imprimir/$id'
+      fullPath: '/imprimir/$id'
+      preLoaderRoute: typeof AuthenticatedImprimirIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/mesa/admin': {
       id: '/_authenticated/mesa/admin'
       path: '/admin'
       fullPath: '/mesa/admin'
       preLoaderRoute: typeof AuthenticatedMesaAdminRouteImport
+      parentRoute: typeof AuthenticatedMesaRoute
+    }
+    '/_authenticated/mesa/cenarios': {
+      id: '/_authenticated/mesa/cenarios'
+      path: '/cenarios'
+      fullPath: '/mesa/cenarios'
+      preLoaderRoute: typeof AuthenticatedMesaCenariosRouteImport
       parentRoute: typeof AuthenticatedMesaRoute
     }
     '/_authenticated/mesa/cobertura': {
@@ -325,6 +364,7 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedMesaRouteChildren {
   AuthenticatedMesaAdminRoute: typeof AuthenticatedMesaAdminRoute
+  AuthenticatedMesaCenariosRoute: typeof AuthenticatedMesaCenariosRoute
   AuthenticatedMesaCoberturaRoute: typeof AuthenticatedMesaCoberturaRoute
   AuthenticatedMesaEntregasRoute: typeof AuthenticatedMesaEntregasRoute
   AuthenticatedMesaMatrizRoute: typeof AuthenticatedMesaMatrizRoute
@@ -336,6 +376,7 @@ interface AuthenticatedMesaRouteChildren {
 
 const AuthenticatedMesaRouteChildren: AuthenticatedMesaRouteChildren = {
   AuthenticatedMesaAdminRoute: AuthenticatedMesaAdminRoute,
+  AuthenticatedMesaCenariosRoute: AuthenticatedMesaCenariosRoute,
   AuthenticatedMesaCoberturaRoute: AuthenticatedMesaCoberturaRoute,
   AuthenticatedMesaEntregasRoute: AuthenticatedMesaEntregasRoute,
   AuthenticatedMesaMatrizRoute: AuthenticatedMesaMatrizRoute,
@@ -352,12 +393,14 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAcessosRoute: typeof AuthenticatedAcessosRoute
   AuthenticatedInicioRoute: typeof AuthenticatedInicioRoute
   AuthenticatedMesaRoute: typeof AuthenticatedMesaRouteWithChildren
+  AuthenticatedImprimirIdRoute: typeof AuthenticatedImprimirIdRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAcessosRoute: AuthenticatedAcessosRoute,
   AuthenticatedInicioRoute: AuthenticatedInicioRoute,
   AuthenticatedMesaRoute: AuthenticatedMesaRouteWithChildren,
+  AuthenticatedImprimirIdRoute: AuthenticatedImprimirIdRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

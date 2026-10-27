@@ -1,10 +1,10 @@
 import { Link } from "@tanstack/react-router";
 import {
-  AlertTriangle, BarChart3, Grid3x3, LayoutDashboard, Lock, Package, Settings, Users, Vote, Workflow,
+  AlertTriangle, BarChart3, Gauge, Layers, ScatterChart, Grid3x3, LayoutDashboard, Lock, Package, Settings, Users, Vote, Workflow,
 } from "lucide-react";
 import type { ComponentType } from "react";
 
-type Destino = "/mesa/visao" | "/mesa/matriz" | "/mesa/entregas" | "/mesa/cobertura" | "/mesa/players" | "/mesa/pontos" | "/mesa/admin";
+type Destino = "/mesa/visao" | "/mesa/matriz" | "/mesa/entregas" | "/mesa/cobertura" | "/mesa/players" | "/mesa/pontos" | "/mesa/simulador" | "/mesa/cenarios" | "/mesa/mesa-cenarios" | "/mesa/estresse" | "/mesa/admin";
 const ITENS: { rotulo: string; to?: Destino; icone: ComponentType<{ strokeWidth?: number; className?: string }>; nota?: string }[] = [
   { rotulo: "Visão geral", to: "/mesa/visao", icone: LayoutDashboard },
   { rotulo: "Matriz por módulo", to: "/mesa/matriz", icone: Grid3x3 },
@@ -12,7 +12,10 @@ const ITENS: { rotulo: string; to?: Destino; icone: ComponentType<{ strokeWidth?
   { rotulo: "Cobertura", to: "/mesa/cobertura", icone: BarChart3 },
   { rotulo: "Players", to: "/mesa/players", icone: Users },
   { rotulo: "Pontos de atenção", to: "/mesa/pontos", icone: AlertTriangle },
-  { rotulo: "Simulador", icone: Workflow, nota: "Próxima etapa" },
+  { rotulo: "Simulador", to: "/mesa/simulador", icone: Workflow },
+  { rotulo: "Cenários", to: "/mesa/cenarios", icone: Layers },
+  { rotulo: "Mesa de cenários", to: "/mesa/mesa-cenarios", icone: ScatterChart },
+  { rotulo: "Teste de estresse", to: "/mesa/estresse", icone: Gauge },
   { rotulo: "Decisão", icone: Vote, nota: "Etapa final" },
   { rotulo: "Admin", to: "/mesa/admin", icone: Settings },
 ];
