@@ -91,7 +91,7 @@ function MesaCenarios() {
         <p className="mt-1 text-xs text-ink-muted">Cada ponto é uma composição. Forma e cor indicam o número de players. A linha liga as composições sem alternativa mais barata e mais completa. Clique em um ponto para abrir no simulador.</p>
         <div className="mt-4 h-[380px] w-full min-w-0 sm:h-[460px]" role="img" aria-label="Gráfico de dispersão custo por cobertura">
           <ResponsiveContainer>
-            <ComposedChart margin={movel ? { left: 0, right: 8, bottom: 8 } : { left: 20, right: 20, bottom: 20 }}>
+            <ComposedChart margin={movel ? { left: 0, right: 20, bottom: 8 } : { left: 20, right: 20, bottom: 20 }}>
               <CartesianGrid stroke="var(--line)" />
               <XAxis type="number" dataKey="x" name="Custo" tickFormatter={(v) => `${Math.round(Number(v) / 1000)} mil`} tick={{ fontFamily: "DM Mono", fontSize: 11, fill: "var(--ink-muted)" }} stroke="var(--line)" tickCount={movel ? 4 : 6} minTickGap={16} />
               <YAxis width={movel ? 40 : 60} type="number" dataKey="y" name="Cobertura" unit="%" tick={{ fontFamily: "DM Mono", fontSize: 11, fill: "var(--ink-muted)" }} stroke="var(--line)" />

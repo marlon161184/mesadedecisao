@@ -162,7 +162,7 @@ function Simulador() {
 
       <div className="grid grid-cols-1 gap-8 px-4 pb-28 pt-8 xl:grid-cols-12 md:px-8 lg:px-12 xl:py-10">
         {/* COMPOSIÇÃO */}
-        <section id="zona-composicao" className={cn("col-span-12 min-w-0 xl:col-span-3 xl:block", zona !== "composicao" && "hidden")} aria-label="Composição">
+        <section id="zona-composicao" className={cn("min-w-0 xl:col-span-3 xl:block", zona !== "composicao" && "hidden")} aria-label="Composição">
           <RotuloMono as="p">Composição</RotuloMono>
           <div className="mt-4 space-y-8">
             {grupos.map(({ rfp, mods }) => {
@@ -229,7 +229,7 @@ function Simulador() {
         </section>
 
         {/* RESULTADO */}
-        <section id="zona-resultado" className={cn("col-span-12 min-w-0 space-y-10 xl:col-span-6 xl:block", zona !== "resultado" && "hidden")} aria-label="Resultado" aria-live="polite">
+        <section id="zona-resultado" className={cn("min-w-0 space-y-10 xl:col-span-6 xl:block", zona !== "resultado" && "hidden")} aria-label="Resultado" aria-live="polite">
           <div className="sticky top-[var(--altura-cabecalho,0px)] z-20 -mx-4 grid grid-cols-2 gap-px border-y border-line bg-line md:-mx-8 lg:top-0 xl:hidden" aria-label="Resumo">
             {[
               ["Total", formatarBRL(r.total.central)],
@@ -334,7 +334,7 @@ function Simulador() {
         </section>
 
         {/* PARECER */}
-        <section id="zona-parecer" className={cn("col-span-12 min-w-0 space-y-4 xl:col-span-3 xl:block", zona !== "parecer" && "hidden")} aria-label="Parecer técnico">
+        <section id="zona-parecer" className={cn("min-w-0 space-y-4 xl:col-span-3 xl:block", zona !== "parecer" && "hidden")} aria-label="Parecer técnico">
           <RotuloMono as="p">Parecer técnico</RotuloMono>
           <div className="flex flex-wrap gap-2">
             <Button size="sm" variant="secondary" onClick={() => setParecer({ texto: parecerAutomatico(base, r), ia: false, revisado: true })}>

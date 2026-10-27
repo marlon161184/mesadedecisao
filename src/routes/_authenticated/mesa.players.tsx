@@ -51,7 +51,7 @@ function Players() {
 
         {player && (
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-10">
-            <section className="col-span-12 min-w-0 lg:col-span-4">
+            <section className="min-w-0 lg:col-span-4">
               <RotuloMono as="p">Resumo</RotuloMono>
               <h2 className="mt-2 text-3xl">{player.nome}</h2>
               <p className="mt-2 text-sm text-ink-muted">{ROTULO_TIPO_PLAYER[player.tipo]}{player.cidade ? ` · ${player.cidade}` : ""}</p>
@@ -74,7 +74,7 @@ function Players() {
             </section>
 
             {a && (
-              <div className="col-span-12 min-w-0 space-y-14 lg:col-span-8">
+              <div className="min-w-0 space-y-14 lg:col-span-8">
                 <section>
                   <RotuloMono as="p">Itens</RotuloMono>
                   <Table className="mt-3">

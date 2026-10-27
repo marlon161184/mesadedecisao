@@ -64,7 +64,7 @@ function TelaDecisao() {
         <ol aria-label="Trilha de decisão" className="mt-6 flex snap-x gap-px overflow-x-auto border border-line bg-line md:grid md:grid-cols-7 md:overflow-visible">
           {NOMES.map((n, i) => (
             <li key={n} className="w-32 shrink-0 snap-start bg-background md:w-auto">
-              <a href={`#etapa-${i + 1}`} className="block min-h-11 p-2.5 focus-visible:outline-2 md:p-3"><span className="label-mono"><span className="md:hidden">{i + 1} · </span><span className="hidden md:inline">Etapa {i + 1}</span></span><span className="mt-1 block text-sm leading-tight">{n}</span><span className="label-mono mt-1 block text-ink-muted">{ROTULO_STATUS[m.etapas[i]!]}</span></a>
+              <a href={`#etapa-${i + 1}`} className="block min-h-11 p-2.5 focus-visible:outline-2 md:p-3"><span className="label-mono"><span className="md:hidden">Etapa {i + 1}</span><span className="hidden md:inline">Etapa {i + 1}</span></span><span className="mt-1 block text-sm leading-tight">{n}</span><span className="label-mono mt-1 block text-ink-muted">{ROTULO_STATUS[m.etapas[i]!]}</span></a>
             </li>
           ))}
         </ol>
