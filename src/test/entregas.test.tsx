@@ -19,6 +19,9 @@ import { EntregasConteudo } from "@/routes/_authenticated/mesa.entregas";
 // Cada proposta recebe uma entrega declarada, para que todas as tabelas sejam montadas.
 const comEntregas = {
   ...base,
+  rfps: base.rfps.some((r) => r.numero === 3)
+    ? base.rfps
+    : [...base.rfps, { ...base.rfps[0], id: "rfp3", numero: 3, nome: "Comercial", fase: 2 }],
   entregas: base.propostas.map((p, i) => ({
     id: `e${i}`, proposta_id: p.id, categoria: "posts_instagram", quantidade_mes: 8, e_teto: false, observacao: null,
   })),
