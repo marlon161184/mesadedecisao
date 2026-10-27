@@ -58,7 +58,7 @@ function EntrarReuniao() {
       if (data.user && data.user.app_metadata?.["reuniao"] !== true) { setEstado({ tipo: "membro" }); return; }
       const r = await info({ data: { token: token.current } });
       setEstado(r.ok ? { tipo: "pronta", nome: r.nome, expira_em: r.expira_em } : { tipo: "encerrada" });
-    })().catch(() => setEstado({ tipo: "encerrada" }));
+    })().catch((e) => { console.error("entrar", e); setEstado({ tipo: "encerrada" }); });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   async function confirmar(e: FormEvent) {
