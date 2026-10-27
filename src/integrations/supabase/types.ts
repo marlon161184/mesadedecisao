@@ -16,31 +16,61 @@ export type Database = {
     Tables: {
       ata: {
         Row: {
+          aprovada_em: string | null
+          aprovada_por: string | null
           cenario_id: string
+          conteudo: Json | null
           gerada_em: string
           id: string
+          justificativa_revisao: string | null
+          pontos_abertos: Json
           proximos_passos: string | null
           ressalvas: string | null
+          rfp_id: string | null
+          snapshot: Json | null
+          snapshot_hash: string | null
+          status: string
           texto: string | null
           versao: number
+          versao_anterior: string | null
         }
         Insert: {
+          aprovada_em?: string | null
+          aprovada_por?: string | null
           cenario_id: string
+          conteudo?: Json | null
           gerada_em?: string
           id?: string
+          justificativa_revisao?: string | null
+          pontos_abertos?: Json
           proximos_passos?: string | null
           ressalvas?: string | null
+          rfp_id?: string | null
+          snapshot?: Json | null
+          snapshot_hash?: string | null
+          status?: string
           texto?: string | null
           versao?: number
+          versao_anterior?: string | null
         }
         Update: {
+          aprovada_em?: string | null
+          aprovada_por?: string | null
           cenario_id?: string
+          conteudo?: Json | null
           gerada_em?: string
           id?: string
+          justificativa_revisao?: string | null
+          pontos_abertos?: Json
           proximos_passos?: string | null
           ressalvas?: string | null
+          rfp_id?: string | null
+          snapshot?: Json | null
+          snapshot_hash?: string | null
+          status?: string
           texto?: string | null
           versao?: number
+          versao_anterior?: string | null
         }
         Relationships: [
           {
@@ -48,6 +78,52 @@ export type Database = {
             columns: ["cenario_id"]
             isOneToOne: false
             referencedRelation: "cenario"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ata_rfp_id_fkey"
+            columns: ["rfp_id"]
+            isOneToOne: false
+            referencedRelation: "rfp"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ata_versao_anterior_fkey"
+            columns: ["versao_anterior"]
+            isOneToOne: false
+            referencedRelation: "ata"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ata_aceite: {
+        Row: {
+          aceito_em: string
+          ata_id: string
+          ip: string | null
+          nome: string
+          socio_id: string
+        }
+        Insert: {
+          aceito_em?: string
+          ata_id: string
+          ip?: string | null
+          nome: string
+          socio_id?: string
+        }
+        Update: {
+          aceito_em?: string
+          ata_id?: string
+          ip?: string | null
+          nome?: string
+          socio_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ata_aceite_ata_id_fkey"
+            columns: ["ata_id"]
+            isOneToOne: false
+            referencedRelation: "ata"
             referencedColumns: ["id"]
           },
         ]
@@ -398,6 +474,30 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      exportacao: {
+        Row: {
+          id: string
+          quando: string
+          quem: string
+          referencia: string | null
+          tipo: string
+        }
+        Insert: {
+          id?: string
+          quando?: string
+          quem?: string
+          referencia?: string | null
+          tipo: string
+        }
+        Update: {
+          id?: string
+          quando?: string
+          quem?: string
+          referencia?: string | null
+          tipo?: string
+        }
+        Relationships: []
       }
       filtro_salvo: {
         Row: {
@@ -750,18 +850,21 @@ export type Database = {
       }
       portao_resultado: {
         Row: {
+          evidencia: string | null
           justificativa: string | null
           portao_id: string
           proposta_id: string
           resultado: string
         }
         Insert: {
+          evidencia?: string | null
           justificativa?: string | null
           portao_id: string
           proposta_id: string
           resultado?: string
         }
         Update: {
+          evidencia?: string | null
           justificativa?: string | null
           portao_id?: string
           proposta_id?: string
@@ -801,6 +904,35 @@ export type Database = {
           valor?: Json
         }
         Relationships: []
+      }
+      premorte: {
+        Row: {
+          cenario_id: string
+          enviado_em: string
+          socio_id: string
+          texto: string
+        }
+        Insert: {
+          cenario_id: string
+          enviado_em?: string
+          socio_id?: string
+          texto: string
+        }
+        Update: {
+          cenario_id?: string
+          enviado_em?: string
+          socio_id?: string
+          texto?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "premorte_cenario_id_fkey"
+            columns: ["cenario_id"]
+            isOneToOne: false
+            referencedRelation: "cenario"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {
@@ -882,6 +1014,41 @@ export type Database = {
           },
         ]
       }
+      proposta_arquivo: {
+        Row: {
+          caminho: string
+          enviado_em: string
+          id: string
+          nome: string
+          proposta_id: string
+          versao: number
+        }
+        Insert: {
+          caminho: string
+          enviado_em?: string
+          id?: string
+          nome: string
+          proposta_id: string
+          versao?: number
+        }
+        Update: {
+          caminho?: string
+          enviado_em?: string
+          id?: string
+          nome?: string
+          proposta_id?: string
+          versao?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "proposta_arquivo_proposta_id_fkey"
+            columns: ["proposta_id"]
+            isOneToOne: false
+            referencedRelation: "proposta"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       requisito: {
         Row: {
           codigo: string | null
@@ -930,6 +1097,7 @@ export type Database = {
           pergunta_id: string
           proposta_id: string
           resposta: string | null
+          sem_resposta: boolean
         }
         Insert: {
           avaliacao?: string | null
@@ -937,6 +1105,7 @@ export type Database = {
           pergunta_id: string
           proposta_id: string
           resposta?: string | null
+          sem_resposta?: boolean
         }
         Update: {
           avaliacao?: string | null
@@ -944,6 +1113,7 @@ export type Database = {
           pergunta_id?: string
           proposta_id?: string
           resposta?: string | null
+          sem_resposta?: boolean
         }
         Relationships: [
           {
@@ -1021,6 +1191,57 @@ export type Database = {
         }
         Relationships: []
       }
+      trilha_decisao: {
+        Row: {
+          atualizado_em: string
+          cenario_candidato: string | null
+          encerrada_quorum: boolean
+          pontuacao_aberta: boolean
+          pontuacao_aberta_em: string | null
+          regra_decisao: string
+          rfp_id: string
+          votacao_aberta: boolean
+          votacao_encerrada: boolean
+        }
+        Insert: {
+          atualizado_em?: string
+          cenario_candidato?: string | null
+          encerrada_quorum?: boolean
+          pontuacao_aberta?: boolean
+          pontuacao_aberta_em?: string | null
+          regra_decisao?: string
+          rfp_id: string
+          votacao_aberta?: boolean
+          votacao_encerrada?: boolean
+        }
+        Update: {
+          atualizado_em?: string
+          cenario_candidato?: string | null
+          encerrada_quorum?: boolean
+          pontuacao_aberta?: boolean
+          pontuacao_aberta_em?: string | null
+          regra_decisao?: string
+          rfp_id?: string
+          votacao_aberta?: boolean
+          votacao_encerrada?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "trilha_decisao_cenario_candidato_fkey"
+            columns: ["cenario_candidato"]
+            isOneToOne: false
+            referencedRelation: "cenario"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "trilha_decisao_rfp_id_fkey"
+            columns: ["rfp_id"]
+            isOneToOne: true
+            referencedRelation: "rfp"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           id: string
@@ -1076,6 +1297,14 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      envios_pontuacao: {
+        Args: { _rfp: string }
+        Returns: {
+          enviado_em: string
+          notas: number
+          socio_id: string
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -1086,6 +1315,9 @@ export type Database = {
       is_member: { Args: { _user_id: string }; Returns: boolean }
       notas_reveladas: { Args: { _criterio: string }; Returns: boolean }
       pode_editar_cenario: { Args: { _cenario: string }; Returns: boolean }
+      pode_votar: { Args: { _cenario: string }; Returns: boolean }
+      pontuacao_aberta: { Args: { _criterio: string }; Returns: boolean }
+      premortes_visiveis: { Args: { _cenario: string }; Returns: boolean }
       recomendar_cenario: { Args: { _cenario: string }; Returns: undefined }
     }
     Enums: {

@@ -22,6 +22,13 @@
       "when": 1793111427348,
       "tag": "0002_simulador_cenarios",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1793114108068,
+      "tag": "0003_decisao",
+      "breakpoints": true
     }
   ]
 }
