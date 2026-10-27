@@ -58,3 +58,22 @@ export function tokenDoEndereco(hash: string, search: string): string | null {
   const t = h ?? s;
   return tokenComFormato(t) ? t : null;
 }
+
+export type ReuniaoToken = { id: string; nome: string; expira_em: string; encerrada_em: string | null };
+/**
+ * Decide a entrada pelo token: devolve a reunião ou um motivo interno (só para o log).
+ * O navegador recebe sempre RESPOSTA_RECUSA, qualquer que seja o motivo.
+ */
+export async function decidirEntrada(
+  token: unknown,
+  tentativasNaJanela: number,
+  buscarPorHash: (hash: string) => Promise<ReuniaoToken | null>,
+  agora = Date.now(),
+): Promise<{ r: ReuniaoToken; motivo: "" } | { r: null; motivo: "limite" | "invalido" | "encerrada" | "expirada" }> {
+  if (excedeuLimite(tentativasNaJanela)) return { r: null, motivo: "limite" };
+  if (!tokenComFormato(token)) return { r: null, motivo: "invalido" };
+  const r = await buscarPorHash(await hashToken(token));
+  if (!r) return { r: null, motivo: "invalido" };
+  if (!reuniaoValida(r, agora)) return { r: null, motivo: r.encerrada_em ? "encerrada" : "expirada" };
+  return { r, motivo: "" };
+}

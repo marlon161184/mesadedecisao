@@ -3,7 +3,7 @@ import { getRequest } from "@tanstack/react-start/server";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import {
-  JANELA_TENTATIVAS_MS, RESPOSTA_RECUSA, excedeuLimite, gerarToken, hashToken, reuniaoValida, tokenComFormato, validadeHoras,
+  JANELA_TENTATIVAS_MS, RESPOSTA_RECUSA, decidirEntrada, gerarToken, hashToken, reuniaoValida, validadeHoras,
 } from "@/lib/reuniao";
 
 function ipDaRequisicao(): string {
@@ -21,14 +21,14 @@ async function exigirAdmin(supabase: { rpc: (f: "has_role", a: { _user_id: strin
   if (!data) throw new Error("Somente o Admin gerencia reuniões.");
 }
 
-/** Conta a tentativa do IP e diz se ele passou do limite (10 por minuto). */
-async function registrarTentativa(ip: string): Promise<boolean> {
+/** Conta as tentativas do IP no último minuto e registra a atual. */
+async function tentativasRecentes(ip: string): Promise<number> {
   const sb = await admin();
   const desde = new Date(Date.now() - JANELA_TENTATIVAS_MS).toISOString();
   const { count } = await sb.from("reuniao_tentativa").select("id", { count: "exact", head: true }).eq("ip", ip).gte("quando", desde);
   await sb.from("reuniao_tentativa").insert({ ip });
   if (Math.random() < 0.05) await sb.from("reuniao_tentativa").delete().lt("quando", new Date(Date.now() - 86_400_000).toISOString());
-  return excedeuLimite(count ?? 0);
+  return count ?? 0;
 }
 
 async function negar(ip: string, motivo: string) {
@@ -37,15 +37,13 @@ async function negar(ip: string, motivo: string) {
   return RESPOSTA_RECUSA;
 }
 
-/** Valida o token (sempre no servidor). Devolve a reunião ou null, sem dizer o motivo ao navegador. */
+/** Valida o token (sempre no servidor). */
 async function reuniaoDoToken(token: unknown, ip: string) {
-  if (await registrarTentativa(ip)) return { r: null, motivo: "limite" };
-  if (!tokenComFormato(token)) return { r: null, motivo: "invalido" };
   const sb = await admin();
-  const { data } = await sb.from("reuniao").select("id, nome, expira_em, encerrada_em").eq("token_hash", await hashToken(token)).maybeSingle();
-  if (!data) return { r: null, motivo: "invalido" };
-  if (!reuniaoValida(data)) return { r: null, motivo: data.encerrada_em ? "encerrada" : "expirada" };
-  return { r: data, motivo: "" };
+  return decidirEntrada(token, await tentativasRecentes(ip), async (hash) => {
+    const { data } = await sb.from("reuniao").select("id, nome, expira_em, encerrada_em").eq("token_hash", hash).maybeSingle();
+    return data;
+  });
 }
 
 export const infoReuniao = createServerFn({ method: "POST" })
