@@ -55,7 +55,7 @@ function Entrar() {
         <p className="chamada max-w-md text-4xl leading-tight">Luxo é para se sentir.</p>
         <span className="label-mono">São José do Rio Preto · SP</span>
       </div>
-      <div className="flex flex-col px-8 py-10 md:px-16">
+      <div className="flex min-h-screen flex-col px-4 py-6 md:px-8 md:py-10 lg:min-h-0 lg:px-12">
         <div className="flex items-center justify-between">
           <LogoNewe height={32} />
           <AlternarTema />
@@ -63,7 +63,7 @@ function Entrar() {
         <form onSubmit={entrar} className="mx-auto my-auto w-full max-w-sm space-y-6">
           <div>
             <RotuloMono as="p">Acesso por convite</RotuloMono>
-            <h1 className="chamada mt-3 text-3xl">Mesa de Decisão</h1>
+            <h1 className="chamada mt-3 text-2xl sm:text-3xl">Mesa de Decisão</h1>
           </div>
           <div>
             <Label htmlFor="email" className="label-mono">E-mail</Label>
@@ -76,7 +76,7 @@ function Entrar() {
           <Button type="submit" className="w-full" size="lg" disabled={carregando}>
             {carregando ? "Entrando" : "Entrar"}
           </Button>
-          <Button type="button" variant="link" className="h-auto px-0" onClick={esqueci}>
+          <Button type="button" variant="link" className="min-h-11 px-0" onClick={esqueci}>
             Esqueci a senha
           </Button>
           <p className="text-sm text-ink-muted">Não há cadastro aberto. O acesso é liberado pelo Admin.</p>
