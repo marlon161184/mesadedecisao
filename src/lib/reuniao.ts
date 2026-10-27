@@ -1,7 +1,8 @@
 /** Regras do acesso por link de reunião (somente leitura). Puras e testadas. */
+import { z } from "zod";
 
 export const VALIDADE_PADRAO_H = 4;
-export const VALIDADE_MAX_H = 12;
+export const VALIDADE_MAX_H = 96;
 export const LIMITE_TENTATIVAS = 10;
 export const JANELA_TENTATIVAS_MS = 60_000;
 export const INATIVIDADE_REUNIAO_MS = 60 * 60 * 1000;
@@ -10,9 +11,61 @@ export const REVALIDAR_MS = 60_000;
 export const RESPOSTA_RECUSA = { ok: false as const, mensagem: "Reunião encerrada" };
 
 export function validadeHoras(h: unknown): number {
-  const n = Math.round(Number(h));
-  if (!Number.isFinite(n) || n < 1) return VALIDADE_PADRAO_H;
-  return Math.min(VALIDADE_MAX_H, n);
+  if (h === undefined) return VALIDADE_PADRAO_H;
+  const n = Number(h);
+  if (!Number.isFinite(n) || n <= 0 || n > VALIDADE_MAX_H) {
+    throw new Error("O encerramento deve ser no futuro, até 96 horas a partir da criação.");
+  }
+  return n;
+}
+
+export function validarEncerramento(iso: string, agora = Date.now()): number {
+  return validadeHoras((Date.parse(iso) - agora) / 3_600_000);
+}
+
+/** O mesmo contrato é validado no formulário e na entrada da função de servidor. */
+export function criarReuniaoSchema(agora = Date.now()) {
+  return z.object({
+    nome: z.string().trim().min(2).max(120),
+    data: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+    expira_em: z.string().datetime(),
+  }).superRefine((d, ctx) => {
+    try { validarEncerramento(d.expira_em, agora); }
+    catch { ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["expira_em"], message: "O encerramento deve ser no futuro, até 96 horas a partir da criação." }); }
+  });
+}
+
+/** Valor de datetime-local sempre em Brasília, independentemente do fuso do aparelho. */
+export function dataHoraBrasilia(iso: string): string {
+  const partes = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "America/Sao_Paulo", year: "numeric", month: "2-digit", day: "2-digit",
+    hour: "2-digit", minute: "2-digit", hourCycle: "h23",
+  }).formatToParts(new Date(iso));
+  const p = (tipo: Intl.DateTimeFormatPartTypes) => partes.find((v) => v.type === tipo)?.value ?? "";
+  return `${p("year")}-${p("month")}-${p("day")}T${p("hour")}:${p("minute")}`;
+}
+
+export function encerramentoBrasilia(valor: string): string {
+  // America/Sao_Paulo adota UTC−03, sem horário de verão desde 2019.
+  const d = new Date(`${valor}:00-03:00`);
+  if (!Number.isFinite(d.getTime()) || dataHoraBrasilia(d.toISOString()) !== valor) {
+    throw new Error("Informe uma data e hora de encerramento válidas.");
+  }
+  return d.toISOString();
+}
+
+export function atalhoEncerramento(horas: number, agora = Date.now()): string {
+  return dataHoraBrasilia(new Date(agora + validadeHoras(horas) * 3_600_000).toISOString());
+}
+
+export function dataFim(iso: string): string {
+  return new Date(iso).toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", timeZone: "America/Sao_Paulo" });
+}
+
+export function rotuloEncerramento(iso: string, agora = Date.now()): string {
+  return Date.parse(iso) - agora > 24 * 3_600_000
+    ? `encerra em ${dataFim(iso)} às ${horaFim(iso)}`
+    : `encerra às ${horaFim(iso)}`;
 }
 
 function base64url(bytes: Uint8Array): string {

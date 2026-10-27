@@ -3,7 +3,7 @@ import { getRequest } from "@tanstack/react-start/server";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import {
-  JANELA_TENTATIVAS_MS, RESPOSTA_RECUSA, decidirEntrada, gerarToken, hashToken, reuniaoValida, validadeHoras,
+  JANELA_TENTATIVAS_MS, RESPOSTA_RECUSA, decidirEntrada, gerarToken, hashToken, reuniaoValida, criarReuniaoSchema, validarEncerramento,
 } from "@/lib/reuniao";
 
 function ipDaRequisicao(): string {
@@ -98,17 +98,15 @@ async function derrubarSessoes(reuniaoIds: string[]) {
 
 export const criarReuniao = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((d: unknown) => z.object({
-    nome: z.string().trim().min(2).max(120),
-    data: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
-    horas: z.number().int().min(1).max(12),
-  }).parse(d))
+  .inputValidator((d: unknown) => criarReuniaoSchema().parse(d))
   .handler(async ({ data, context }) => {
     await exigirAdmin(context.supabase as never, context.userId);
+    const agora = Date.now();
+    validarEncerramento(data.expira_em, agora);
     const token = gerarToken();
-    const expira = new Date(Date.now() + validadeHoras(data.horas) * 3_600_000).toISOString();
+    const expira = data.expira_em;
     const { data: r, error } = await context.supabase.from("reuniao")
-      .insert({ nome: data.nome, data: data.data, token_hash: await hashToken(token), criada_por: context.userId, expira_em: expira })
+      .insert({ nome: data.nome, data: data.data, token_hash: await hashToken(token), criada_por: context.userId, criada_em: new Date(agora).toISOString(), expira_em: expira })
       .select("id, expira_em").single();
     if (error || !r) throw new Error("Não foi possível abrir a reunião.");
     return { id: r.id, expira_em: r.expira_em, token };

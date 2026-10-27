@@ -3,7 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { useSessao } from "@/components/newe/Moldura";
-import { REVALIDAR_MS, horaFim } from "@/lib/reuniao";
+import { REVALIDAR_MS, rotuloEncerramento } from "@/lib/reuniao";
 
 type InfoReuniao = { id: string; nome: string; expira_em: string; conectados: string[] };
 
@@ -63,7 +63,7 @@ export function SeloReuniao() {
     <div role="status" className="border-b border-line-strong bg-primary text-primary-foreground">
       {lista.map((r) => (
         <p key={r.id} className="flex flex-wrap items-baseline gap-x-3 gap-y-1 px-4 py-2 text-sm md:px-8 lg:px-12">
-          <span className="label-mono">Reunião: {r.nome} · somente leitura · encerra às {horaFim(r.expira_em)}</span>
+          <span className="label-mono">Reunião: {r.nome} · somente leitura · {rotuloEncerramento(r.expira_em)}</span>
           <span className="min-w-0 break-words">Conectados: {r.conectados.length ? r.conectados.join(", ") : "ninguém no momento"}</span>
         </p>
       ))}
