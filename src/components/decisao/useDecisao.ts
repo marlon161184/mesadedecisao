@@ -62,7 +62,8 @@ export function modeloDecisao(base: Base, d: DadosDecisao, rfpNumero: number) {
     rfp, trilha, propostas, elegiveis, reprovadas, criterios, portoes, resultado, perguntas, pendentesPerguntas, naoValidadas,
     revelado, notasRfp, minhasNotas, medias, divs, envios, enviaram, esperadasPorSocio, candidato, premortes, votos, votacao,
     atas, ataAtual, portoesPendentes,
-    admin: ePapel("admin"), socio: ePapel("socio"), observador: ePapel("observador") && !ePapel("admin") && !ePapel("socio"),
+    admin: ePapel("admin"), socio: ePapel("socio"), // Sem papel de Admin/Sócio (Observador ou sessão de reunião): só leitura, sem exportação.
+    observador: !ePapel("admin") && !ePapel("socio"),
     etapas: [s1, s2, s3, s4, s5, s6, s7] as StatusEtapa[],
   };
 }

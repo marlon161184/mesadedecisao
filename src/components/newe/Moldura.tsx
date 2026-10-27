@@ -10,7 +10,8 @@ export function useSessao() {
     queryFn: async () => {
       const { data } = await supabase.auth.getUser();
       const user = data.user;
-      return { email: user?.email ?? "", id: user?.id ?? "", papeis: user ? await papeisDoUsuario(user.id) : [] };
+      const reuniao = user?.app_metadata?.["reuniao"] === true;
+      return { email: reuniao ? "" : user?.email ?? "", id: user?.id ?? "", reuniao, papeis: user && !reuniao ? await papeisDoUsuario(user.id) : [] };
     },
   });
 }
