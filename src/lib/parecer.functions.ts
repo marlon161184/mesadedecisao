@@ -20,6 +20,8 @@ export const redigirParecer = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     const { data: ok } = await context.supabase.rpc("is_member", { _user_id: context.userId });
     if (!ok) throw new Error("Acesso negado.");
+    const { data: flag } = await context.supabase.from("premissa").select("valor").eq("chave", "ia_parecer_habilitada").maybeSingle();
+    if (flag?.valor !== true) return { ok: false as const, erro: "A redação com IA está desligada. O Admin pode ligá-la em Decisão → Configurações." };
     const apiKey = process.env["LOVABLE_API_KEY"];
     if (!apiKey) throw new Error("Lovable AI não está configurado.");
 
