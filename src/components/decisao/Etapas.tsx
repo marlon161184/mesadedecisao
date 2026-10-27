@@ -328,7 +328,7 @@ export function Escolha({ base, d, m }: P) {
   const [voto, setVoto] = useState<{ decisao: string; justificativa: string }>({ decisao: "aprovar", justificativa: "" });
   const meuPm = m.premortes.find((p) => p.socio_id === d.eu.id);
   const meuVoto = m.votos.find((v) => v.socio_id === d.eu.id);
-  const upd = async (patch: Record<string, unknown>, ok: string) => {
+  const upd = async (patch: import("@/integrations/supabase/types").TablesUpdate<"trilha_decisao">, ok: string) => {
     const { error } = await supabase.from("trilha_decisao").update(patch).eq("rfp_id", m.rfp.id);
     if (!falha(error)) { toast.success(ok); atualizar(); }
   };

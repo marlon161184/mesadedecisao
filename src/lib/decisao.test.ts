@@ -46,7 +46,7 @@ describe("ranking e sensibilidade", () => {
   });
   it("transferência mantém soma 100", () => {
     const p = transferir({ a: 50, b: 40, c: 10 }, "a", "c", 10)!;
-    expect(p.a! + p.b! + p.c!).toBe(100);
+    expect(p['a']! + p['b']! + p['c']!).toBe(100);
     expect(transferir({ a: 50, b: 40, c: 10 }, "a", "c", 11)).toBeNull();
   });
   it("varia até 10 pontos e acha a menor virada", () => {
