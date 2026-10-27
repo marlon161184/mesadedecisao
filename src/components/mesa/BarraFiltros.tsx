@@ -9,6 +9,7 @@ import { useMesa } from "./useMesa";
 import { ROTULO_STATUS, ROTULO_TIPO, propostasDoRfp } from "@/lib/equalizacao";
 import { ROTULO_SEV } from "@/lib/pontos";
 import type { Filtros } from "@/lib/filtros";
+import type { PatchFiltros } from "./useMesa";
 
 function Campo({ rotulo, id, children }: { rotulo: string; id: string; children: React.ReactNode }) {
   return (
@@ -53,7 +54,7 @@ export function BarraFiltros() {
     onSuccess: () => qc.invalidateQueries({ queryKey: ["filtros-salvos"] }),
   });
 
-  const sel = (k: keyof Filtros, v: string, numero = false) => set({ [k]: v === "" ? undefined : numero ? Number(v) : v } as Partial<Filtros>);
+  const sel = (k: keyof Filtros, v: string, numero = false) => set({ [k]: v === "" ? undefined : numero ? Number(v) : v } as PatchFiltros);
 
   return (
     <div className="border-b border-line">
@@ -64,7 +65,7 @@ export function BarraFiltros() {
         <div className="flex flex-wrap items-center gap-2">
           {(salvos.data ?? []).map((s) => (
             <span key={s.id} className="inline-flex items-center border border-line">
-              <button className="label-mono px-2 py-1 hover:bg-accent" onClick={() => set({ ...(s.parametros as Partial<Filtros>), filtros: aberto })}>
+              <button className="label-mono px-2 py-1 hover:bg-accent" onClick={() => set({ ...(s.parametros as PatchFiltros), filtros: aberto })}>
                 {s.nome}
               </button>
               <button aria-label={`Excluir filtro ${s.nome}`} className="border-l border-line px-1.5 py-1 hover:bg-accent" onClick={() => excluir.mutate(s.id)}>

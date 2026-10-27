@@ -19,6 +19,10 @@ export type Criterio = Tables<"criterio">;
 export type Portao = Tables<"portao">;
 export type PortaoResultado = Tables<"portao_resultado">;
 export type Checklist = Tables<"checklist_equalizacao">;
+export type Cenario = Tables<"cenario">;
+export type CenarioModulo = Tables<"cenario_modulo">;
+export type CenarioVersao = Tables<"cenario_versao">;
+export type CenarioComentario = Tables<"cenario_comentario">;
 export type Perfil = Pick<Tables<"profiles">, "id" | "nome" | "email">;
 
 export interface Base {
@@ -40,6 +44,10 @@ export interface Base {
   portaoResultados: PortaoResultado[];
   checklist: Checklist[];
   perfis: Perfil[];
+  cenarios: Cenario[];
+  cenarioModulos: CenarioModulo[];
+  cenarioVersoes: CenarioVersao[];
+  cenarioComentarios: CenarioComentario[];
 }
 
 async function tudo<T>(p: PromiseLike<{ data: T[] | null; error: { message: string } | null }>): Promise<T[]> {
@@ -51,7 +59,7 @@ async function tudo<T>(p: PromiseLike<{ data: T[] | null; error: { message: stri
 export async function carregarBase(): Promise<Base> {
   const [
     rfps, modulos, requisitos, players, propostas, itens, entregas, coberturas, pontos,
-    comentarios, perguntas, respostas, premissas, criterios, portoes, portaoResultados, checklist, perfis,
+    comentarios, perguntas, respostas, premissas, criterios, portoes, portaoResultados, checklist, perfis, cenarios, cenarioModulos, cenarioVersoes, cenarioComentarios,
   ] = await Promise.all([
     tudo(supabase.from("rfp").select("*").order("numero")),
     tudo(supabase.from("modulo").select("*").order("codigo")),
@@ -71,10 +79,14 @@ export async function carregarBase(): Promise<Base> {
     tudo(supabase.from("portao_resultado").select("*")),
     tudo(supabase.from("checklist_equalizacao").select("*")),
     tudo(supabase.from("profiles").select("id, nome, email")),
+    tudo(supabase.from("cenario").select("*").order("nome")),
+    tudo(supabase.from("cenario_modulo").select("*")),
+    tudo(supabase.from("cenario_versao").select("*").order("versao", { ascending: false })),
+    tudo(supabase.from("cenario_comentario").select("*").order("criado_em")),
   ]);
   return {
     rfps, modulos, requisitos, players, propostas, itens, entregas, coberturas, pontos,
-    comentarios, perguntas, respostas, premissas, criterios, portoes, portaoResultados, checklist, perfis,
+    comentarios, perguntas, respostas, premissas, criterios, portoes, portaoResultados, checklist, perfis, cenarios, cenarioModulos, cenarioVersoes, cenarioComentarios,
   };
 }
 

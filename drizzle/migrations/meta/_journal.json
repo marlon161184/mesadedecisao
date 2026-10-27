@@ -15,6 +15,13 @@
       "when": 1793108201662,
       "tag": "0001_equalizacao_e_dados_iniciais",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1793111427348,
+      "tag": "0002_simulador_cenarios",
+      "breakpoints": true
     }
   ]
 }
