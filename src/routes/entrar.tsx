@@ -4,7 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { entrarReuniao, infoReuniao } from "@/lib/reuniao.functions";
-import { horaFim, tokenDoEndereco } from "@/lib/reuniao";
+import { dataFim, horaFim, tokenDoEndereco } from "@/lib/reuniao";
 import { LogoNewe } from "@/components/newe/LogoNewe";
 import { RotuloMono } from "@/components/newe/brand";
 import { AlternarTema } from "@/components/newe/AlternarTema";
@@ -100,7 +100,7 @@ function EntrarReuniao() {
             <div>
               <h1 className="chamada text-3xl">Boas-vindas à NEWE</h1>
               <p className="mt-3 text-lg">{estado.nome}</p>
-              <p className="label-mono mt-1 text-ink-muted">Válida até {horaFim(estado.expira_em)}</p>
+              <p className="label-mono mt-1 text-ink-muted">Válida até {dataFim(estado.expira_em)} às {horaFim(estado.expira_em)} (Brasília)</p>
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="seu-nome">Seu nome</Label>
