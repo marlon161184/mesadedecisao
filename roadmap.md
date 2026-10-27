@@ -1,5 +1,10 @@
 # Roadmap
 
+## Ajuste · janela de reunião
+- [ ] Encerramento livre em Brasília, atalhos e aviso no Admin
+- [ ] Limite de 96 h no formulário, servidor e banco
+- [ ] Selo e lista com data de encerramento; testes unitários, banco e tela sem criar reunião
+
 ## Prompt 2 · Equalização
 - [x] Dados iniciais, regras P-01..P-09, totais conferidos em teste
 - [x] Visão geral, Matriz, Entregas, Cobertura, Players, Pontos, Admin (CRUD, fluxo + checklist, CSV)
