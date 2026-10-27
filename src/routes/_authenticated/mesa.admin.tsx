@@ -22,6 +22,8 @@ export const Route = createFileRoute("/_authenticated/mesa/admin")({
       { name: "description", content: "Curadoria dos dados: propostas, itens, cobertura e premissas." },
       { property: "og:title", content: "Admin · NEWE Mesa de Decisão" },
       { property: "og:description", content: "Curadoria dos dados: propostas, itens, cobertura e premissas." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: Admin,

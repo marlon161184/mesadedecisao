@@ -11,6 +11,8 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Acesso privado da Mesa de Decisão NEWE." },
       { property: "og:title", content: "NEWE · Mesa de Decisão" },
       { property: "og:description", content: "Acesso privado da Mesa de Decisão NEWE." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
 });
