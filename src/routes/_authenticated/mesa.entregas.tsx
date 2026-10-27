@@ -23,10 +23,17 @@ export const Route = createFileRoute("/_authenticated/mesa/entregas")({
 
 function Entregas() {
   const { rfp, analises, premissas } = useMesa();
+  return <EntregasConteudo rfp={rfp} analises={analises} premissas={premissas} />;
+}
+
+type Mesa = ReturnType<typeof useMesa>;
+
+export function EntregasConteudo({ rfp, analises, premissas }: Pick<Mesa, "rfp" | "analises" | "premissas">) {
   const com = analises.filter((a) => a.entregas.length > 0);
+  const comCusto = com.flatMap((a) => (a.custoUnitario != null ? [{ ...a, u: a.custoUnitario }] : []));
   const cats = Object.keys(premissas.volume_base_mensal) as Categoria[];
-  const maxCusto = Math.max(1, ...com.map((a) => a.custoUnitario?.custoMensal ?? 0));
-  const maxVol = Math.max(1, ...com.map((a) => a.custoUnitario?.volumeEntregue ?? 0));
+  const maxCusto = Math.max(1, ...comCusto.map((a) => a.u.custoMensal));
+  const maxVol = Math.max(1, ...comCusto.map((a) => a.u.volumeEntregue));
 
   return (
     <>
