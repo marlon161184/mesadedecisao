@@ -23,7 +23,7 @@ export const Route = createFileRoute("/_authenticated/mesa/matriz")({
 function Controles() {
   const { f, set, premissas } = useMesa();
   return (
-    <div className="mb-8 grid grid-cols-1 gap-4 border border-line p-4 sm:grid-cols-2 sm:p-5 md:grid-cols-3 xl:grid-cols-6">
+    <div className="mb-8 grid grid-cols-2 gap-4 border border-line p-4 sm:p-5 md:grid-cols-3 xl:grid-cols-6">
       <label className="text-sm">
         <span className="label-mono mb-1.5 block text-ink-muted">Janela</span>
         <select className="campo" value={premissas.janela_meses} onChange={(e) => set({ janela: Number(e.target.value) })}>
