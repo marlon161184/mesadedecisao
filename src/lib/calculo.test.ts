@@ -70,8 +70,8 @@ describe("R3 · totais", () => {
     const itens = [rec({ modulo_id: "a" }), rec({ tipo_preco: "pontual", unidade: "projeto", valor_lista: 5000, modulo_id: "b" })];
     expect(totalProposta(itens, P).central).toBe(65000);
     const m = totalPorModulo(itens, P);
-    expect(m.a.central).toBe(60000);
-    expect(m.b.central).toBe(5000);
+    expect(m["a"]?.central).toBe(60000);
+    expect(m["b"]?.central).toBe(5000);
   });
 });
 

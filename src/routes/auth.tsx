@@ -31,16 +31,16 @@ function Entrar() {
     setCarregando(true);
     const { error } = await supabase.auth.signInWithPassword({ email, password: senha });
     setCarregando(false);
-    if (error) return toast.error("E-mail ou senha não conferem.");
+    if (error) { toast.error("E-mail ou senha não conferem."); return; }
     navigate({ to: "/inicio" });
   }
 
   async function esqueci() {
-    if (!email) return toast.error("Informe seu e-mail primeiro.");
+    if (!email) { toast.error("Informe seu e-mail primeiro."); return; }
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: `${window.location.origin}/definir-senha`,
     });
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success("Se o e-mail tiver acesso, enviamos um link para redefinir a senha.");
   }
 

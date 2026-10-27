@@ -32,9 +32,9 @@ function DefinirSenha() {
 
   async function salvar(e: FormEvent) {
     e.preventDefault();
-    if (senha.length < 8) return toast.error("Use pelo menos 8 caracteres.");
+    if (senha.length < 8) { toast.error("Use pelo menos 8 caracteres."); return; }
     const { error } = await supabase.auth.updateUser({ password: senha });
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success("Senha definida.");
     navigate({ to: "/inicio" });
   }
