@@ -106,8 +106,9 @@ export function sensibilidade(medias: Record<string, Record<string, number>>, cr
       if (!p) break;
       testadas++;
       const r = ranking(medias, p);
-      if (r.map((x) => x.proposta).join(",") !== ordem0) alteram++;
-      if (r[0] && r[0].proposta !== lider && (!menor || d < menor.pontos)) menor = { para: a.id, de: b.id, pontos: d, novoLider: r[0].proposta };
+      if (r.map((x) => x.proposta).join(",") !== ordem0 && r.some((x, i) => i > 0 && x.nota < r[i - 1]!.nota - 1e-9)) alteram++;
+      const nl = r.find((x) => x.proposta === lider)?.nota ?? 0;
+      if (r[0] && r[0].proposta !== lider && r[0].nota > nl + 1e-9 && (!menor || d < menor.pontos)) menor = { para: a.id, de: b.id, pontos: d, novoLider: r[0].proposta };
     }
   }
   const tornado = criterios.map((c) => {

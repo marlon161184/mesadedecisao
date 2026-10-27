@@ -53,7 +53,7 @@ describe("ranking e sensibilidade", () => {
     const s = sensibilidade(medias, crit);
     expect(s.lider).toBe("Y");
     expect(s.testadas).toBeGreaterThan(0);
-    // Y lidera 4,0 x 3,4; nenhuma transferência de até 10 pontos vira o ranking
+    // Y lidera 4,0 x 3,4; com 10 pontos de custo para arquitetura empata, mas não vira
     expect(s.menorVirada).toBeNull();
     expect(s.tornado).toHaveLength(3);
   });
