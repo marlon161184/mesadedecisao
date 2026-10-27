@@ -4,7 +4,7 @@
 DO $$
 declare
   s1 uuid := gen_random_uuid(); s2 uuid := gen_random_uuid(); p uuid := gen_random_uuid();
-  c_crit uuid; c_rfp uuid; c_prop uuid; c_cen uuid; rid uuid; n int; t record; col text; prob text := ''; info jsonb;
+  c_crit uuid; c_rfp uuid; c_prop uuid; c_cen uuid; rid uuid; n int; t record; col text; cols text; prob text := ''; info jsonb;
 begin
   insert into auth.users (id, instance_id, aud, role, email, raw_app_meta_data, raw_user_meta_data, created_at, updated_at) values
     (s1, '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 's1@teste.invalid', '{}', '{}', now(), now()),
@@ -41,8 +41,10 @@ begin
 
   -- Nenhuma escrita em nenhuma tabela pública
   for t in select tablename from pg_tables where schemaname = 'public' loop
+    select string_agg(quote_ident(a.attname), ', ' order by a.attnum) into cols from pg_attribute a
+      where a.attrelid = ('public.' || quote_ident(t.tablename))::regclass and a.attnum > 0 and not a.attisdropped and a.attgenerated = '';
     begin
-      execute format('insert into public.%I select * from public.%I limit 1', t.tablename, t.tablename);
+      execute format('insert into public.%I (%s) overriding system value select %s from public.%I limit 1', t.tablename, cols, cols, t.tablename);
       get diagnostics n = row_count;
       if n > 0 then prob := prob || ' inseriu em ' || t.tablename || ';'; end if;
     exception when insufficient_privilege then null;
