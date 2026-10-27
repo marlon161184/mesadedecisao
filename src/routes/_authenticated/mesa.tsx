@@ -14,6 +14,7 @@ import { AlternarTema } from "@/components/newe/AlternarTema";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useInatividade } from "@/hooks/use-inatividade";
+import { SeloReuniao } from "@/components/reuniao/SeloReuniao";
 
 export const Route = createFileRoute("/_authenticated/mesa")({
   validateSearch: (s: Record<string, unknown>) => validarFiltros(s),
@@ -111,6 +112,7 @@ function LayoutMesa() {
       <BarraLateral />
       <div className="min-w-0 flex-1">
         <header id="cabecalho-mesa" className="sticky top-0 z-40 border-b border-line bg-background lg:static">
+          <SeloReuniao />
           <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 px-4 py-1.5 md:px-8 lg:hidden">
             <Link to="/mesa/visao" search={true as never} aria-label="NEWE, início" className="inline-flex shrink-0">
               <LogoNewe height={24} comMargem={false} />

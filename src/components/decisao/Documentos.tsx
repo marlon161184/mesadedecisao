@@ -19,6 +19,7 @@ export async function abrirArquivo(caminho: string) {
 /** Link para a fonte original da proposta (versão mais recente), com a página indicada. */
 export function LinkFonte({ propostaId, pagina }: { propostaId: string; pagina?: string | null | undefined }) {
   const { data } = useQuery(decisaoQuery);
+  // Sessões de reunião não recebem a lista de arquivos (RLS) nem URL assinada (storage).
   const arq = data?.arquivos.filter((a) => a.proposta_id === propostaId).at(-1);
   if (!arq) return <span className="text-xs text-ink-muted">{pagina ?? "—"}</span>;
   return (

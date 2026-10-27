@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { baixar, lerCsv, paraCsv } from "@/lib/csv";
 import { cn } from "@/lib/utils";
+import { PainelReunioes } from "@/components/reuniao/PainelReunioes";
 
 export const Route = createFileRoute("/_authenticated/mesa/admin")({
   head: () => ({
@@ -39,7 +40,7 @@ const CHECKLIST: { chave: string; rotulo: string }[] = [
   { chave: "fonte_pagina", rotulo: "Fonte e página informadas" },
 ];
 
-const ABAS = ["Propostas", "Itens", "Entregas", "Requisitos", "Cobertura", "Comentários", "Pontos manuais", "Premissas", "Players"] as const;
+const ABAS = ["Propostas", "Itens", "Entregas", "Requisitos", "Cobertura", "Comentários", "Pontos manuais", "Premissas", "Players", "Reuniões"] as const;
 const CAMPOS_CSV = ["id", "proposta_id", "modulo_id", "descricao", "tipo_preco", "valor_lista", "valor_negociado", "valor_min", "valor_max", "unidade", "multiplicador", "incluido_no_subtotal_da_proposta", "incerteza", "fonte_pagina", "entrega_chave", "sujeito_desconto_lista", "premissa_imputacao"];
 
 function Admin() {
@@ -166,6 +167,8 @@ function Admin() {
             ]} />
           </div>
         )}
+
+        {aba === "Reuniões" && <PainelReunioes />}
 
         {aba === "Itens" && (
           <>

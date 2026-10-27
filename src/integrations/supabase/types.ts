@@ -1132,6 +1132,95 @@ export type Database = {
           },
         ]
       }
+      reuniao: {
+        Row: {
+          criada_em: string
+          criada_por: string | null
+          data: string
+          encerrada_em: string | null
+          encerrada_por: string | null
+          expira_em: string
+          id: string
+          nome: string
+          token_hash: string
+        }
+        Insert: {
+          criada_em?: string
+          criada_por?: string | null
+          data?: string
+          encerrada_em?: string | null
+          encerrada_por?: string | null
+          expira_em: string
+          id?: string
+          nome: string
+          token_hash: string
+        }
+        Update: {
+          criada_em?: string
+          criada_por?: string | null
+          data?: string
+          encerrada_em?: string | null
+          encerrada_por?: string | null
+          expira_em?: string
+          id?: string
+          nome?: string
+          token_hash?: string
+        }
+        Relationships: []
+      }
+      reuniao_participante: {
+        Row: {
+          entrou_em: string
+          ip: string | null
+          nome: string
+          reuniao_id: string
+          ultimo_acesso: string
+          user_id: string
+        }
+        Insert: {
+          entrou_em?: string
+          ip?: string | null
+          nome: string
+          reuniao_id: string
+          ultimo_acesso?: string
+          user_id: string
+        }
+        Update: {
+          entrou_em?: string
+          ip?: string | null
+          nome?: string
+          reuniao_id?: string
+          ultimo_acesso?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reuniao_participante_reuniao_id_fkey"
+            columns: ["reuniao_id"]
+            isOneToOne: false
+            referencedRelation: "reuniao"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reuniao_tentativa: {
+        Row: {
+          id: number
+          ip: string
+          quando: string
+        }
+        Insert: {
+          id?: never
+          ip: string
+          quando?: string
+        }
+        Update: {
+          id?: never
+          ip?: string
+          quando?: string
+        }
+        Relationships: []
+      }
       revelacao: {
         Row: {
           revelado_em: string
@@ -1313,13 +1402,22 @@ export type Database = {
         Returns: boolean
       }
       is_member: { Args: { _user_id: string }; Returns: boolean }
+      leitor_reuniao: { Args: { _user_id: string }; Returns: boolean }
+      minha_reuniao: { Args: never; Returns: Json }
       notas_reveladas: { Args: { _criterio: string }; Returns: boolean }
       pode_editar_cenario: { Args: { _cenario: string }; Returns: boolean }
+      pode_ler: { Args: { _user_id: string }; Returns: boolean }
       pode_votar: { Args: { _cenario: string }; Returns: boolean }
       pontuacao_aberta: { Args: { _criterio: string }; Returns: boolean }
       premortes_visiveis: { Args: { _cenario: string }; Returns: boolean }
       recomendar_cenario: { Args: { _cenario: string }; Returns: undefined }
+      reuniao_pulso: { Args: never; Returns: boolean }
+      reunioes_ativas: { Args: never; Returns: Json }
       socios_ativos: { Args: never; Returns: string[] }
+      votacao_encerrada_cenario: {
+        Args: { _cenario: string }
+        Returns: boolean
+      }
     }
     Enums: {
       app_role: "admin" | "socio" | "observador"

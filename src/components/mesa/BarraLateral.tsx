@@ -4,6 +4,7 @@ import {
 } from "lucide-react";
 import type { ComponentType } from "react";
 import { LogoNewe } from "@/components/newe/LogoNewe";
+import { useSessao } from "@/components/newe/Moldura";
 
 type Destino = "/mesa/visao" | "/mesa/matriz" | "/mesa/entregas" | "/mesa/cobertura" | "/mesa/players" | "/mesa/pontos" | "/mesa/simulador" | "/mesa/cenarios" | "/mesa/mesa-cenarios" | "/mesa/estresse" | "/mesa/decisao" | "/mesa/admin";
 export const ITENS: { rotulo: string; to?: Destino; icone: ComponentType<{ strokeWidth?: number; className?: string }>; nota?: string }[] = [
@@ -23,9 +24,12 @@ export const ITENS: { rotulo: string; to?: Destino; icone: ComponentType<{ strok
 
 /** Lista de seções, compartilhada pela barra lateral (desktop) e pelo menu (celular/tablet). */
 export function ListaSecoes({ aoNavegar, grande = false }: { aoNavegar?: () => void; grande?: boolean }) {
+  const { data: sessao } = useSessao();
+  // Sessão de reunião não vê Admin (nem Acessos, que fica dentro do Admin).
+  const itens = sessao?.reuniao ? ITENS.filter((i) => i.to !== "/mesa/admin") : ITENS;
   return (
     <ul className="space-y-0.5">
-      {ITENS.map(({ rotulo, to, icone: Icone, nota }) => (
+      {itens.map(({ rotulo, to, icone: Icone, nota }) => (
         <li key={rotulo}>
           {to ? (
             <Link

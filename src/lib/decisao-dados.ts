@@ -13,7 +13,7 @@ export type Arquivo = Tables<"proposta_arquivo">;
 export type Revelacao = Tables<"revelacao">;
 
 export interface DadosDecisao {
-  eu: { id: string; papeis: Papel[] };
+  eu: { id: string; papeis: Papel[]; reuniao: boolean };
   socios: string[];
   trilhas: Trilha[];
   notas: Nota[]; // RLS: só as minhas antes da revelação
@@ -53,7 +53,7 @@ export async function carregarDecisao(): Promise<DadosDecisao> {
     envios[t.rfp_id] = (data ?? []).map((e) => ({ socio_id: e.socio_id, notas: Number(e.notas) }));
   }));
   return {
-    eu: { id, papeis: papeis.map((p) => p.role as Papel) },
+    eu: { id, papeis: papeis.map((p) => p.role as Papel), reuniao: u.user?.app_metadata?.["reuniao"] === true },
     socios: ((sociosRpc.data as string[] | null) ?? []),
     trilhas, notas, envios, revelacoes, premortes, votos, atas, aceites, arquivos,
   };

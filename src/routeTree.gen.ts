@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as DefinirSenhaRouteImport } from './routes/definir-senha'
+import { Route as EntrarRouteImport } from './routes/entrar'
 import { Route as AuthenticatedAcessosRouteImport } from './routes/_authenticated/acessos'
 import { Route as AuthenticatedInicioRouteImport } from './routes/_authenticated/inicio'
 import { Route as AuthenticatedMesaRouteImport } from './routes/_authenticated/mesa'
@@ -49,6 +50,11 @@ const AuthRoute = AuthRouteImport.update({
 const DefinirSenhaRoute = DefinirSenhaRouteImport.update({
   id: '/definir-senha',
   path: '/definir-senha',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EntrarRoute = EntrarRouteImport.update({
+  id: '/entrar',
+  path: '/entrar',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedAcessosRoute = AuthenticatedAcessosRouteImport.update({
@@ -155,6 +161,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/definir-senha': typeof DefinirSenhaRoute
+  '/entrar': typeof EntrarRoute
   '/acessos': typeof AuthenticatedAcessosRoute
   '/inicio': typeof AuthenticatedInicioRoute
   '/mesa': typeof AuthenticatedMesaRouteWithChildren
@@ -178,6 +185,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/definir-senha': typeof DefinirSenhaRoute
+  '/entrar': typeof EntrarRoute
   '/acessos': typeof AuthenticatedAcessosRoute
   '/inicio': typeof AuthenticatedInicioRoute
   '/mesa': typeof AuthenticatedMesaRouteWithChildren
@@ -203,6 +211,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/definir-senha': typeof DefinirSenhaRoute
+  '/entrar': typeof EntrarRoute
   '/_authenticated/acessos': typeof AuthenticatedAcessosRoute
   '/_authenticated/inicio': typeof AuthenticatedInicioRoute
   '/_authenticated/mesa': typeof AuthenticatedMesaRouteWithChildren
@@ -228,6 +237,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/definir-senha'
+    | '/entrar'
     | '/acessos'
     | '/inicio'
     | '/mesa'
@@ -251,6 +261,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/definir-senha'
+    | '/entrar'
     | '/acessos'
     | '/inicio'
     | '/mesa'
@@ -275,6 +286,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/definir-senha'
+    | '/entrar'
     | '/_authenticated/acessos'
     | '/_authenticated/inicio'
     | '/_authenticated/mesa'
@@ -300,6 +312,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   DefinirSenhaRoute: typeof DefinirSenhaRoute
+  EntrarRoute: typeof EntrarRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -330,6 +343,13 @@ declare module '@tanstack/react-router' {
       path: '/definir-senha'
       fullPath: '/definir-senha'
       preLoaderRoute: typeof DefinirSenhaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/entrar': {
+      id: '/entrar'
+      path: '/entrar'
+      fullPath: '/entrar'
+      preLoaderRoute: typeof EntrarRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/acessos': {
@@ -520,6 +540,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   DefinirSenhaRoute: DefinirSenhaRoute,
+  EntrarRoute: EntrarRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

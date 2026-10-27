@@ -340,9 +340,11 @@ function Simulador() {
             <Button size="sm" variant="secondary" onClick={() => setParecer({ texto: parecerAutomatico(base, r), ia: false, revisado: true })}>
               <Wand2 strokeWidth={1.5} /> Montar por regra
             </Button>
-            <Button size="sm" onClick={gerarIA} disabled={gerando}>
-              <Sparkles strokeWidth={1.5} /> {gerando ? "Redigindo" : "Redigir parecer com IA"}
-            </Button>
+            {podeSimular && (
+              <Button size="sm" onClick={gerarIA} disabled={gerando}>
+                <Sparkles strokeWidth={1.5} /> {gerando ? "Redigindo" : "Redigir parecer com IA"}
+              </Button>
+            )}
           </div>
           {parecer?.ia && <Badge variant="terracota">Rascunho gerado por IA</Badge>}
           <textarea aria-label="Parecer" rows={22} className="campo h-auto py-2 text-sm leading-relaxed"
