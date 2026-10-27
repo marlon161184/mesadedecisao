@@ -13,6 +13,7 @@ import { RotuloMono, SeloFase } from "@/components/newe/brand";
 import { LogoNewe } from "@/components/newe/LogoNewe";
 import { Button } from "@/components/ui/button";
 import { useInatividade } from "@/hooks/use-inatividade";
+import { SeloReuniao } from "@/components/reuniao/SeloReuniao";
 
 export const Route = createFileRoute("/_authenticated/reuniao")({
   validateSearch: (s: Record<string, unknown>) => ({ rfp: [1, 2, 3].includes(Number(s["rfp"])) ? Number(s["rfp"]) : 2 }),
