@@ -229,3 +229,38 @@
   background-image: radial-gradient(oklch(0.985 0.022 92.5 / 55%) 1px, transparent 1.5px);
   background-size: 6px 6px;
 }
+
+/* Barra lateral: sempre preto com texto luz */
+:root,
+.dark {
+  --sidebar: var(--preto);
+  --sidebar-foreground: var(--luz);
+  --sidebar-primary: var(--amarelo-newe);
+  --sidebar-primary-foreground: var(--preto);
+  --sidebar-accent: oklch(0.278 0.008 84.6);
+  --sidebar-accent-foreground: var(--luz);
+  --sidebar-border: oklch(0.985 0.022 92.5 / 25%);
+  --sidebar-ring: var(--amarelo-newe);
+  --cinza-quente: oklch(0.72 0.02 85);
+}
+
+@theme inline {
+  --color-cinza-quente: var(--cinza-quente);
+}
+
+/* Campo de formulário NEWE */
+@utility campo {
+  height: 2.25rem;
+  width: 100%;
+  border: 1px solid var(--line);
+  background: var(--background);
+  color: var(--foreground);
+  padding: 0 0.625rem;
+  font-size: 0.875rem;
+  border-radius: 0;
+}
+
+/* Hachura para "não informado" */
+@utility hachura {
+  background-image: repeating-linear-gradient(135deg, transparent 0 5px, var(--line) 5px 6px);
+}

@@ -119,10 +119,45 @@ export type Database = {
           },
         ]
       }
+      checklist_equalizacao: {
+        Row: {
+          atualizado_em: string
+          chave: string
+          concluido: boolean
+          observacao: string | null
+          proposta_id: string
+        }
+        Insert: {
+          atualizado_em?: string
+          chave: string
+          concluido?: boolean
+          observacao?: string | null
+          proposta_id: string
+        }
+        Update: {
+          atualizado_em?: string
+          chave?: string
+          concluido?: boolean
+          observacao?: string | null
+          proposta_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "checklist_equalizacao_proposta_id_fkey"
+            columns: ["proposta_id"]
+            isOneToOne: false
+            referencedRelation: "proposta"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       cobertura: {
         Row: {
+          avaliado_em: string
+          avaliado_por: string | null
           custo_estimado_para_cobrir: number | null
           evidencia: string
+          fonte_pagina: string | null
           id: string
           nivel: number | null
           nota_tecnica: string | null
@@ -130,8 +165,11 @@ export type Database = {
           requisito_id: string
         }
         Insert: {
+          avaliado_em?: string
+          avaliado_por?: string | null
           custo_estimado_para_cobrir?: number | null
           evidencia?: string
+          fonte_pagina?: string | null
           id?: string
           nivel?: number | null
           nota_tecnica?: string | null
@@ -139,8 +177,11 @@ export type Database = {
           requisito_id: string
         }
         Update: {
+          avaliado_em?: string
+          avaliado_por?: string | null
           custo_estimado_para_cobrir?: number | null
           evidencia?: string
+          fonte_pagina?: string | null
           id?: string
           nivel?: number | null
           nota_tecnica?: string | null
@@ -270,6 +311,30 @@ export type Database = {
           },
         ]
       }
+      filtro_salvo: {
+        Row: {
+          criado_em: string
+          dono: string
+          id: string
+          nome: string
+          parametros: Json
+        }
+        Insert: {
+          criado_em?: string
+          dono?: string
+          id?: string
+          nome: string
+          parametros: Json
+        }
+        Update: {
+          criado_em?: string
+          dono?: string
+          id?: string
+          nome?: string
+          parametros?: Json
+        }
+        Relationships: []
+      }
       item_proposta: {
         Row: {
           descricao: string
@@ -280,7 +345,9 @@ export type Database = {
           incluido_no_subtotal_da_proposta: boolean
           modulo_id: string | null
           multiplicador: number
+          premissa_imputacao: string | null
           proposta_id: string
+          sujeito_desconto_lista: boolean
           tipo_preco: string
           unidade: string
           valor_lista: number | null
@@ -297,7 +364,9 @@ export type Database = {
           incluido_no_subtotal_da_proposta?: boolean
           modulo_id?: string | null
           multiplicador?: number
+          premissa_imputacao?: string | null
           proposta_id: string
+          sujeito_desconto_lista?: boolean
           tipo_preco: string
           unidade?: string
           valor_lista?: number | null
@@ -314,7 +383,9 @@ export type Database = {
           incluido_no_subtotal_da_proposta?: boolean
           modulo_id?: string | null
           multiplicador?: number
+          premissa_imputacao?: string | null
           proposta_id?: string
+          sujeito_desconto_lista?: boolean
           tipo_preco?: string
           unidade?: string
           valor_lista?: number | null
@@ -488,6 +559,7 @@ export type Database = {
           id: string
           nome: string
           observacoes: string | null
+          rfp_numeros: number[]
           status: string
           tipo: string
         }
@@ -497,6 +569,7 @@ export type Database = {
           id?: string
           nome: string
           observacoes?: string | null
+          rfp_numeros?: number[]
           status?: string
           tipo: string
         }
@@ -506,6 +579,7 @@ export type Database = {
           id?: string
           nome?: string
           observacoes?: string | null
+          rfp_numeros?: number[]
           status?: string
           tipo?: string
         }
@@ -513,6 +587,7 @@ export type Database = {
       }
       ponto_atencao: {
         Row: {
+          acao_sugerida: string | null
           escopo: string
           id: string
           origem: string
@@ -522,6 +597,7 @@ export type Database = {
           texto: string
         }
         Insert: {
+          acao_sugerida?: string | null
           escopo: string
           id?: string
           origem?: string
@@ -531,6 +607,7 @@ export type Database = {
           texto: string
         }
         Update: {
+          acao_sugerida?: string | null
           escopo?: string
           id?: string
           origem?: string
@@ -656,11 +733,15 @@ export type Database = {
         Row: {
           contrato_meses_proposto: number | null
           data_proposta: string | null
+          desconto_explicito: string | null
+          exclusoes: string | null
           fonte_arquivo: string | null
           id: string
           observacoes: string | null
           player_id: string
+          reajuste: string | null
           status: string
+          tributos: string | null
           validade_ate: string | null
           validade_dias: number | null
           versao: number
@@ -668,11 +749,15 @@ export type Database = {
         Insert: {
           contrato_meses_proposto?: number | null
           data_proposta?: string | null
+          desconto_explicito?: string | null
+          exclusoes?: string | null
           fonte_arquivo?: string | null
           id?: string
           observacoes?: string | null
           player_id: string
+          reajuste?: string | null
           status?: string
+          tributos?: string | null
           validade_ate?: string | null
           validade_dias?: number | null
           versao?: number
@@ -680,11 +765,15 @@ export type Database = {
         Update: {
           contrato_meses_proposto?: number | null
           data_proposta?: string | null
+          desconto_explicito?: string | null
+          exclusoes?: string | null
           fonte_arquivo?: string | null
           id?: string
           observacoes?: string | null
           player_id?: string
+          reajuste?: string | null
           status?: string
+          tributos?: string | null
           validade_ate?: string | null
           validade_dias?: number | null
           versao?: number
@@ -701,6 +790,7 @@ export type Database = {
       }
       requisito: {
         Row: {
+          codigo: string | null
           criticidade: string
           descricao: string
           eliminatorio: boolean
@@ -710,6 +800,7 @@ export type Database = {
           peso: number
         }
         Insert: {
+          codigo?: string | null
           criticidade?: string
           descricao: string
           eliminatorio?: boolean
@@ -719,6 +810,7 @@ export type Database = {
           peso?: number
         }
         Update: {
+          codigo?: string | null
           criticidade?: string
           descricao?: string
           eliminatorio?: boolean

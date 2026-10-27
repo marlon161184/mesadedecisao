@@ -51,7 +51,8 @@ describe("R1 · valor do item na janela", () => {
     expect(f).toEqual({ central: 12000, min: 6000, max: 18000, eFaixa: true });
   });
   it("XCV: desconto de 50% só em recorrente de lista", () => {
-    expect(valorItemNaJanela(rec(), P, { nome: "XCV/WiVO" }).central).toBe(30000);
+    expect(valorItemNaJanela(rec({ sujeito_desconto_lista: true }), P, { nome: "XCV/WiVO" }).central).toBe(30000);
+    expect(valorItemNaJanela(rec(), P, { nome: "XCV/WiVO" }).central).toBe(60000);
     expect(valorItemNaJanela(rec({ tipo_preco: "pontual", unidade: "projeto" }), P, { nome: "XCV/WiVO" }).central).toBe(10000);
   });
 });

@@ -26,6 +26,8 @@ export interface Premissas {
   desconto_xcv_mensal: number;
   fator_evidencia_declarado: number;
   volume_base_mensal: Record<Categoria, number>;
+  /** Premissas numéricas adicionais (ex.: imputacao_rebu_c3). */
+  extras: Record<string, number>;
 }
 
 export const PREMISSAS_PADRAO: Premissas = {
@@ -47,6 +49,7 @@ export const PREMISSAS_PADRAO: Premissas = {
     placas_ooh: 10,
     videos_painel: 2,
   },
+  extras: { imputacao_rebu_c3: 0.5 },
 };
 
 export interface ItemCalculo {
@@ -58,6 +61,10 @@ export interface ItemCalculo {
   valor_max?: number | null;
   multiplicador?: number | null;
   modulo_id?: string | null;
+  /** Item recorrente de lista sujeito ao desconto mensal da XCV. */
+  sujeito_desconto_lista?: boolean | null;
+  /** Chave de premissa com a fração do valor imputada na janela. */
+  premissa_imputacao?: string | null;
 }
 
 export interface Faixa {
@@ -71,6 +78,8 @@ export interface Faixa {
 /** Contexto do player, para regras específicas (desconto XCV, percentuais de mídia). */
 export interface ContextoPlayer {
   nome?: string;
+  /** Usado em R2: valores imputados contam inteiros no compromisso do contrato. */
+  contratoInteiro?: boolean;
 }
 
 const eXcv = (nome?: string) => !!nome && /xcv|wivo/i.test(nome);
@@ -80,9 +89,17 @@ const eFmd = (nome?: string) => !!nome && /f&md|fmd/i.test(nome);
 // ---------- Premissas ----------
 
 export function lerPremissas(linhas: { chave: string; valor: unknown }[]): Premissas {
-  const p: Premissas = { ...PREMISSAS_PADRAO, volume_base_mensal: { ...PREMISSAS_PADRAO.volume_base_mensal } };
+  const p: Premissas = {
+    ...PREMISSAS_PADRAO,
+    volume_base_mensal: { ...PREMISSAS_PADRAO.volume_base_mensal },
+    extras: { ...PREMISSAS_PADRAO.extras },
+  };
   for (const { chave, valor } of linhas) {
-    if (!(chave in p)) continue;
+    if (!(chave in p) || chave === "extras") {
+      const n = Number(valor);
+      if (Number.isFinite(n)) p.extras[chave] = n;
+      continue;
+    }
     const k = chave as keyof Premissas;
     if (k === "volume_base_mensal" && valor && typeof valor === "object") {
       p.volume_base_mensal = { ...p.volume_base_mensal, ...(valor as Record<Categoria, number>) };
@@ -103,13 +120,18 @@ export function precoEfetivo(item: ItemCalculo, p: Premissas, ctx: ContextoPlaye
   const usaNegociado = p.aplicar_desconto_negociado && item.valor_negociado != null;
   if (usaNegociado) return item.valor_negociado as number;
   const lista = item.valor_lista ?? item.valor_negociado ?? 0;
-  if (p.aplicar_desconto_negociado && eXcv(ctx.nome) && item.tipo_preco === "recorrente" && item.valor_lista != null) {
+  if (p.aplicar_desconto_negociado && eXcv(ctx.nome) && item.tipo_preco === "recorrente" && item.sujeito_desconto_lista && item.valor_lista != null) {
     return lista * (1 - p.desconto_xcv_mensal);
   }
   return lista;
 }
 
 function aplicarRegra(item: ItemCalculo, preco: number, p: Premissas, ctx: ContextoPlayer): number {
+  const fracao = item.premissa_imputacao && !ctx.contratoInteiro ? (p.extras[item.premissa_imputacao] ?? 1) : 1;
+  return fracao * aplicarRegraBase(item, preco, p, ctx);
+}
+
+function aplicarRegraBase(item: ItemCalculo, preco: number, p: Premissas, ctx: ContextoPlayer): number {
   const mult = item.multiplicador ?? 1;
   if (item.tipo_preco === "variavel" || item.unidade === "percentual_verba") {
     let pctv = preco;
@@ -171,7 +193,7 @@ export function compromissoContrato(
   ctx: ContextoPlayer = {},
 ): Faixa | null {
   if (!contratoMeses || contratoMeses <= p.janela_meses) return null;
-  return totalProposta(itens, { ...p, janela_meses: contratoMeses, meses_com_verba: contratoMeses }, ctx);
+  return totalProposta(itens, { ...p, janela_meses: contratoMeses, meses_com_verba: contratoMeses }, { ...ctx, contratoInteiro: true });
 }
 
 // ---------- R4 · Custo unitário normalizado ----------
