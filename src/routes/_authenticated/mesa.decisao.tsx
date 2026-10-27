@@ -92,7 +92,7 @@ function TelaDecisao() {
                 <span><span className="block">Redação de parecer com IA</span><span className="text-sm text-ink-muted">Desligada por padrão. Quando ligada, só dados estruturados da composição são enviados ao modelo de IA do Lovable.</span></span>
                 <Switch checked={ia} disabled={!m.admin} onCheckedChange={alternarIa} aria-label="Redação de parecer com IA" />
               </label>
-              {!m.observador && <Documentos base={base} admin={m.admin} />}
+              {!m.reuniao && <Documentos base={base} admin={m.admin} />}
               <p className="text-sm text-ink-muted">Notificações por e-mail aguardam um domínio de envio. Enquanto isso, os avisos aparecem nesta tela.</p>
             </div>
             {(m.admin || m.socio) && (
