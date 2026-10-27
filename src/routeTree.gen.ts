@@ -21,7 +21,9 @@ import { Route as AuthenticatedMesaAdminRouteImport } from './routes/_authentica
 import { Route as AuthenticatedMesaCenariosRouteImport } from './routes/_authenticated/mesa.cenarios'
 import { Route as AuthenticatedMesaCoberturaRouteImport } from './routes/_authenticated/mesa.cobertura'
 import { Route as AuthenticatedMesaEntregasRouteImport } from './routes/_authenticated/mesa.entregas'
+import { Route as AuthenticatedMesaEstresseRouteImport } from './routes/_authenticated/mesa.estresse'
 import { Route as AuthenticatedMesaMatrizRouteImport } from './routes/_authenticated/mesa.matriz'
+import { Route as AuthenticatedMesaMesaCenariosRouteImport } from './routes/_authenticated/mesa.mesa-cenarios'
 import { Route as AuthenticatedMesaPlayersRouteImport } from './routes/_authenticated/mesa.players'
 import { Route as AuthenticatedMesaPontosRouteImport } from './routes/_authenticated/mesa.pontos'
 import { Route as AuthenticatedMesaSimuladorRouteImport } from './routes/_authenticated/mesa.simulador'
@@ -89,11 +91,23 @@ const AuthenticatedMesaEntregasRoute =
     path: '/entregas',
     getParentRoute: () => AuthenticatedMesaRoute,
   } as any)
+const AuthenticatedMesaEstresseRoute =
+  AuthenticatedMesaEstresseRouteImport.update({
+    id: '/estresse',
+    path: '/estresse',
+    getParentRoute: () => AuthenticatedMesaRoute,
+  } as any)
 const AuthenticatedMesaMatrizRoute = AuthenticatedMesaMatrizRouteImport.update({
   id: '/matriz',
   path: '/matriz',
   getParentRoute: () => AuthenticatedMesaRoute,
 } as any)
+const AuthenticatedMesaMesaCenariosRoute =
+  AuthenticatedMesaMesaCenariosRouteImport.update({
+    id: '/mesa-cenarios',
+    path: '/mesa-cenarios',
+    getParentRoute: () => AuthenticatedMesaRoute,
+  } as any)
 const AuthenticatedMesaPlayersRoute =
   AuthenticatedMesaPlayersRouteImport.update({
     id: '/players',
@@ -129,7 +143,9 @@ export interface FileRoutesByFullPath {
   '/mesa/cenarios': typeof AuthenticatedMesaCenariosRoute
   '/mesa/cobertura': typeof AuthenticatedMesaCoberturaRoute
   '/mesa/entregas': typeof AuthenticatedMesaEntregasRoute
+  '/mesa/estresse': typeof AuthenticatedMesaEstresseRoute
   '/mesa/matriz': typeof AuthenticatedMesaMatrizRoute
+  '/mesa/mesa-cenarios': typeof AuthenticatedMesaMesaCenariosRoute
   '/mesa/players': typeof AuthenticatedMesaPlayersRoute
   '/mesa/pontos': typeof AuthenticatedMesaPontosRoute
   '/mesa/simulador': typeof AuthenticatedMesaSimuladorRoute
@@ -147,7 +163,9 @@ export interface FileRoutesByTo {
   '/mesa/cenarios': typeof AuthenticatedMesaCenariosRoute
   '/mesa/cobertura': typeof AuthenticatedMesaCoberturaRoute
   '/mesa/entregas': typeof AuthenticatedMesaEntregasRoute
+  '/mesa/estresse': typeof AuthenticatedMesaEstresseRoute
   '/mesa/matriz': typeof AuthenticatedMesaMatrizRoute
+  '/mesa/mesa-cenarios': typeof AuthenticatedMesaMesaCenariosRoute
   '/mesa/players': typeof AuthenticatedMesaPlayersRoute
   '/mesa/pontos': typeof AuthenticatedMesaPontosRoute
   '/mesa/simulador': typeof AuthenticatedMesaSimuladorRoute
@@ -167,7 +185,9 @@ export interface FileRoutesById {
   '/_authenticated/mesa/cenarios': typeof AuthenticatedMesaCenariosRoute
   '/_authenticated/mesa/cobertura': typeof AuthenticatedMesaCoberturaRoute
   '/_authenticated/mesa/entregas': typeof AuthenticatedMesaEntregasRoute
+  '/_authenticated/mesa/estresse': typeof AuthenticatedMesaEstresseRoute
   '/_authenticated/mesa/matriz': typeof AuthenticatedMesaMatrizRoute
+  '/_authenticated/mesa/mesa-cenarios': typeof AuthenticatedMesaMesaCenariosRoute
   '/_authenticated/mesa/players': typeof AuthenticatedMesaPlayersRoute
   '/_authenticated/mesa/pontos': typeof AuthenticatedMesaPontosRoute
   '/_authenticated/mesa/simulador': typeof AuthenticatedMesaSimuladorRoute
@@ -187,7 +207,9 @@ export interface FileRouteTypes {
     | '/mesa/cenarios'
     | '/mesa/cobertura'
     | '/mesa/entregas'
+    | '/mesa/estresse'
     | '/mesa/matriz'
+    | '/mesa/mesa-cenarios'
     | '/mesa/players'
     | '/mesa/pontos'
     | '/mesa/simulador'
@@ -205,7 +227,9 @@ export interface FileRouteTypes {
     | '/mesa/cenarios'
     | '/mesa/cobertura'
     | '/mesa/entregas'
+    | '/mesa/estresse'
     | '/mesa/matriz'
+    | '/mesa/mesa-cenarios'
     | '/mesa/players'
     | '/mesa/pontos'
     | '/mesa/simulador'
@@ -224,7 +248,9 @@ export interface FileRouteTypes {
     | '/_authenticated/mesa/cenarios'
     | '/_authenticated/mesa/cobertura'
     | '/_authenticated/mesa/entregas'
+    | '/_authenticated/mesa/estresse'
     | '/_authenticated/mesa/matriz'
+    | '/_authenticated/mesa/mesa-cenarios'
     | '/_authenticated/mesa/players'
     | '/_authenticated/mesa/pontos'
     | '/_authenticated/mesa/simulador'
@@ -324,11 +350,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMesaEntregasRouteImport
       parentRoute: typeof AuthenticatedMesaRoute
     }
+    '/_authenticated/mesa/estresse': {
+      id: '/_authenticated/mesa/estresse'
+      path: '/estresse'
+      fullPath: '/mesa/estresse'
+      preLoaderRoute: typeof AuthenticatedMesaEstresseRouteImport
+      parentRoute: typeof AuthenticatedMesaRoute
+    }
     '/_authenticated/mesa/matriz': {
       id: '/_authenticated/mesa/matriz'
       path: '/matriz'
       fullPath: '/mesa/matriz'
       preLoaderRoute: typeof AuthenticatedMesaMatrizRouteImport
+      parentRoute: typeof AuthenticatedMesaRoute
+    }
+    '/_authenticated/mesa/mesa-cenarios': {
+      id: '/_authenticated/mesa/mesa-cenarios'
+      path: '/mesa-cenarios'
+      fullPath: '/mesa/mesa-cenarios'
+      preLoaderRoute: typeof AuthenticatedMesaMesaCenariosRouteImport
       parentRoute: typeof AuthenticatedMesaRoute
     }
     '/_authenticated/mesa/players': {
@@ -367,7 +407,9 @@ interface AuthenticatedMesaRouteChildren {
   AuthenticatedMesaCenariosRoute: typeof AuthenticatedMesaCenariosRoute
   AuthenticatedMesaCoberturaRoute: typeof AuthenticatedMesaCoberturaRoute
   AuthenticatedMesaEntregasRoute: typeof AuthenticatedMesaEntregasRoute
+  AuthenticatedMesaEstresseRoute: typeof AuthenticatedMesaEstresseRoute
   AuthenticatedMesaMatrizRoute: typeof AuthenticatedMesaMatrizRoute
+  AuthenticatedMesaMesaCenariosRoute: typeof AuthenticatedMesaMesaCenariosRoute
   AuthenticatedMesaPlayersRoute: typeof AuthenticatedMesaPlayersRoute
   AuthenticatedMesaPontosRoute: typeof AuthenticatedMesaPontosRoute
   AuthenticatedMesaSimuladorRoute: typeof AuthenticatedMesaSimuladorRoute
@@ -379,7 +421,9 @@ const AuthenticatedMesaRouteChildren: AuthenticatedMesaRouteChildren = {
   AuthenticatedMesaCenariosRoute: AuthenticatedMesaCenariosRoute,
   AuthenticatedMesaCoberturaRoute: AuthenticatedMesaCoberturaRoute,
   AuthenticatedMesaEntregasRoute: AuthenticatedMesaEntregasRoute,
+  AuthenticatedMesaEstresseRoute: AuthenticatedMesaEstresseRoute,
   AuthenticatedMesaMatrizRoute: AuthenticatedMesaMatrizRoute,
+  AuthenticatedMesaMesaCenariosRoute: AuthenticatedMesaMesaCenariosRoute,
   AuthenticatedMesaPlayersRoute: AuthenticatedMesaPlayersRoute,
   AuthenticatedMesaPontosRoute: AuthenticatedMesaPontosRoute,
   AuthenticatedMesaSimuladorRoute: AuthenticatedMesaSimuladorRoute,
