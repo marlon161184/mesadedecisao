@@ -16,6 +16,7 @@ import { Route as DefinirSenhaRouteImport } from './routes/definir-senha'
 import { Route as AuthenticatedAcessosRouteImport } from './routes/_authenticated/acessos'
 import { Route as AuthenticatedInicioRouteImport } from './routes/_authenticated/inicio'
 import { Route as AuthenticatedMesaRouteImport } from './routes/_authenticated/mesa'
+import { Route as AuthenticatedMesaVisaoRouteImport } from './routes/_authenticated/mesa.visao'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -51,6 +52,11 @@ const AuthenticatedMesaRoute = AuthenticatedMesaRouteImport.update({
   path: '/mesa',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedMesaVisaoRoute = AuthenticatedMesaVisaoRouteImport.update({
+  id: '/visao',
+  path: '/visao',
+  getParentRoute: () => AuthenticatedMesaRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -58,7 +64,8 @@ export interface FileRoutesByFullPath {
   '/definir-senha': typeof DefinirSenhaRoute
   '/acessos': typeof AuthenticatedAcessosRoute
   '/inicio': typeof AuthenticatedInicioRoute
-  '/mesa': typeof AuthenticatedMesaRoute
+  '/mesa': typeof AuthenticatedMesaRouteWithChildren
+  '/mesa/visao': typeof AuthenticatedMesaVisaoRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -66,7 +73,8 @@ export interface FileRoutesByTo {
   '/definir-senha': typeof DefinirSenhaRoute
   '/acessos': typeof AuthenticatedAcessosRoute
   '/inicio': typeof AuthenticatedInicioRoute
-  '/mesa': typeof AuthenticatedMesaRoute
+  '/mesa': typeof AuthenticatedMesaRouteWithChildren
+  '/mesa/visao': typeof AuthenticatedMesaVisaoRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -76,13 +84,28 @@ export interface FileRoutesById {
   '/definir-senha': typeof DefinirSenhaRoute
   '/_authenticated/acessos': typeof AuthenticatedAcessosRoute
   '/_authenticated/inicio': typeof AuthenticatedInicioRoute
-  '/_authenticated/mesa': typeof AuthenticatedMesaRoute
+  '/_authenticated/mesa': typeof AuthenticatedMesaRouteWithChildren
+  '/_authenticated/mesa/visao': typeof AuthenticatedMesaVisaoRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/definir-senha' | '/acessos' | '/inicio' | '/mesa'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/definir-senha'
+    | '/acessos'
+    | '/inicio'
+    | '/mesa'
+    | '/mesa/visao'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/definir-senha' | '/acessos' | '/inicio' | '/mesa'
+  to:
+    | '/'
+    | '/auth'
+    | '/definir-senha'
+    | '/acessos'
+    | '/inicio'
+    | '/mesa'
+    | '/mesa/visao'
   id:
     | '__root__'
     | '/'
@@ -92,6 +115,7 @@ export interface FileRouteTypes {
     | '/_authenticated/acessos'
     | '/_authenticated/inicio'
     | '/_authenticated/mesa'
+    | '/_authenticated/mesa/visao'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -152,19 +176,37 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMesaRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/mesa/visao': {
+      id: '/_authenticated/mesa/visao'
+      path: '/visao'
+      fullPath: '/mesa/visao'
+      preLoaderRoute: typeof AuthenticatedMesaVisaoRouteImport
+      parentRoute: typeof AuthenticatedMesaRoute
+    }
   }
 }
+
+interface AuthenticatedMesaRouteChildren {
+  AuthenticatedMesaVisaoRoute: typeof AuthenticatedMesaVisaoRoute
+}
+
+const AuthenticatedMesaRouteChildren: AuthenticatedMesaRouteChildren = {
+  AuthenticatedMesaVisaoRoute: AuthenticatedMesaVisaoRoute,
+}
+
+const AuthenticatedMesaRouteWithChildren =
+  AuthenticatedMesaRoute._addFileChildren(AuthenticatedMesaRouteChildren)
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAcessosRoute: typeof AuthenticatedAcessosRoute
   AuthenticatedInicioRoute: typeof AuthenticatedInicioRoute
-  AuthenticatedMesaRoute: typeof AuthenticatedMesaRoute
+  AuthenticatedMesaRoute: typeof AuthenticatedMesaRouteWithChildren
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAcessosRoute: AuthenticatedAcessosRoute,
   AuthenticatedInicioRoute: AuthenticatedInicioRoute,
-  AuthenticatedMesaRoute: AuthenticatedMesaRoute,
+  AuthenticatedMesaRoute: AuthenticatedMesaRouteWithChildren,
 }
 
 const AuthenticatedRouteRouteWithChildren =
