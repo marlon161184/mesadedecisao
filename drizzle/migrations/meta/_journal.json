@@ -36,6 +36,13 @@
       "when": 1793114215067,
       "tag": "0004_socios_ativos",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1793140322086,
+      "tag": "0005_reuniao_link_leitura",
+      "breakpoints": true
     }
   ]
 }
