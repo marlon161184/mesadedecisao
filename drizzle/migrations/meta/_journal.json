@@ -29,6 +29,13 @@
       "when": 1793114108068,
       "tag": "0003_decisao",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1793114215067,
+      "tag": "0004_socios_ativos",
+      "breakpoints": true
     }
   ]
 }

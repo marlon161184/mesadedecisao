@@ -1319,6 +1319,7 @@ export type Database = {
       pontuacao_aberta: { Args: { _criterio: string }; Returns: boolean }
       premortes_visiveis: { Args: { _cenario: string }; Returns: boolean }
       recomendar_cenario: { Args: { _cenario: string }; Returns: undefined }
+      socios_ativos: { Args: never; Returns: string[] }
     }
     Enums: {
       app_role: "admin" | "socio" | "observador"
