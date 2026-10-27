@@ -121,8 +121,8 @@ function Cenarios() {
                     <Button asChild size="sm" variant="secondary"><Link to="/mesa/simulador" search={((p: Record<string, unknown>) => ({ ...p, cenario: c.id })) as never}>Abrir</Link></Button>
                     {podeEditar && <Button size="sm" variant="ghost" onClick={() => duplicar(c.id)} aria-label="Duplicar"><Copy strokeWidth={1.5} /></Button>}
                     {podeEditar && <Button size="sm" variant="ghost" onClick={() => recomendar(c.id)} aria-label="Marcar como recomendado"><Star strokeWidth={1.5} /></Button>}
-                    <Button size="sm" variant="ghost" onClick={() => exportarCsv(c.id)} aria-label="Exportar CSV"><Download strokeWidth={1.5} /></Button>
-                    <Button asChild size="sm" variant="ghost"><a href={`/imprimir/${c.id}`} target="_blank" rel="noreferrer" aria-label="Exportar PDF"><FileText strokeWidth={1.5} /></a></Button>
+                    {podeEditar && <Button size="sm" variant="ghost" onClick={() => exportarCsv(c.id)} aria-label="Exportar CSV"><Download strokeWidth={1.5} /></Button>}
+                    {podeEditar && <Button asChild size="sm" variant="ghost"><a href={`/imprimir/${c.id}`} target="_blank" rel="noreferrer" aria-label="Exportar PDF"><FileText strokeWidth={1.5} /></a></Button>}
                     <Button size="sm" variant="ghost" onClick={() => setAberto(aberto === c.id ? null : c.id)}>{aberto === c.id ? "Fechar" : `Histórico (${versoes.length}) · Comentários (${coments.length})`}</Button>
                   </div>
                 </div>

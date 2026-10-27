@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { baseQuery } from "@/lib/base";
+import { decisaoQuery } from "@/lib/decisao-dados";
 import { resultadoDoCenario } from "@/lib/cenarios";
 import { RotuloMono } from "@/components/newe/brand";
 import { LogoNewe } from "@/components/newe/LogoNewe";
@@ -26,8 +27,11 @@ export const Route = createFileRoute("/_authenticated/imprimir/$id")({
 function Imprimir() {
   const { id } = Route.useParams();
   const { data: base } = useSuspenseQuery(baseQuery);
-  const c = base.cenarios.find((x) => x.id === id);
+  const { data: d } = useSuspenseQuery(decisaoQuery);
+  const pode = d.eu.papeis.includes("admin") || d.eu.papeis.includes("socio");
+  const c = pode ? base.cenarios.find((x) => x.id === id) : undefined;
   useEffect(() => { if (c) setTimeout(() => window.print(), 600); }, [c]);
+  if (!pode) return <p className="p-10">Observadores não exportam documentos.</p>;
   if (!c) return <p className="p-10">Cenário não encontrado.</p>;
   const r = resultadoDoCenario(base, c);
   return (
