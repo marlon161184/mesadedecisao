@@ -2,18 +2,18 @@
 
 ## Prompt 2 · Equalização
 - [x] Dados iniciais, regras P-01..P-09, totais conferidos em teste
-- [x] Visão geral, Matriz, Entregas, Cobertura, Players, Pontos
-- [ ] Admin (CRUD, fluxo + checklist, CSV)
-- [ ] Verificação visual logada
+- [x] Visão geral, Matriz, Entregas, Cobertura, Players, Pontos, Admin (CRUD, fluxo + checklist, CSV)
+- [ ] Verificação visual logada — bloqueado: não existe conta ainda (criar em Cloud → Users)
 
 ## Prompt 3 · Simulador e cenários
-- [ ] cronograma_pagamento em item_proposta + dados iniciais (Rebu, XCV)
-- [ ] Simulador 3 zonas: composição, resultado, parecer
-- [ ] Totalizadores, desembolso mês a mês, sobreposição
-- [ ] Expectativa x realidade, lacunas, veredito
-- [ ] Pontos C-01..C-11
-- [ ] Parecer automático + rascunho com IA (Lovable AI)
-- [ ] Cenários: salvar, duplicar, recomendado, versões, comentários, comparar até 4, PDF e CSV
-- [ ] Mesa de cenários (enumeração, 5 nomeados, dispersão + fronteira)
-- [ ] Teste de estresse
-- [ ] Cenários iniciais A–D com totais conferidos (950.300; 731.209,17; 624.275,84; 753.650,02)
+- [x] cronograma_pagamento + dados iniciais
+- [x] Simulador 3 zonas, totalizadores, desembolso, sobreposição, expectativa x realidade, lacunas, veredito
+- [x] Pontos C-01..C-11 + pontos das propostas
+- [x] Parecer por regra + rascunho com IA (revisão humana obrigatória)
+- [x] Cenários: salvar, versões, duplicar, recomendado, comentários, comparar 4, CSV, PDF (impressão)
+- [x] Mesa de cenários, teste de estresse, cenários A–D com totais conferidos em teste
+- [ ] Data de decisão (C-08) — aguarda a data dos sócios
+- [ ] Textos das perguntas-filtro dos RFPs 2 e 3 — aguarda os briefings
+
+## Prompt 4 · Decisão
+- [ ] Aguardando
