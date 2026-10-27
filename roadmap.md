@@ -36,9 +36,9 @@
 - [ ] Pontuação em cartões e votação no celular — conferir quando a pontuação for aberta (hoje está bloqueada)
 
 ## Acesso por link de reunião (somente leitura)
-- [ ] Admin › Reuniões: criar (nome, data, validade 4h/máx 12h), token ≥32 com hash, QR, acessos, encerrar
-- [ ] Entrada /entrar: nome obrigatório, troca token→sessão anônima no servidor, limite 10/min por IP, resposta única, no-referrer, token removido da URL
-- [ ] Papel "reuniao" só com reunião ativa; RLS e servidor bloqueiam escrita, notas/pré-mortem/votos não revelados, auditoria, filtros alheios, bucket privado; sem exportação
-- [ ] Abre no modo reunião; selo "Reunião · somente leitura · encerra às HH:MM" + conectados; revalida a cada 60 s; inatividade 60 min
-- [ ] Log: criação, encerramento, entrada (nome, hora, IP), acessos negados
-- [ ] Testes em transação desfeita
+- [x] Admin › Reuniões: criar (nome, data, validade 4h/máx 12h), token de 43 caracteres guardado só como hash, QR, acessos, conectados, encerrar
+- [x] Entrada /entrar: nome obrigatório, troca token→sessão no servidor, limite 10/min por IP, resposta única "Reunião encerrada", no-referrer, token removido da URL
+- [x] Papel REUNIÃO só com reunião ativa (e 60 min de atividade); RLS bloqueia escrita, notas/pré-mortem/votos não revelados, auditoria, filtros alheios, PDFs; sem exportação nem IA
+- [x] Abre no modo reunião com atalho para a Mesa; selo com nome, horário e conectados; revalida a cada 60 s
+- [x] Log: criação, encerramento, entrada (nome, IP), acessos negados
+- [x] Testes: unitários (token) + RLS em bloco desfeito (supabase/tests/reuniao_rls.sql)
