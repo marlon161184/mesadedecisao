@@ -1,27 +1,27 @@
 /** Filtros da Mesa, guardados na URL. */
 export interface Filtros {
   rfp: number;
-  fase?: number;
-  modulo?: string;
-  player?: string;
-  tipo?: string;
-  status?: string;
-  janela?: number;
-  preco?: "negociado" | "lista";
-  verba?: number;
-  produtos?: number;
+  fase?: number | undefined;
+  modulo?: string | undefined;
+  player?: string | undefined;
+  tipo?: string | undefined;
+  status?: string | undefined;
+  janela?: number | undefined;
+  preco?: "negociado" | "lista" | undefined;
+  verba?: number | undefined;
+  produtos?: number | undefined;
   validadas: boolean;
   essenciais: boolean;
-  severidade?: string;
-  entrega?: string;
-  vmin?: number;
-  vmax?: number;
+  severidade?: string | undefined;
+  entrega?: string | undefined;
+  vmin?: number | undefined;
+  vmax?: number | undefined;
   incerteza: boolean;
   semVariaveis: boolean;
-  rigor?: number;
+  rigor?: number | undefined;
   ordem: string;
-  origem?: string;
-  regra?: string;
+  origem?: string | undefined;
+  regra?: string | undefined;
   filtros: boolean;
 }
 

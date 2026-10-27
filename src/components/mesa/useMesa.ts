@@ -6,11 +6,13 @@ import { validarFiltros, type Filtros } from "@/lib/filtros";
 import { analisarRfp, modulosDoRfp, premissasEfetivas } from "@/lib/equalizacao";
 import { pontosAutomaticos, pontosManuais, ORDEM_SEV } from "@/lib/pontos";
 
+export type PatchFiltros = { [K in keyof Filtros]?: Filtros[K] | undefined };
+
 export function useFiltros() {
   const raw = useSearch({ strict: false }) as Record<string, unknown>;
   const f = useMemo(() => validarFiltros(raw), [raw]);
   const navigate = useNavigate();
-  const set = (patch: Partial<Filtros>) =>
+  const set = (patch: PatchFiltros) =>
     navigate({
       to: ".",
       search: ((prev: Record<string, unknown>) => {

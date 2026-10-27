@@ -21,7 +21,7 @@ export function BarraLateral() {
   return (
     <aside className="sticky top-0 flex h-screen w-60 shrink-0 flex-col border-r border-sidebar-border bg-sidebar text-sidebar-foreground">
       <div className="px-6 py-6">
-        <Link to="/mesa/visao" search={true} className="font-display text-2xl tracking-[0.08em] text-sidebar-foreground" aria-label="NEWE, início">
+        <Link to="/mesa/visao" search={true as never} className="font-display text-2xl tracking-[0.08em] text-sidebar-foreground" aria-label="NEWE, início">
           NEWE
         </Link>
         <p className="label-mono mt-1 text-sidebar-foreground/70">Mesa de Decisão</p>
@@ -33,7 +33,7 @@ export function BarraLateral() {
               {to ? (
                 <Link
                   to={to}
-                  search={true}
+                  search={true as never}
                   className="flex items-center gap-3 px-3 py-2.5 text-sm text-sidebar-foreground/85 hover:bg-sidebar-accent focus-visible:outline-2 focus-visible:outline-sidebar-ring"
                   activeProps={{ className: "!text-sidebar-primary border-l-2 border-sidebar-primary" }}
                 >
