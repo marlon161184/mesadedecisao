@@ -43,6 +43,13 @@
       "when": 1793140322086,
       "tag": "0005_reuniao_link_leitura",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1793140360300,
+      "tag": "0006_reuniao_sem_perfil",
+      "breakpoints": true
     }
   ]
 }
