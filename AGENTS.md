@@ -20,3 +20,5 @@
 - Mesa filters/simulation premises live in the URL, validated by `src/lib/filtros.ts` on the `/mesa` layout. Why: shareable, saved filters.
 - AI drafts go through `src/lib/parecer.functions.ts` (server-only key) and receive only structured composition data. Why: no invented facts, key never in browser.
 - Shared test fixture mirroring seed data lives in `src/test/fixtura.ts`. Why: totals requested by the client are asserted in tests.
+- Decision-track data (trilha, notas, pré-mortem, votos, atas, aceites, arquivos) loads via `decisaoQuery` (key ["decisao"]) in `src/lib/decisao-dados.ts`; rules (médias, divergência, sensibilidade, votação, hash) live in `src/lib/decisao.ts` with tests. Why: blind data is RLS-filtered per user and must not be mixed into the shared base cache.
+- Approved atas are immutable via DB trigger; revisions insert a new row with `versao_anterior` + justification. Why: decisions must be tamper-evident.
