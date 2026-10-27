@@ -3,7 +3,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { LogOut } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Logo } from "./brand";
+import { LogoNewe } from "./LogoNewe";
 import { AlternarTema } from "./AlternarTema";
 import { NOME_PAPEL, type Papel } from "@/lib/papel";
 
@@ -20,7 +20,7 @@ export function Cabecalho({ email, papeis }: { email: string; papeis: Papel[] })
     <header className="border-b border-line">
       <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-6 px-8 py-4 md:px-16">
         <Link to="/inicio" className="flex items-center gap-4" aria-label="Início">
-          <Logo height={30} />
+          <LogoNewe height={30} />
           <span className="label-mono hidden text-ink-muted sm:inline">Mesa de Decisão</span>
         </Link>
         <nav className="flex items-center gap-2">

@@ -1,5 +1,6 @@
 import type { ReactNode, HTMLAttributes } from "react";
 import { cn } from "@/lib/utils";
+import { LogoNewe } from "./LogoNewe";
 
 /**
  * Logo NEWE. Provisório: etiqueta em texto até chegarem logo-preto.svg / logo-luz.svg.

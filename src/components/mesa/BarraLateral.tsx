@@ -3,6 +3,7 @@ import {
   AlertTriangle, BarChart3, Gauge, Layers, ScatterChart, Grid3x3, LayoutDashboard, Lock, Package, Settings, Users, Vote, Workflow,
 } from "lucide-react";
 import type { ComponentType } from "react";
+import { LogoNewe } from "@/components/newe/LogoNewe";
 
 type Destino = "/mesa/visao" | "/mesa/matriz" | "/mesa/entregas" | "/mesa/cobertura" | "/mesa/players" | "/mesa/pontos" | "/mesa/simulador" | "/mesa/cenarios" | "/mesa/mesa-cenarios" | "/mesa/estresse" | "/mesa/admin";
 const ITENS: { rotulo: string; to?: Destino; icone: ComponentType<{ strokeWidth?: number; className?: string }>; nota?: string }[] = [
@@ -24,8 +25,8 @@ export function BarraLateral() {
   return (
     <aside className="sticky top-0 flex h-screen w-60 shrink-0 flex-col border-r border-sidebar-border bg-sidebar text-sidebar-foreground">
       <div className="px-6 py-6">
-        <Link to="/mesa/visao" search={true as never} className="font-display text-2xl tracking-[0.08em] text-sidebar-foreground" aria-label="NEWE, início">
-          NEWE
+        <Link to="/mesa/visao" search={true as never} className="inline-flex" aria-label="NEWE, início">
+          <LogoNewe height={28} comMargem={false} />
         </Link>
         <p className="label-mono mt-1 text-sidebar-foreground/70">Mesa de Decisão</p>
       </div>
