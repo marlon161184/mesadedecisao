@@ -63,7 +63,7 @@ export const entrarReuniao = createServerFn({ method: "POST" })
     if (!r) return negar(ip, motivo);
     const sb = await admin();
     const email = `r-${crypto.randomUUID()}@reuniao.newe.invalid`;
-    const senha = gerarToken() + gerarToken();
+    const senha = gerarToken() + "Aa1"; // 46 caracteres (limite do serviço de login: 72)
     const { data: criado, error } = await sb.auth.admin.createUser({
       email, password: senha, email_confirm: true,
       app_metadata: { reuniao: true, reuniao_id: r.id },
