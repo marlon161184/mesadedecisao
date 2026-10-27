@@ -19,6 +19,7 @@ import {
   type Composicao, type Opcao,
 } from "@/lib/composicao";
 import { parecerAutomatico, dadosParaIA } from "@/lib/parecer";
+import { dataDecisao } from "@/lib/composicao";
 import { redigirParecer } from "@/lib/parecer.functions";
 import { cn } from "@/lib/utils";
 
@@ -41,13 +42,8 @@ export const Route = createFileRoute("/_authenticated/mesa/simulador")({
 const VAZIA: Composicao = { escolhas: {}, contarApenas: {}, incluirFase2: false, incluirNaoValidadas: true };
 const ROT_TIPO: Record<string, string> = { recorrente: "Recorrente", pontual: "Pontual", variavel: "Variável" };
 
-export function dataDecisao(base: { premissas: { chave: string; valor: unknown }[] }) {
-  const v = base.premissas.find((p) => p.chave === "data_decisao")?.valor;
-  return typeof v === "string" ? v : null;
-}
-
 function Simulador() {
-  const { f, set, base, premissas } = useMesa();
+  const { set, base, premissas } = useMesa();
   const { cenario: cenarioId, comp: compParam } = Route.useSearch();
   const { data: sessao } = useSessao();
   const navigate = useNavigate();
@@ -348,7 +344,6 @@ function Simulador() {
           {podeSimular && (
             <div className="flex flex-wrap gap-2 border-t border-line pt-4">
               <Button onClick={() => setSalvar(true)}>Salvar cenário</Button>
-              {f.rfp && null}
             </div>
           )}
         </section>

@@ -432,5 +432,10 @@ export function fronteira(cands: Candidato[]) {
   return out;
 }
 
+export function dataDecisao(base: { premissas: { chave: string; valor: unknown }[] }) {
+  const v = base.premissas.find((p) => p.chave === "data_decisao")?.valor;
+  return typeof v === "string" ? v : null;
+}
+
 export { ORDEM_SEV };
 export type { Proposta };

@@ -22,6 +22,7 @@ import { Route as AuthenticatedMesaEntregasRouteImport } from './routes/_authent
 import { Route as AuthenticatedMesaMatrizRouteImport } from './routes/_authenticated/mesa.matriz'
 import { Route as AuthenticatedMesaPlayersRouteImport } from './routes/_authenticated/mesa.players'
 import { Route as AuthenticatedMesaPontosRouteImport } from './routes/_authenticated/mesa.pontos'
+import { Route as AuthenticatedMesaSimuladorRouteImport } from './routes/_authenticated/mesa.simulador'
 import { Route as AuthenticatedMesaVisaoRouteImport } from './routes/_authenticated/mesa.visao'
 
 const IndexRoute = IndexRouteImport.update({
@@ -91,6 +92,12 @@ const AuthenticatedMesaPontosRoute = AuthenticatedMesaPontosRouteImport.update({
   path: '/pontos',
   getParentRoute: () => AuthenticatedMesaRoute,
 } as any)
+const AuthenticatedMesaSimuladorRoute =
+  AuthenticatedMesaSimuladorRouteImport.update({
+    id: '/simulador',
+    path: '/simulador',
+    getParentRoute: () => AuthenticatedMesaRoute,
+  } as any)
 const AuthenticatedMesaVisaoRoute = AuthenticatedMesaVisaoRouteImport.update({
   id: '/visao',
   path: '/visao',
@@ -110,6 +117,7 @@ export interface FileRoutesByFullPath {
   '/mesa/matriz': typeof AuthenticatedMesaMatrizRoute
   '/mesa/players': typeof AuthenticatedMesaPlayersRoute
   '/mesa/pontos': typeof AuthenticatedMesaPontosRoute
+  '/mesa/simulador': typeof AuthenticatedMesaSimuladorRoute
   '/mesa/visao': typeof AuthenticatedMesaVisaoRoute
 }
 export interface FileRoutesByTo {
@@ -125,6 +133,7 @@ export interface FileRoutesByTo {
   '/mesa/matriz': typeof AuthenticatedMesaMatrizRoute
   '/mesa/players': typeof AuthenticatedMesaPlayersRoute
   '/mesa/pontos': typeof AuthenticatedMesaPontosRoute
+  '/mesa/simulador': typeof AuthenticatedMesaSimuladorRoute
   '/mesa/visao': typeof AuthenticatedMesaVisaoRoute
 }
 export interface FileRoutesById {
@@ -142,6 +151,7 @@ export interface FileRoutesById {
   '/_authenticated/mesa/matriz': typeof AuthenticatedMesaMatrizRoute
   '/_authenticated/mesa/players': typeof AuthenticatedMesaPlayersRoute
   '/_authenticated/mesa/pontos': typeof AuthenticatedMesaPontosRoute
+  '/_authenticated/mesa/simulador': typeof AuthenticatedMesaSimuladorRoute
   '/_authenticated/mesa/visao': typeof AuthenticatedMesaVisaoRoute
 }
 export interface FileRouteTypes {
@@ -159,6 +169,7 @@ export interface FileRouteTypes {
     | '/mesa/matriz'
     | '/mesa/players'
     | '/mesa/pontos'
+    | '/mesa/simulador'
     | '/mesa/visao'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -174,6 +185,7 @@ export interface FileRouteTypes {
     | '/mesa/matriz'
     | '/mesa/players'
     | '/mesa/pontos'
+    | '/mesa/simulador'
     | '/mesa/visao'
   id:
     | '__root__'
@@ -190,6 +202,7 @@ export interface FileRouteTypes {
     | '/_authenticated/mesa/matriz'
     | '/_authenticated/mesa/players'
     | '/_authenticated/mesa/pontos'
+    | '/_authenticated/mesa/simulador'
     | '/_authenticated/mesa/visao'
   fileRoutesById: FileRoutesById
 }
@@ -293,6 +306,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMesaPontosRouteImport
       parentRoute: typeof AuthenticatedMesaRoute
     }
+    '/_authenticated/mesa/simulador': {
+      id: '/_authenticated/mesa/simulador'
+      path: '/simulador'
+      fullPath: '/mesa/simulador'
+      preLoaderRoute: typeof AuthenticatedMesaSimuladorRouteImport
+      parentRoute: typeof AuthenticatedMesaRoute
+    }
     '/_authenticated/mesa/visao': {
       id: '/_authenticated/mesa/visao'
       path: '/visao'
@@ -310,6 +330,7 @@ interface AuthenticatedMesaRouteChildren {
   AuthenticatedMesaMatrizRoute: typeof AuthenticatedMesaMatrizRoute
   AuthenticatedMesaPlayersRoute: typeof AuthenticatedMesaPlayersRoute
   AuthenticatedMesaPontosRoute: typeof AuthenticatedMesaPontosRoute
+  AuthenticatedMesaSimuladorRoute: typeof AuthenticatedMesaSimuladorRoute
   AuthenticatedMesaVisaoRoute: typeof AuthenticatedMesaVisaoRoute
 }
 
@@ -320,6 +341,7 @@ const AuthenticatedMesaRouteChildren: AuthenticatedMesaRouteChildren = {
   AuthenticatedMesaMatrizRoute: AuthenticatedMesaMatrizRoute,
   AuthenticatedMesaPlayersRoute: AuthenticatedMesaPlayersRoute,
   AuthenticatedMesaPontosRoute: AuthenticatedMesaPontosRoute,
+  AuthenticatedMesaSimuladorRoute: AuthenticatedMesaSimuladorRoute,
   AuthenticatedMesaVisaoRoute: AuthenticatedMesaVisaoRoute,
 }
 
