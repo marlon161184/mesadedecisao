@@ -28,6 +28,7 @@ export function AcessoConteudo({ children, impressao = false }: { children: Reac
     queryFn: () => carregar({ data: { impressao } }), enabled: !!sessao?.id,
     staleTime: 0, gcTime: 0, retry: false, refetchOnMount: "always",
   });
+  if (impressao && sessao?.reuniao) return <p className="p-10">O acesso de reunião é somente leitura e não exporta documentos.</p>;
   if (isPending || isFetching) return <p className="p-8 text-ink-muted">Conferindo o acesso.</p>;
   if (isError || !data) return <SemAcesso motivo="Esta conta não tem permissão para abrir estes documentos. O acesso é restrito ao Admin e ao grupo Sócios." />;
   return <ProvedorConteudo value={data}>{children}</ProvedorConteudo>;

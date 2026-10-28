@@ -39,8 +39,8 @@ describe("Pareceres", () => {
     act(() => definirModo("objetivo"));
     const f = fornecedores[0];
     if (!f) throw new Error("Fixture sem fornecedor");
-    function Tela() { const [m] = useModoParecer(); return <><Alternador /><BlocoFinal f={f} modo={m} /></>; }
-    render(<Tela />);
+    function Tela({ fornecedor }: { fornecedor: typeof fornecedores[number] }) { const [m] = useModoParecer(); return <><Alternador /><BlocoFinal f={fornecedor} modo={m} /></>; }
+    render(<Tela fornecedor={f} />);
     expect(screen.getByText(f.objetivo.resumo)).toBeTruthy();
     expect(screen.queryByText(f.pragmatica.recomendacao)).toBeNull();
     fireEvent.click(screen.getByRole("radio", { name: "Conclusão pragmática" }));
