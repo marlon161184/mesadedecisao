@@ -8,7 +8,10 @@ vi.mock("@tanstack/react-router", () => ({
 
 import { Alternador, Comparativo, Relatorio, BlocoFinal } from "@/components/conteudo/Pareceres";
 import { CorpoRfp } from "@/components/conteudo/DocumentoRfp";
-import { definirModo, fornecedores, rfps, rfpEmTexto, useModoParecer } from "@/lib/conteudo";
+import { definirModo, rfpEmTexto, useModoParecer } from "@/lib/conteudo";
+import { lerDocumentos } from "@/lib/conteudo-dados.server";
+vi.mock("@/components/conteudo/AcessoConteudo", () => ({ useConteudo: () => lerDocumentos() }));
+const { fornecedores, rfps } = lerDocumentos();
 
 describe("conteúdo estático", () => {
   it("os JSON em src/data são idênticos aos enviados", () => {
@@ -34,9 +37,10 @@ describe("Pareceres", () => {
 
   it("o botão alterna entre parecer objetivo e conclusão pragmática", () => {
     act(() => definirModo("objetivo"));
-    const f = fornecedores[0]!;
-    function Tela() { const [m] = useModoParecer(); return <><Alternador /><BlocoFinal f={f} modo={m} /></>; }
-    render(<Tela />);
+    const f = fornecedores[0];
+    if (!f) throw new Error("Fixture sem fornecedor");
+    function Tela({ fornecedor }: { fornecedor: typeof fornecedores[number] }) { const [m] = useModoParecer(); return <><Alternador /><BlocoFinal f={fornecedor} modo={m} /></>; }
+    render(<Tela fornecedor={f} />);
     expect(screen.getByText(f.objetivo.resumo)).toBeTruthy();
     expect(screen.queryByText(f.pragmatica.recomendacao)).toBeNull();
     fireEvent.click(screen.getByRole("radio", { name: "Conclusão pragmática" }));

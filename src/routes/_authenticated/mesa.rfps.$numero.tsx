@@ -1,24 +1,26 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { AcessoConteudo, useConteudo } from "@/components/conteudo/AcessoConteudo";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Conteudo } from "@/components/mesa/partes";
 import { CorpoRfp } from "@/components/conteudo/DocumentoRfp";
 import { BotaoCopiar, BotaoImprimir } from "@/components/conteudo/Acoes";
-import { ROTULO_RFP, rfps } from "@/lib/conteudo";
+import { ROTULO_RFP } from "@/lib/conteudo";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated/mesa/rfps/$numero")({
-  loader: ({ params }) => { const r = rfps.find((x) => String(x.numero) === params.numero); if (!r) throw notFound(); return { titulo: r.titulo, resumo: r.resumo }; },
-  head: ({ loaderData }) => {
-    const t = `${loaderData?.titulo ?? "RFP"} · NEWE Mesa de Decisão`;
-    const d = (loaderData?.resumo ?? "Documento de requisitos do RFP.").slice(0, 155);
+  head: () => {
+    const t = "Documento RFP · NEWE Mesa de Decisão";
+    const d = "Documento de requisitos do RFP.";
     return { meta: [{ title: t }, { name: "description", content: d }, { property: "og:title", content: t }, { property: "og:description", content: d }, { property: "og:type", content: "article" }, { name: "twitter:card", content: "summary" }, { name: "robots", content: "noindex" }] };
   },
-  component: RfpTela,
+  component: () => <AcessoConteudo><RfpTela /></AcessoConteudo>,
   notFoundComponent: () => <p className="px-4 py-10 md:p-16">RFP não encontrado.</p>,
 });
 
 function RfpTela() {
   const { numero } = Route.useParams();
-  const r = rfps.find((x) => String(x.numero) === numero)!;
+  const { rfps } = useConteudo();
+  const r = rfps.find((x) => String(x.numero) === numero);
+  if (!r) return <p className="px-4 py-10 md:p-16">RFP não encontrado.</p>;
   const ir = (id: string) => document.getElementById(`sec-${id}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
   return (
     <Conteudo>

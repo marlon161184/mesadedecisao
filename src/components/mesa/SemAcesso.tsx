@@ -7,7 +7,7 @@ import { RotuloMono } from "@/components/newe/brand";
 import { Button } from "@/components/ui/button";
 
 /** Mostrada quando a base chega sem nenhum RFP. Convidado de reunião vai direto para "Reunião encerrada". */
-export function SemAcesso() {
+export function SemAcesso({ motivo }: { motivo?: string } = {}) {
   const navigate = useNavigate();
   const router = useRouter();
   const qc = useQueryClient();
@@ -53,11 +53,11 @@ export function SemAcesso() {
           <p className="mt-4 text-ink-muted">Conferindo a sessão.</p>
         ) : (
           <>
-            <p className="mt-4">Esta sessão não lê as propostas. Os motivos mais prováveis:</p>
-            <ul className="mt-3 list-disc space-y-1 pl-5 text-ink-muted">
+            <p className="mt-4">{motivo ?? "Esta sessão não lê as propostas. Os motivos mais prováveis:"}</p>
+            {!motivo && <ul className="mt-3 list-disc space-y-1 pl-5 text-ink-muted">
               <li>a reunião acabou, expirou ou ficou 60 minutos sem atividade;</li>
               <li>a conta ainda não recebeu um papel (Admin, Sócio ou Observador).</li>
-            </ul>
+            </ul>}
             <div className="mt-8 flex flex-wrap gap-3">
               <Button onClick={sair}>Sair e entrar com outra conta</Button>
               <Button variant="outline" onClick={tentar}>Tentar de novo</Button>

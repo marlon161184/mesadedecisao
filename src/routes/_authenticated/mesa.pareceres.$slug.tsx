@@ -1,26 +1,28 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { AcessoConteudo, useConteudo } from "@/components/conteudo/AcessoConteudo";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 import { AberturaTela, Conteudo } from "@/components/mesa/partes";
 import { Alternador, AvisoScore, Relatorio } from "@/components/conteudo/Pareceres";
 import { BotaoImprimir } from "@/components/conteudo/Acoes";
-import { fornecedores, pareceres, useModoParecer } from "@/lib/conteudo";
+import { useModoParecer } from "@/lib/conteudo";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated/mesa/pareceres/$slug")({
-  loader: ({ params }) => { const f = fornecedores.find((x) => x.slug === params.slug); if (!f) throw notFound(); return { nome: f.nome }; },
-  head: ({ loaderData }) => {
-    const t = `Parecer ${loaderData?.nome ?? "do fornecedor"} · NEWE Mesa de Decisão`;
+  head: () => {
+    const t = "Parecer do fornecedor · NEWE Mesa de Decisão";
     const d = "Relatório do fornecedor: componentes do score, forças, fraquezas e parecer.";
     return { meta: [{ title: t }, { name: "description", content: d }, { property: "og:title", content: t }, { property: "og:description", content: d }, { property: "og:type", content: "article" }, { name: "twitter:card", content: "summary" }, { name: "robots", content: "noindex" }] };
   },
-  component: RelatorioTela,
+  component: () => <AcessoConteudo><RelatorioTela /></AcessoConteudo>,
   notFoundComponent: () => <p className="px-4 py-10 md:p-16">Fornecedor não encontrado.</p>,
 });
 
 function RelatorioTela() {
   const { slug } = Route.useParams();
-  const f = fornecedores.find((x) => x.slug === slug)!;
+  const { fornecedores, pareceres } = useConteudo();
+  const f = fornecedores.find((x) => x.slug === slug);
   const [modo] = useModoParecer();
+  if (!f) return <p className="px-4 py-10 md:p-16">Fornecedor não encontrado.</p>;
   return (
     <>
       <AberturaTela numero="Pareceres" titulo="Pareceres dos fornecedores">{pareceres.referencia}</AberturaTela>

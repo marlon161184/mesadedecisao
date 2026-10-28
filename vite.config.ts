@@ -7,6 +7,14 @@
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig({
+  vite: {
+    server: {
+      fs: {
+        // Also protect source URLs in the live editor; these assets are never public build output.
+        deny: [".env", ".env.*", "*.{crt,pem}", "**/.git/**", "**/src/data/pareceres.json", "**/src/data/rfp[123].json", "**/src/lib/conteudo-dados.server.ts", "**/src/lib/conteudo-permissao.server.ts"],
+      },
+    },
+  },
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this

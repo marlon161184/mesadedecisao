@@ -1,22 +1,24 @@
+import { AcessoConteudo, useConteudo } from "@/components/conteudo/AcessoConteudo";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { RotuloMono } from "@/components/newe/brand";
 import { LogoNewe } from "@/components/newe/LogoNewe";
 import { useSessao } from "@/components/newe/Moldura";
 import { AvisoScore, Comparativo, MetodoConteudo, Relatorio } from "@/components/conteudo/Pareceres";
-import { fornecedores, pareceres, type ModoParecer } from "@/lib/conteudo";
+import { type ModoParecer } from "@/lib/conteudo";
 
 export const Route = createFileRoute("/_authenticated/imprimir-pareceres")({
   validateSearch: (s: Record<string, unknown>) => ({ slug: typeof s["slug"] === "string" ? s["slug"] : undefined, modo: (s["modo"] === "pragmatica" ? "pragmatica" : "objetivo") as ModoParecer }),
   head: () => ({ meta: [{ title: "Pareceres para impressão · NEWE Mesa de Decisão" }, { name: "description", content: "Versão limpa dos pareceres dos fornecedores para impressão." }, { property: "og:title", content: "Pareceres para impressão · NEWE Mesa de Decisão" }, { property: "og:description", content: "Versão limpa dos pareceres dos fornecedores para impressão." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }, { name: "robots", content: "noindex" }] }),
-  component: ImprimirPareceres,
+  component: () => <AcessoConteudo impressao><ImprimirPareceres /></AcessoConteudo>,
 });
 
 function ImprimirPareceres() {
+  const { fornecedores, pareceres } = useConteudo();
   const { slug, modo } = Route.useSearch();
   const { data: s, isLoading } = useSessao();
   const lista = slug ? fornecedores.filter((f) => f.slug === slug) : fornecedores;
-  useEffect(() => { if (!isLoading && !s?.reuniao) setTimeout(() => window.print(), 600); }, [isLoading, s?.reuniao]);
+  useEffect(() => { if (isLoading || s?.reuniao) return; const timer = setTimeout(() => window.print(), 600); return () => clearTimeout(timer); }, [isLoading, s?.reuniao]);
   if (s?.reuniao) return <p className="p-10">O acesso de reunião é somente leitura e não exporta documentos.</p>;
   return (
     <div className="mx-auto max-w-[190mm] bg-luz p-8 text-sm leading-snug text-preto print:p-0">
