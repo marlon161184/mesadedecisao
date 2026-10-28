@@ -57,6 +57,13 @@
       "when": 1793143018510,
       "tag": "0007_reuniao_encerramento_96h",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1793227386433,
+      "tag": "0008_acesso_individual",
+      "breakpoints": true
     }
   ]
 }
