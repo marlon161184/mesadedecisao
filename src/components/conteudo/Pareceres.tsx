@@ -177,7 +177,7 @@ export function Metodo() {
   return (
     <Collapsible className="mt-10 border-t border-line-strong pt-4">
       <CollapsibleTrigger className="group flex min-h-11 w-full items-center justify-between text-left focus-visible:outline-2 focus-visible:outline-focus">
-        <h2 className="chamada text-2xl">{pareceres.metodo.titulo.startsWith("Como") ? "Como o score é calculado" : pareceres.metodo.titulo}</h2>
+        <h2 className="chamada text-2xl">Como o score é calculado</h2>
         <ChevronDown className="size-5 transition-transform group-data-[state=open]:rotate-180" strokeWidth={1.5} />
       </CollapsibleTrigger>
       <CollapsibleContent className="mt-3"><MetodoConteudo /></CollapsibleContent>

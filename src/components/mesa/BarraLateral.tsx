@@ -1,12 +1,12 @@
 import { Link } from "@tanstack/react-router";
 import {
-  AlertTriangle, BarChart3, Gauge, Layers, ScatterChart, Grid3x3, LayoutDashboard, Lock, Package, Settings, Users, Vote, Workflow,
+  AlertTriangle, BarChart3, Gauge, Layers, ScatterChart, Grid3x3, LayoutDashboard, Lock, Package, Settings, Users, FileText, ClipboardList, Vote, Workflow,
 } from "lucide-react";
 import type { ComponentType } from "react";
 import { LogoNewe } from "@/components/newe/LogoNewe";
 import { useSessao } from "@/components/newe/Moldura";
 
-type Destino = "/mesa/visao" | "/mesa/matriz" | "/mesa/entregas" | "/mesa/cobertura" | "/mesa/players" | "/mesa/pontos" | "/mesa/simulador" | "/mesa/cenarios" | "/mesa/mesa-cenarios" | "/mesa/estresse" | "/mesa/decisao" | "/mesa/admin";
+type Destino = "/mesa/visao" | "/mesa/matriz" | "/mesa/entregas" | "/mesa/cobertura" | "/mesa/players" | "/mesa/pontos" | "/mesa/simulador" | "/mesa/cenarios" | "/mesa/mesa-cenarios" | "/mesa/estresse" | "/mesa/decisao" | "/mesa/pareceres" | "/mesa/rfps" | "/mesa/admin";
 export const ITENS: { rotulo: string; to?: Destino; icone: ComponentType<{ strokeWidth?: number; className?: string }>; nota?: string }[] = [
   { rotulo: "Visão geral", to: "/mesa/visao", icone: LayoutDashboard },
   { rotulo: "Matriz por módulo", to: "/mesa/matriz", icone: Grid3x3 },
@@ -19,6 +19,8 @@ export const ITENS: { rotulo: string; to?: Destino; icone: ComponentType<{ strok
   { rotulo: "Mesa de cenários", to: "/mesa/mesa-cenarios", icone: ScatterChart },
   { rotulo: "Teste de estresse", to: "/mesa/estresse", icone: Gauge },
   { rotulo: "Decisão", to: "/mesa/decisao", icone: Vote },
+  { rotulo: "Pareceres", to: "/mesa/pareceres", icone: ClipboardList },
+  { rotulo: "RFPs", to: "/mesa/rfps", icone: FileText },
   { rotulo: "Admin", to: "/mesa/admin", icone: Settings },
 ];
 
