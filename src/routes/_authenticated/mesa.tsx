@@ -1,9 +1,10 @@
 import { createFileRoute, Link, Outlet, useNavigate, useRouter, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { LogOut, Menu } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { baseQuery } from "@/lib/base";
+import { baseQuery, baseVazia, SemDadosError } from "@/lib/base";
+import { SemAcesso } from "@/components/mesa/SemAcesso";
 import { validarFiltros } from "@/lib/filtros";
 import { BarraLateral, ITENS, ListaSecoes } from "@/components/mesa/BarraLateral";
 import { LogoNewe } from "@/components/newe/LogoNewe";
@@ -22,6 +23,7 @@ export const Route = createFileRoute("/_authenticated/mesa")({
   component: LayoutMesa,
   errorComponent: ({ error }) => {
     const router = useRouter();
+    if (error instanceof SemDadosError) return <SemAcesso />;
     return (
       <div role="alert" className="px-4 py-10 md:p-16">
         <h1 className="chamada text-2xl">Não conseguimos carregar os dados</h1>
@@ -86,6 +88,12 @@ function MenuMovel() {
 }
 
 function LayoutMesa() {
+  const { data: base } = useSuspenseQuery(baseQuery);
+  if (baseVazia(base)) return <SemAcesso />;
+  return <LayoutMesaComDados />;
+}
+
+function LayoutMesaComDados() {
   useInatividade();
   const navigate = useNavigate();
   const qc = useQueryClient();

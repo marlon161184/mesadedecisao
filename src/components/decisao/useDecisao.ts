@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { baseQuery, type Base } from "@/lib/base";
+import { baseQuery, rfpOuPrimeiro, type Base } from "@/lib/base";
 import { decisaoQuery, type DadosDecisao } from "@/lib/decisao-dados";
 import { avaliarVotacao, divergencias, mediasPorCriterio, type Decisao, type Regra, type StatusEtapa } from "@/lib/decisao";
 

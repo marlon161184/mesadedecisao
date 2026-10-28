@@ -21,22 +21,41 @@ export const Route = createFileRoute("/auth")({
   component: Entrar,
 });
 
+async function sairDeConvidado() {
+  const { data } = await supabase.auth.getSession();
+  if (data.session?.user.app_metadata?.["reuniao"] === true) {
+    await supabase.auth.signOut({ scope: "local" });
+    return true;
+  }
+  return false;
+}
+
 function Entrar() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [carregando, setCarregando] = useState(false);
+  const [pronto, setPronto] = useState(false);
   useEffect(() => {
-    // Quem entrou por link de reunião e perdeu a sessão vê "Reunião encerrada", não o login.
-    if (localStorage.getItem("newe-reuniao")) {
+    let vivo = true;
+    (async () => {
+      // Sessão de convidado de reunião guardada no navegador nunca bloqueia o login de uma conta.
+      const eraConvidado = await sairDeConvidado();
+      const marcado = !!localStorage.getItem("newe-reuniao");
       localStorage.removeItem("newe-reuniao");
-      navigate({ to: "/entrar", search: { fim: 1 }, replace: true });
-    }
+      const conta = new URLSearchParams(window.location.search).has("conta");
+      // Convidado que perdeu a sessão vê "Reunião encerrada"; quem pediu o login (?conta) vê o formulário.
+      if ((eraConvidado || marcado) && !conta) { navigate({ to: "/entrar", search: { fim: 1 }, replace: true }); return; }
+      if (vivo) setPronto(true);
+    })().catch(() => vivo && setPronto(true));
+    return () => { vivo = false; };
   }, [navigate]);
 
   async function entrar(e: FormEvent) {
     e.preventDefault();
     setCarregando(true);
+    await sairDeConvidado();
+    localStorage.removeItem("newe-reuniao");
     const { error } = await supabase.auth.signInWithPassword({ email, password: senha });
     setCarregando(false);
     if (error) { toast.error("E-mail ou senha não conferem."); return; }
@@ -67,6 +86,7 @@ function Entrar() {
           <LogoNewe height={32} />
           <AlternarTema />
         </div>
+        {!pronto ? <p className="mx-auto my-auto text-ink-muted">Preparando o acesso.</p> : (
         <form onSubmit={entrar} className="mx-auto my-auto w-full max-w-sm space-y-6">
           <div>
             <RotuloMono as="p">Acesso por convite</RotuloMono>
@@ -88,6 +108,7 @@ function Entrar() {
           </Button>
           <p className="text-sm text-ink-muted">Não há cadastro aberto. O acesso é liberado pelo Admin.</p>
         </form>
+        )}
       </div>
     </div>
   );
