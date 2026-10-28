@@ -76,7 +76,7 @@ function Lista({ titulo, itens }: { titulo: string; itens: string[] }) {
   if (!itens?.length) return null;
   return (
     <section className="mt-6">
-      <RotuloMono as="h3">{titulo}</RotuloMono>
+      <h3 className="label-mono ">{titulo}</h3>
       <ul className="mt-2 space-y-1.5 border-t border-line pt-2">
         {itens.map((i, k) => <li key={k} className="flex gap-2"><span className="text-ink-muted">·</span><span>{i}</span></li>)}
       </ul>
@@ -92,7 +92,7 @@ export function BlocoFinal({ f, modo }: { f: Fornecedor; modo: "objetivo" | "pra
   return (
     <section className="mt-8 border border-line-strong p-4 md:p-6" aria-live="polite">
       <div className="flex flex-wrap items-center gap-2">
-        <RotuloMono as="h3">{modo === "objetivo" ? "Parecer objetivo" : "Conclusão pragmática"}</RotuloMono>
+        <h3 className="label-mono ">{modo === "objetivo" ? "Parecer objetivo" : "Conclusão pragmática"}</h3>
         <SeloFit nivel={f.nivelFit} />
       </div>
       {modo === "objetivo" ? (
@@ -103,7 +103,7 @@ export function BlocoFinal({ f, modo }: { f: Fornecedor; modo: "objetivo" | "pra
       ) : (
         <>
           <p className="mt-3">{f.pragmatica.conclusao}</p>
-          <RotuloMono as="h4" className="mt-4 block">Condições para avançar</RotuloMono>
+          <h4 className="label-mono mt-4 block">Condições para avançar</h4>
           <ol className="mt-2 list-decimal space-y-1.5 pl-5">{f.pragmatica.condicoes.map((c, k) => <li key={k}>{c}</li>)}</ol>
           <p className="mt-4 border-l-4 border-amarelo bg-muted p-3 font-medium">{f.pragmatica.recomendacao}</p>
         </>
@@ -165,9 +165,9 @@ export function MetodoConteudo() {
         <thead><tr className="border-b border-line-strong"><th className="label-mono py-2 text-left font-normal">Componente</th><th className="label-mono py-2 text-right font-normal">Peso</th><th className="label-mono py-2 pl-3 text-left font-normal">Regra</th></tr></thead>
         <tbody>{m.componentes.map((c) => <tr key={c.nome} className="border-b border-line align-top"><td className="py-2 pr-2">{c.nome}</td><td className="num py-2 text-right">{c.peso}%</td><td className="py-2 pl-3">{c.regra}</td></tr>)}</tbody>
       </table>
-      <RotuloMono as="h4" className="mt-5 block">Faixas de fit</RotuloMono>
+      <h4 className="label-mono mt-5 block">Faixas de fit</h4>
       <ul className="mt-2 grid grid-cols-1 gap-1 sm:grid-cols-2">{m.faixas.map((x) => <li key={x.fit} className="flex justify-between border-b border-line py-1"><span>{x.fit}</span><span className="num">{x.faixa}</span></li>)}</ul>
-      <RotuloMono as="h4" className="mt-5 block">Ressalvas</RotuloMono>
+      <h4 className="label-mono mt-5 block">Ressalvas</h4>
       <ul className="mt-2 space-y-1.5">{m.ressalvas.map((r, k) => <li key={k} className="flex gap-2"><span className="text-ink-muted">·</span><span>{r}</span></li>)}</ul>
     </div>
   );

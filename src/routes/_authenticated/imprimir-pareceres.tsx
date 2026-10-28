@@ -7,7 +7,7 @@ import { AvisoScore, Comparativo, MetodoConteudo, Relatorio } from "@/components
 import { fornecedores, pareceres, type ModoParecer } from "@/lib/conteudo";
 
 export const Route = createFileRoute("/_authenticated/imprimir-pareceres")({
-  validateSearch: (s: Record<string, unknown>) => ({ slug: typeof s.slug === "string" ? s.slug : undefined, modo: (s.modo === "pragmatica" ? "pragmatica" : "objetivo") as ModoParecer }),
+  validateSearch: (s: Record<string, unknown>) => ({ slug: typeof s["slug"] === "string" ? s["slug"] : undefined, modo: (s["modo"] === "pragmatica" ? "pragmatica" : "objetivo") as ModoParecer }),
   head: () => ({ meta: [{ title: "Pareceres para impressão · NEWE Mesa de Decisão" }, { name: "description", content: "Versão limpa dos pareceres dos fornecedores para impressão." }, { property: "og:title", content: "Pareceres para impressão · NEWE Mesa de Decisão" }, { property: "og:description", content: "Versão limpa dos pareceres dos fornecedores para impressão." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }, { name: "robots", content: "noindex" }] }),
   component: ImprimirPareceres,
 });

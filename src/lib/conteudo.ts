@@ -52,7 +52,7 @@ export function rfpEmTexto(r: Rfp): string {
       if (b.tipo === "p" || b.tipo === "destaque") out.push(b.texto);
       else if (b.tipo === "ul") b.itens.forEach((i) => out.push(`- ${i}`));
       else if (b.tipo === "ol") b.itens.forEach((i, k) => out.push(`${k + 1}. ${i}`));
-      else { out.push(b.cabecalho.join(" | ")); b.linhas.forEach((l) => out.push(l.join(" | "))); }
+      else if (b.tipo === "tabela") { out.push(b.cabecalho.join(" | ")); b.linhas.forEach((l) => out.push(l.join(" | "))); }
     }
   }
   return out.join("\n");
