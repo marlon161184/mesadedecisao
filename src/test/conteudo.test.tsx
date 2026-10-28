@@ -34,7 +34,7 @@ describe("Pareceres", () => {
 
   it("o botão alterna entre parecer objetivo e conclusão pragmática", () => {
     act(() => definirModo("objetivo"));
-    const f = fornecedores[0];
+    const f = fornecedores[0]!;
     function Tela() { const [m] = useModoParecer(); return <><Alternador /><BlocoFinal f={f} modo={m} /></>; }
     render(<Tela />);
     expect(screen.getByText(f.objetivo.resumo)).toBeTruthy();
