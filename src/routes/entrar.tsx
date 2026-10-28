@@ -87,7 +87,12 @@ function EntrarReuniao() {
       <main className="mx-auto w-full max-w-lg flex-1 px-4 py-12 md:py-20">
         <RotuloMono as="p">Mesa de Decisão · Reunião</RotuloMono>
         {estado.tipo === "carregando" && <p className="mt-6 text-ink-muted">Conferindo o link.</p>}
-        {estado.tipo === "encerrada" && <h1 className="chamada mt-6 text-3xl">Reunião encerrada</h1>}
+        {estado.tipo === "encerrada" && (
+          <div className="mt-6 space-y-6">
+            <h1 className="chamada text-3xl">Reunião encerrada</h1>
+            <Button asChild variant="outline"><a href="/auth?conta=1">Entrar com uma conta</a></Button>
+          </div>
+        )}
         {estado.tipo === "membro" && (
           <div className="mt-6 space-y-4">
             <h1 className="chamada text-3xl">Você já está conectado com sua conta</h1>

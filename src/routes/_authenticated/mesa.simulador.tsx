@@ -71,7 +71,10 @@ function Simulador() {
   const r = useMemo(() => analisarComposicao(base, comp, premissas, { dataDecisao: dataDecisao(base) }), [base, comp, premissas]);
   const grupos = useMemo(() => {
     const lista = modulosDaComposicao(base, true);
-    return [1, 2, 3].map((n) => ({ rfp: base.rfps.find((x) => x.numero === n)!, mods: lista.filter((x) => x.rfp.numero === n).map((x) => x.m) }));
+    return [1, 2, 3].flatMap((n) => {
+      const rfp = base.rfps.find((x) => x.numero === n);
+      return rfp ? [{ rfp, mods: lista.filter((x) => x.rfp.numero === n).map((x) => x.m) }] : [];
+    });
   }, [base]);
 
   const escolher = (moduloId: string, o: Opcao) => setComp((c) => ({ ...c, escolhas: { ...c.escolhas, [moduloId]: o } }));

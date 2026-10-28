@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { baseQuery, type Base } from "@/lib/base";
+import { baseQuery, rfpOuPrimeiro, type Base } from "@/lib/base";
 import { decisaoQuery, type DadosDecisao } from "@/lib/decisao-dados";
 import { avaliarVotacao, divergencias, mediasPorCriterio, type Decisao, type Regra, type StatusEtapa } from "@/lib/decisao";
 
@@ -17,7 +17,7 @@ export const nomeProposta = (base: Base, propostaId: string) => {
 export const nomePessoa = (base: Base, id: string) => base.perfis.find((p) => p.id === id)?.nome ?? "Sócio";
 
 export function modeloDecisao(base: Base, d: DadosDecisao, rfpNumero: number) {
-  const rfp = base.rfps.find((r) => r.numero === rfpNumero)!;
+  const rfp = rfpOuPrimeiro(base, rfpNumero);
   const trilha = d.trilhas.find((t) => t.rfp_id === rfp.id) ?? null;
   const propostas = propostasDoRfp(base, rfp.id);
   const criterios = base.criterios.filter((c) => c.rfp_id === rfp.id).map((c) => ({ id: c.id, nome: c.nome, peso: Number(c.peso) }));

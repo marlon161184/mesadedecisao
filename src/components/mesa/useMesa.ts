@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { baseQuery } from "@/lib/base";
+import { baseQuery, rfpOuPrimeiro } from "@/lib/base";
 import { validarFiltros, type Filtros } from "@/lib/filtros";
 import { analisarRfp, modulosDoRfp, premissasEfetivas } from "@/lib/equalizacao";
 import { pontosAutomaticos, pontosManuais, ORDEM_SEV } from "@/lib/pontos";
@@ -30,7 +30,7 @@ export function useMesa() {
   const { data: base } = useSuspenseQuery(baseQuery);
   const premissas = useMemo(() => premissasEfetivas(base, f), [base, f]);
   const analises = useMemo(() => analisarRfp(base, f.rfp, { filtros: f, premissas }), [base, f, premissas]);
-  const rfp = base.rfps.find((r) => r.numero === f.rfp)!;
+  const rfp = rfpOuPrimeiro(base, f.rfp);
   const modulos = useMemo(() => modulosDoRfp(base, f.rfp), [base, f.rfp]);
   const pontos = useMemo(
     () =>

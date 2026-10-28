@@ -91,3 +91,17 @@ export async function carregarBase(): Promise<Base> {
 }
 
 export const baseQuery = queryOptions({ queryKey: ["base"], queryFn: carregarBase });
+
+/** Base sem nenhum RFP: a sessão atual não tem papel que leia os dados (reunião encerrada ou conta sem papel). */
+export const baseVazia = (b: Pick<Base, "rfps">) => b.rfps.length === 0;
+
+export class SemDadosError extends Error {
+  constructor() { super("Sem acesso aos dados desta sessão"); this.name = "SemDadosError"; }
+}
+
+/** RFP pedido, ou o primeiro disponível; lança SemDadosError quando a base veio vazia. */
+export function rfpOuPrimeiro(b: Pick<Base, "rfps">, numero: number | undefined): Rfp {
+  const rfp = b.rfps.find((r) => r.numero === numero) ?? b.rfps[0];
+  if (!rfp) throw new SemDadosError();
+  return rfp;
+}

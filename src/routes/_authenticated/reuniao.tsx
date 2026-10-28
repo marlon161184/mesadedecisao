@@ -2,7 +2,9 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { TabelaAdaptavel } from "@/components/newe/TabelaAdaptavel";
-import { baseQuery } from "@/lib/base";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { baseQuery, baseVazia } from "@/lib/base";
+import { SemAcesso } from "@/components/mesa/SemAcesso";
 import { decisaoQuery } from "@/lib/decisao-dados";
 import { resultadoDoCenario, linhaComposicao } from "@/lib/cenarios";
 import { formatarBRL, formatarPct } from "@/lib/formato";
@@ -32,6 +34,12 @@ export const Route = createFileRoute("/_authenticated/reuniao")({
 const TOPICOS = ["Resumo do RFP", "Expectativa x realidade", "Cenários lado a lado", "Pontos de atenção críticos", "Divergências", "Votação"];
 
 function Reuniao() {
+  const { data: base } = useSuspenseQuery(baseQuery);
+  if (baseVazia(base)) return <SemAcesso />;
+  return <ReuniaoComDados />;
+}
+
+function ReuniaoComDados() {
   useInatividade();
   const { rfp } = Route.useSearch();
   const { base, m } = useDecisao(rfp);
