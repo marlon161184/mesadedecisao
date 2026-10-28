@@ -1,8 +1,5 @@
 // Conteúdo estático redigido (pareceres e RFPs). Os JSON em src/data são copiados sem alteração.
-import pareceresJson from "@/data/pareceres.json";
-import rfp1 from "@/data/rfp1.json";
-import rfp2 from "@/data/rfp2.json";
-import rfp3 from "@/data/rfp3.json";
+import type pareceresJson from "@/data/pareceres.json";
 import { useSyncExternalStore } from "react";
 
 export type Bloco =
@@ -13,9 +10,8 @@ export type Secao = { id: string; titulo: string; blocos: Bloco[] };
 export type Rfp = { numero: number; slug: string; titulo: string; subtitulo: string; versao: string; resumo: string; secoes: Secao[] };
 
 export type Fornecedor = (typeof pareceresJson)["fornecedores"][number];
-export const pareceres = pareceresJson;
-export const fornecedores: Fornecedor[] = [...pareceresJson.fornecedores].sort((a, b) => a.ranking - b.ranking);
-export const rfps: Rfp[] = [rfp1, rfp2, rfp3] as Rfp[];
+export type Pareceres = typeof pareceresJson;
+export type ConteudoDocumentos = { pareceres: Pareceres; fornecedores: Fornecedor[]; rfps: Rfp[] };
 
 export const ROTULO_RFP: Record<number, string> = {
   1: "RFP 1 · Custódia",
@@ -31,7 +27,7 @@ export const COR: Record<string, { bg: string; border: string }> = {
   terracota: { bg: "bg-terracota", border: "border-terracota" },
 };
 
-export const pesoDe = (nome: string) => pareceres.metodo.componentes.find((c) => c.nome === nome)?.peso;
+export const pesoDe = (pareceres: Pareceres, nome: string) => pareceres.metodo.componentes.find((c) => c.nome === nome)?.peso;
 export const umaCasa = (n: number) => n.toLocaleString("pt-BR", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 
 /** Colunas de selo nas tabelas de requisitos. */

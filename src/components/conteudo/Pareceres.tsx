@@ -3,7 +3,8 @@ import { ChevronDown } from "lucide-react";
 import type { ReactNode } from "react";
 import { RotuloMono } from "@/components/newe/brand";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { COR, fornecedores, pareceres, pesoDe, umaCasa, useModoParecer, type Fornecedor } from "@/lib/conteudo";
+import { COR, pesoDe, umaCasa, useModoParecer, type Fornecedor } from "@/lib/conteudo";
+import { useConteudo } from "./AcessoConteudo";
 import { cn } from "@/lib/utils";
 
 export function SeloFit({ nivel }: { nivel: string }) {
@@ -65,6 +66,7 @@ export function CartaoFornecedor({ f, link = true }: { f: Fornecedor; link?: boo
 }
 
 export function Comparativo({ link = true }: { link?: boolean }) {
+  const { fornecedores } = useConteudo();
   return (
     <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
       {fornecedores.map((f) => <CartaoFornecedor key={f.slug} f={f} link={link} />)}
@@ -113,6 +115,7 @@ export function BlocoFinal({ f, modo }: { f: Fornecedor; modo: "objetivo" | "pra
 }
 
 export function Relatorio({ f, modo }: { f: Fornecedor; modo: "objetivo" | "pragmatica" }) {
+  const { pareceres } = useConteudo();
   const cor = COR[f.cor];
   return (
     <article className="max-w-4xl">
@@ -139,7 +142,7 @@ export function Relatorio({ f, modo }: { f: Fornecedor; modo: "objetivo" | "prag
           {f.componentes.map((c) => (
             <tr key={c.nome} className="border-b border-line">
               <td className="py-2 pr-2">{c.nome}</td>
-              <td className="num py-2 text-right">{pesoDe(c.nome) ?? "—"}%</td>
+              <td className="num py-2 text-right">{pesoDe(pareceres, c.nome) ?? "—"}%</td>
               <td className="num py-2 text-right">{umaCasa(c.nota)}</td>
             </tr>
           ))}
@@ -157,6 +160,7 @@ export function Relatorio({ f, modo }: { f: Fornecedor; modo: "objetivo" | "prag
 }
 
 export function MetodoConteudo() {
+  const { pareceres } = useConteudo();
   const m = pareceres.metodo;
   return (
     <div className="max-w-4xl">
