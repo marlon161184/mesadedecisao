@@ -15,10 +15,12 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as DefinirSenhaRouteImport } from './routes/definir-senha'
 import { Route as EntrarRouteImport } from './routes/entrar'
 import { Route as AuthenticatedAcessosRouteImport } from './routes/_authenticated/acessos'
+import { Route as AuthenticatedImprimirPareceresRouteImport } from './routes/_authenticated/imprimir-pareceres'
 import { Route as AuthenticatedInicioRouteImport } from './routes/_authenticated/inicio'
 import { Route as AuthenticatedMesaRouteImport } from './routes/_authenticated/mesa'
 import { Route as AuthenticatedReuniaoRouteImport } from './routes/_authenticated/reuniao'
 import { Route as AuthenticatedImprimirAtaIdRouteImport } from './routes/_authenticated/imprimir-ata.$id'
+import { Route as AuthenticatedImprimirRfpNumeroRouteImport } from './routes/_authenticated/imprimir-rfp.$numero'
 import { Route as AuthenticatedImprimirIdRouteImport } from './routes/_authenticated/imprimir.$id'
 import { Route as AuthenticatedMesaAdminRouteImport } from './routes/_authenticated/mesa.admin'
 import { Route as AuthenticatedMesaCenariosRouteImport } from './routes/_authenticated/mesa.cenarios'
@@ -32,6 +34,10 @@ import { Route as AuthenticatedMesaPlayersRouteImport } from './routes/_authenti
 import { Route as AuthenticatedMesaPontosRouteImport } from './routes/_authenticated/mesa.pontos'
 import { Route as AuthenticatedMesaSimuladorRouteImport } from './routes/_authenticated/mesa.simulador'
 import { Route as AuthenticatedMesaVisaoRouteImport } from './routes/_authenticated/mesa.visao'
+import { Route as AuthenticatedMesaPareceresIndexRouteImport } from './routes/_authenticated/mesa.pareceres.index'
+import { Route as AuthenticatedMesaPareceresSlugRouteImport } from './routes/_authenticated/mesa.pareceres.$slug'
+import { Route as AuthenticatedMesaRfpsIndexRouteImport } from './routes/_authenticated/mesa.rfps.index'
+import { Route as AuthenticatedMesaRfpsNumeroRouteImport } from './routes/_authenticated/mesa.rfps.$numero'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -62,6 +68,12 @@ const AuthenticatedAcessosRoute = AuthenticatedAcessosRouteImport.update({
   path: '/acessos',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedImprimirPareceresRoute =
+  AuthenticatedImprimirPareceresRouteImport.update({
+    id: '/imprimir-pareceres',
+    path: '/imprimir-pareceres',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedInicioRoute = AuthenticatedInicioRouteImport.update({
   id: '/inicio',
   path: '/inicio',
@@ -81,6 +93,12 @@ const AuthenticatedImprimirAtaIdRoute =
   AuthenticatedImprimirAtaIdRouteImport.update({
     id: '/imprimir-ata/$id',
     path: '/imprimir-ata/$id',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedImprimirRfpNumeroRoute =
+  AuthenticatedImprimirRfpNumeroRouteImport.update({
+    id: '/imprimir-rfp/$numero',
+    path: '/imprimir-rfp/$numero',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedImprimirIdRoute = AuthenticatedImprimirIdRouteImport.update({
@@ -156,6 +174,30 @@ const AuthenticatedMesaVisaoRoute = AuthenticatedMesaVisaoRouteImport.update({
   path: '/visao',
   getParentRoute: () => AuthenticatedMesaRoute,
 } as any)
+const AuthenticatedMesaPareceresIndexRoute =
+  AuthenticatedMesaPareceresIndexRouteImport.update({
+    id: '/pareceres/',
+    path: '/pareceres/',
+    getParentRoute: () => AuthenticatedMesaRoute,
+  } as any)
+const AuthenticatedMesaPareceresSlugRoute =
+  AuthenticatedMesaPareceresSlugRouteImport.update({
+    id: '/pareceres/$slug',
+    path: '/pareceres/$slug',
+    getParentRoute: () => AuthenticatedMesaRoute,
+  } as any)
+const AuthenticatedMesaRfpsIndexRoute =
+  AuthenticatedMesaRfpsIndexRouteImport.update({
+    id: '/rfps/',
+    path: '/rfps/',
+    getParentRoute: () => AuthenticatedMesaRoute,
+  } as any)
+const AuthenticatedMesaRfpsNumeroRoute =
+  AuthenticatedMesaRfpsNumeroRouteImport.update({
+    id: '/rfps/$numero',
+    path: '/rfps/$numero',
+    getParentRoute: () => AuthenticatedMesaRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -163,10 +205,12 @@ export interface FileRoutesByFullPath {
   '/definir-senha': typeof DefinirSenhaRoute
   '/entrar': typeof EntrarRoute
   '/acessos': typeof AuthenticatedAcessosRoute
+  '/imprimir-pareceres': typeof AuthenticatedImprimirPareceresRoute
   '/inicio': typeof AuthenticatedInicioRoute
   '/mesa': typeof AuthenticatedMesaRouteWithChildren
   '/reuniao': typeof AuthenticatedReuniaoRoute
   '/imprimir-ata/$id': typeof AuthenticatedImprimirAtaIdRoute
+  '/imprimir-rfp/$numero': typeof AuthenticatedImprimirRfpNumeroRoute
   '/imprimir/$id': typeof AuthenticatedImprimirIdRoute
   '/mesa/admin': typeof AuthenticatedMesaAdminRoute
   '/mesa/cenarios': typeof AuthenticatedMesaCenariosRoute
@@ -180,6 +224,10 @@ export interface FileRoutesByFullPath {
   '/mesa/pontos': typeof AuthenticatedMesaPontosRoute
   '/mesa/simulador': typeof AuthenticatedMesaSimuladorRoute
   '/mesa/visao': typeof AuthenticatedMesaVisaoRoute
+  '/mesa/pareceres/$slug': typeof AuthenticatedMesaPareceresSlugRoute
+  '/mesa/rfps/$numero': typeof AuthenticatedMesaRfpsNumeroRoute
+  '/mesa/pareceres/': typeof AuthenticatedMesaPareceresIndexRoute
+  '/mesa/rfps/': typeof AuthenticatedMesaRfpsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -187,10 +235,12 @@ export interface FileRoutesByTo {
   '/definir-senha': typeof DefinirSenhaRoute
   '/entrar': typeof EntrarRoute
   '/acessos': typeof AuthenticatedAcessosRoute
+  '/imprimir-pareceres': typeof AuthenticatedImprimirPareceresRoute
   '/inicio': typeof AuthenticatedInicioRoute
   '/mesa': typeof AuthenticatedMesaRouteWithChildren
   '/reuniao': typeof AuthenticatedReuniaoRoute
   '/imprimir-ata/$id': typeof AuthenticatedImprimirAtaIdRoute
+  '/imprimir-rfp/$numero': typeof AuthenticatedImprimirRfpNumeroRoute
   '/imprimir/$id': typeof AuthenticatedImprimirIdRoute
   '/mesa/admin': typeof AuthenticatedMesaAdminRoute
   '/mesa/cenarios': typeof AuthenticatedMesaCenariosRoute
@@ -204,6 +254,10 @@ export interface FileRoutesByTo {
   '/mesa/pontos': typeof AuthenticatedMesaPontosRoute
   '/mesa/simulador': typeof AuthenticatedMesaSimuladorRoute
   '/mesa/visao': typeof AuthenticatedMesaVisaoRoute
+  '/mesa/pareceres/$slug': typeof AuthenticatedMesaPareceresSlugRoute
+  '/mesa/rfps/$numero': typeof AuthenticatedMesaRfpsNumeroRoute
+  '/mesa/pareceres': typeof AuthenticatedMesaPareceresIndexRoute
+  '/mesa/rfps': typeof AuthenticatedMesaRfpsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -213,10 +267,12 @@ export interface FileRoutesById {
   '/definir-senha': typeof DefinirSenhaRoute
   '/entrar': typeof EntrarRoute
   '/_authenticated/acessos': typeof AuthenticatedAcessosRoute
+  '/_authenticated/imprimir-pareceres': typeof AuthenticatedImprimirPareceresRoute
   '/_authenticated/inicio': typeof AuthenticatedInicioRoute
   '/_authenticated/mesa': typeof AuthenticatedMesaRouteWithChildren
   '/_authenticated/reuniao': typeof AuthenticatedReuniaoRoute
   '/_authenticated/imprimir-ata/$id': typeof AuthenticatedImprimirAtaIdRoute
+  '/_authenticated/imprimir-rfp/$numero': typeof AuthenticatedImprimirRfpNumeroRoute
   '/_authenticated/imprimir/$id': typeof AuthenticatedImprimirIdRoute
   '/_authenticated/mesa/admin': typeof AuthenticatedMesaAdminRoute
   '/_authenticated/mesa/cenarios': typeof AuthenticatedMesaCenariosRoute
@@ -230,6 +286,10 @@ export interface FileRoutesById {
   '/_authenticated/mesa/pontos': typeof AuthenticatedMesaPontosRoute
   '/_authenticated/mesa/simulador': typeof AuthenticatedMesaSimuladorRoute
   '/_authenticated/mesa/visao': typeof AuthenticatedMesaVisaoRoute
+  '/_authenticated/mesa/pareceres/$slug': typeof AuthenticatedMesaPareceresSlugRoute
+  '/_authenticated/mesa/rfps/$numero': typeof AuthenticatedMesaRfpsNumeroRoute
+  '/_authenticated/mesa/pareceres/': typeof AuthenticatedMesaPareceresIndexRoute
+  '/_authenticated/mesa/rfps/': typeof AuthenticatedMesaRfpsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -239,10 +299,12 @@ export interface FileRouteTypes {
     | '/definir-senha'
     | '/entrar'
     | '/acessos'
+    | '/imprimir-pareceres'
     | '/inicio'
     | '/mesa'
     | '/reuniao'
     | '/imprimir-ata/$id'
+    | '/imprimir-rfp/$numero'
     | '/imprimir/$id'
     | '/mesa/admin'
     | '/mesa/cenarios'
@@ -256,6 +318,10 @@ export interface FileRouteTypes {
     | '/mesa/pontos'
     | '/mesa/simulador'
     | '/mesa/visao'
+    | '/mesa/pareceres/$slug'
+    | '/mesa/rfps/$numero'
+    | '/mesa/pareceres/'
+    | '/mesa/rfps/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -263,10 +329,12 @@ export interface FileRouteTypes {
     | '/definir-senha'
     | '/entrar'
     | '/acessos'
+    | '/imprimir-pareceres'
     | '/inicio'
     | '/mesa'
     | '/reuniao'
     | '/imprimir-ata/$id'
+    | '/imprimir-rfp/$numero'
     | '/imprimir/$id'
     | '/mesa/admin'
     | '/mesa/cenarios'
@@ -280,6 +348,10 @@ export interface FileRouteTypes {
     | '/mesa/pontos'
     | '/mesa/simulador'
     | '/mesa/visao'
+    | '/mesa/pareceres/$slug'
+    | '/mesa/rfps/$numero'
+    | '/mesa/pareceres'
+    | '/mesa/rfps'
   id:
     | '__root__'
     | '/'
@@ -288,10 +360,12 @@ export interface FileRouteTypes {
     | '/definir-senha'
     | '/entrar'
     | '/_authenticated/acessos'
+    | '/_authenticated/imprimir-pareceres'
     | '/_authenticated/inicio'
     | '/_authenticated/mesa'
     | '/_authenticated/reuniao'
     | '/_authenticated/imprimir-ata/$id'
+    | '/_authenticated/imprimir-rfp/$numero'
     | '/_authenticated/imprimir/$id'
     | '/_authenticated/mesa/admin'
     | '/_authenticated/mesa/cenarios'
@@ -305,6 +379,10 @@ export interface FileRouteTypes {
     | '/_authenticated/mesa/pontos'
     | '/_authenticated/mesa/simulador'
     | '/_authenticated/mesa/visao'
+    | '/_authenticated/mesa/pareceres/$slug'
+    | '/_authenticated/mesa/rfps/$numero'
+    | '/_authenticated/mesa/pareceres/'
+    | '/_authenticated/mesa/rfps/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -359,6 +437,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAcessosRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/imprimir-pareceres': {
+      id: '/_authenticated/imprimir-pareceres'
+      path: '/imprimir-pareceres'
+      fullPath: '/imprimir-pareceres'
+      preLoaderRoute: typeof AuthenticatedImprimirPareceresRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/inicio': {
       id: '/_authenticated/inicio'
       path: '/inicio'
@@ -385,6 +470,13 @@ declare module '@tanstack/react-router' {
       path: '/imprimir-ata/$id'
       fullPath: '/imprimir-ata/$id'
       preLoaderRoute: typeof AuthenticatedImprimirAtaIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/imprimir-rfp/$numero': {
+      id: '/_authenticated/imprimir-rfp/$numero'
+      path: '/imprimir-rfp/$numero'
+      fullPath: '/imprimir-rfp/$numero'
+      preLoaderRoute: typeof AuthenticatedImprimirRfpNumeroRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/imprimir/$id': {
@@ -478,6 +570,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMesaVisaoRouteImport
       parentRoute: typeof AuthenticatedMesaRoute
     }
+    '/_authenticated/mesa/pareceres/': {
+      id: '/_authenticated/mesa/pareceres/'
+      path: '/pareceres'
+      fullPath: '/mesa/pareceres/'
+      preLoaderRoute: typeof AuthenticatedMesaPareceresIndexRouteImport
+      parentRoute: typeof AuthenticatedMesaRoute
+    }
+    '/_authenticated/mesa/pareceres/$slug': {
+      id: '/_authenticated/mesa/pareceres/$slug'
+      path: '/pareceres/$slug'
+      fullPath: '/mesa/pareceres/$slug'
+      preLoaderRoute: typeof AuthenticatedMesaPareceresSlugRouteImport
+      parentRoute: typeof AuthenticatedMesaRoute
+    }
+    '/_authenticated/mesa/rfps/': {
+      id: '/_authenticated/mesa/rfps/'
+      path: '/rfps'
+      fullPath: '/mesa/rfps/'
+      preLoaderRoute: typeof AuthenticatedMesaRfpsIndexRouteImport
+      parentRoute: typeof AuthenticatedMesaRoute
+    }
+    '/_authenticated/mesa/rfps/$numero': {
+      id: '/_authenticated/mesa/rfps/$numero'
+      path: '/rfps/$numero'
+      fullPath: '/mesa/rfps/$numero'
+      preLoaderRoute: typeof AuthenticatedMesaRfpsNumeroRouteImport
+      parentRoute: typeof AuthenticatedMesaRoute
+    }
   }
 }
 
@@ -494,6 +614,10 @@ interface AuthenticatedMesaRouteChildren {
   AuthenticatedMesaPontosRoute: typeof AuthenticatedMesaPontosRoute
   AuthenticatedMesaSimuladorRoute: typeof AuthenticatedMesaSimuladorRoute
   AuthenticatedMesaVisaoRoute: typeof AuthenticatedMesaVisaoRoute
+  AuthenticatedMesaPareceresSlugRoute: typeof AuthenticatedMesaPareceresSlugRoute
+  AuthenticatedMesaRfpsNumeroRoute: typeof AuthenticatedMesaRfpsNumeroRoute
+  AuthenticatedMesaPareceresIndexRoute: typeof AuthenticatedMesaPareceresIndexRoute
+  AuthenticatedMesaRfpsIndexRoute: typeof AuthenticatedMesaRfpsIndexRoute
 }
 
 const AuthenticatedMesaRouteChildren: AuthenticatedMesaRouteChildren = {
@@ -509,6 +633,10 @@ const AuthenticatedMesaRouteChildren: AuthenticatedMesaRouteChildren = {
   AuthenticatedMesaPontosRoute: AuthenticatedMesaPontosRoute,
   AuthenticatedMesaSimuladorRoute: AuthenticatedMesaSimuladorRoute,
   AuthenticatedMesaVisaoRoute: AuthenticatedMesaVisaoRoute,
+  AuthenticatedMesaPareceresSlugRoute: AuthenticatedMesaPareceresSlugRoute,
+  AuthenticatedMesaRfpsNumeroRoute: AuthenticatedMesaRfpsNumeroRoute,
+  AuthenticatedMesaPareceresIndexRoute: AuthenticatedMesaPareceresIndexRoute,
+  AuthenticatedMesaRfpsIndexRoute: AuthenticatedMesaRfpsIndexRoute,
 }
 
 const AuthenticatedMesaRouteWithChildren =
@@ -516,19 +644,23 @@ const AuthenticatedMesaRouteWithChildren =
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAcessosRoute: typeof AuthenticatedAcessosRoute
+  AuthenticatedImprimirPareceresRoute: typeof AuthenticatedImprimirPareceresRoute
   AuthenticatedInicioRoute: typeof AuthenticatedInicioRoute
   AuthenticatedMesaRoute: typeof AuthenticatedMesaRouteWithChildren
   AuthenticatedReuniaoRoute: typeof AuthenticatedReuniaoRoute
   AuthenticatedImprimirAtaIdRoute: typeof AuthenticatedImprimirAtaIdRoute
+  AuthenticatedImprimirRfpNumeroRoute: typeof AuthenticatedImprimirRfpNumeroRoute
   AuthenticatedImprimirIdRoute: typeof AuthenticatedImprimirIdRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAcessosRoute: AuthenticatedAcessosRoute,
+  AuthenticatedImprimirPareceresRoute: AuthenticatedImprimirPareceresRoute,
   AuthenticatedInicioRoute: AuthenticatedInicioRoute,
   AuthenticatedMesaRoute: AuthenticatedMesaRouteWithChildren,
   AuthenticatedReuniaoRoute: AuthenticatedReuniaoRoute,
   AuthenticatedImprimirAtaIdRoute: AuthenticatedImprimirAtaIdRoute,
+  AuthenticatedImprimirRfpNumeroRoute: AuthenticatedImprimirRfpNumeroRoute,
   AuthenticatedImprimirIdRoute: AuthenticatedImprimirIdRoute,
 }
 
