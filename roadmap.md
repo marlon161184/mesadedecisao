@@ -1,5 +1,10 @@
 # Roadmap
 
+## Correção · acesso aos documentos
+- [ ] Verificação no servidor por Admin, grupo Sócios e reunião ativa
+- [ ] JSONs somente no servidor; telas e impressão protegidas; menus filtrados
+- [ ] Testes de permissões, menus e verificação do fluxo real
+
 ## Ajuste · janela de reunião
 - [x] Encerramento livre em Brasília, atalhos e aviso no Admin
 - [x] Limite de 96 h no formulário, servidor e banco
