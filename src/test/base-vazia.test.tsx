@@ -32,10 +32,10 @@ vi.mock("@/integrations/supabase/client", () => ({
 }));
 
 class Barreira extends Component<{ children: ReactNode; aoErro: (e: unknown) => void }, { erro: boolean }> {
-  state = { erro: false };
+  override state = { erro: false };
   static getDerivedStateFromError() { return { erro: true }; }
-  componentDidCatch(e: unknown) { this.props.aoErro(e); }
-  render() { return this.state.erro ? null : this.props.children; }
+  override componentDidCatch(e: unknown) { this.props.aoErro(e); }
+  override render() { return this.state.erro ? null : this.props.children; }
 }
 
 describe("regras da base vazia", () => {
