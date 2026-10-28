@@ -27,5 +27,5 @@ export async function verificarConteudo(supabase: SupabaseClient<Database>, user
     if (emailErro) return { leitura: false, impressao: false };
     acesso = data;
   }
-  return permissaoConteudo({ admin: false, reuniao: false, grupo: acesso?.grupo, revogado: !!acesso?.revogado_em });
+  return permissaoConteudo({ admin: false, reuniao: false, grupo: acesso?.grupo ?? null, revogado: !!acesso?.revogado_em });
 }
