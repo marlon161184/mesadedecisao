@@ -1,0 +1,236 @@
+{
+"referencia": "Posição de 28/10/2026 · base da Mesa: Rebu V5 (27/10), XCV/WiVO V1 (26/10), Folhetim V1 (out/2026), F&MD V1 (sem data). Honorários do facilitador excluídos de todos os totais.",
+"metodo": {
+"titulo": "Como o score de 0 a 10 é calculado",
+"intro": "O score mede aderência da proposta à necessidade da Newe no escopo a que cada fornecedor respondeu. É uma régua de decisão, não uma sentença: todas as coberturas estão como 'declarado' (nenhuma foi comprovada) e nenhum portão eliminatório foi validado.",
+"componentes": [
+{"nome":"Cobertura dos requisitos","peso":40,"regra":"10 × (70% cobertura conservadora + 30% cobertura otimista). A conservadora só conta o que a proposta declara com clareza; a otimista aceita o parcial e o ambíguo."},
+{"nome":"Requisitos essenciais atendidos","peso":20,"regra":"10 × (essenciais com alguma cobertura ÷ essenciais do RFP). Parcial conta como atendido; 'não informado' conta como não atendido."},
+{"nome":"Custo-benefício","peso":15,"regra":"Cobertura conservadora por R$ 100 mil de custo ajustado. A melhor proposta recebe 10; as demais, proporcional."},
+{"nome":"Risco e portões","peso":25,"regra":"10 menos penalidades: 2,0 por grupo eliminatório sem resposta; 1,0 por risco estrutural identificado; 0,5 por pendência documental."}
+],
+"faixas": [
+{"fit":"Alto","faixa":"7,0 a 10"},
+{"fit":"Médio-alto","faixa":"5,5 a 6,9"},
+{"fit":"Médio","faixa":"4,5 a 5,4"},
+{"fit":"Médio-baixo","faixa":"3,5 a 4,4"},
+{"fit":"Baixo","faixa":"abaixo de 3,5"}
+],
+"ressalvas": [
+"Rebu respondeu ao RFP 1 (Custódia); Folhetim, F&MD e XCV/WiVO responderam ao RFP 2 (Criativo, dados, performance e CRM). A XCV também propõe fotos e vídeos do RFP 1. Os scores são comparáveis como grau de aderência ao que cada um se propôs a fazer, não como disputa direta pelo mesmo escopo.",
+"Nenhum fornecedor chega a 7,0. Nenhuma proposta, isolada, atende a necessidade da Newe nos RFPs 1 e 2.",
+"A XCV só lidera com folga se o desconto de 50% sobre itens de lista for confirmado por escrito. Sem ele, o score da XCV cai de 5,9 para 5,6 e a diferença para a F&MD (5,4) praticamente desaparece."
+]
+},
+"fornecedores": [
+{
+"slug":"xcv","nome":"XCV / WiVO","rfp":"RFP 2 (Criativo, dados, performance e CRM) + fotos e vídeos do RFP 1","cor":"ipe-do-cerrado",
+"score":5.9,"scoreSemDesconto":5.6,"ranking":1,
+"nivelFit":"Médio-alto, condicionado","fitFrase":"Maior aderência estrutural ao RFP 2, mas só se converte em fit alto se aceitar por escrito portabilidade, auditoria e LGPD sobre o CRM proprietário.",
+"proposta":{"versao":"V1","data":"26/10/2026","total":"R$ 273.709,17 (com desconto de 50% sobre itens de lista; sem o desconto, R$ 496.418,34)","contrato":"6 meses","validade":"não informada"},
+"cobertura":{"conservadora":51.1,"otimista":74.6,"essenciais":"10 de 18"},
+"componentes":[{"nome":"Cobertura dos requisitos","nota":5.8},{"nome":"Requisitos essenciais atendidos","nota":5.6},{"nome":"Custo-benefício","nota":10.0},{"nome":"Risco e portões","nota":4.0}],
+"forcas":[
+"Maior cobertura conservadora do conjunto (51,1%) e a única proposta que reúne criativo, dados, CRM, site e agente de IA em um desenho integrado.",
+"Estratégia antes da produção (Q1.5) e produção recorrente do volume-base (Q1.1) cobertas integralmente.",
+"Dashboards (Q2.2), mídia multicanal (Q2.4), integração mídia–CRM (Q2.5) e integrações com formulários, Meta, Google, WhatsApp e e-mail (Q3.6) declaradas.",
+"Site e landing pages integrados ao CRM (Q4.3), SEO e busca por IA (Q4.2) e agente de IA no site (Q4.4) cobertos, itens que as concorrentes não cobrem.",
+"Melhor custo-benefício: 18,7 pontos de cobertura conservadora por R$ 100 mil, contra 13,0 da F&MD e 7,5 da Folhetim.",
+"Cobre também fotos e vídeos institucionais (R4.1) e manifesto (R4.4, 180 s), o que amplia as opções de composição com a custódia."
+],
+"fraquezas":[
+"Governança do dado não respondida: portabilidade total sem custo (Q3.1), trilha de auditoria (Q3.3), LGPD (Q3.4) e atribuição e duplicidade (Q3.5) estão como 'não informado'. Três deles são eliminatórios.",
+"CRM proprietário, limitado a 5 colaboradores e 10.000 contatos, incompatível com perfis de acesso para imobiliárias e parceiros (Q3.2 apenas parcial).",
+"Custo total em 12 e 24 meses do CRM não apresentado (Q3.7) e implantação só parcial (Q3.8).",
+"Aderência ao tom Newe (Q1.7), prova de dados até a venda (Q2.3) e linha de base (Q2.6) sem resposta.",
+"Código, CMS e acessos do site entregues à Newe (Q4.1) não informado."
+],
+"cobertas":["Q1.1 volume-base","Q1.5 estratégia antes da produção","Q1.4 material comercial","Q1.8 foto e vídeo","Q2.2 dashboards","Q2.4 mídia multicanal","Q2.5 integração mídia–CRM","Q3.6 integrações","Q4.2 SEO e busca por IA","Q4.3 landing pages no CRM","Q4.4 agente de IA","R4.1 fotos e vídeos","R4.4 manifesto"],
+"parciais":["Q1.2 eventos e réguas","Q1.3 pesquisas","Q1.6 testes A/B","Q2.1 funil e dicionário","Q3.2 perfis de acesso","Q3.8 implantação","R4.2 materiais e gifts"],
+"naoCobertas":["Q1.7 aderência ao tom","Q2.3 prova de dados até a venda","Q2.6 linha de base","Q3.1 portabilidade (eliminatório)","Q3.3 trilha de auditoria (eliminatório)","Q3.4 LGPD (eliminatório)","Q3.5 origem e atribuição","Q3.7 custo em 12 e 24 meses","Q4.1 código e acessos do site","R4.3 aplicações gráficas"],
+"atencao":[
+"Desconto de 50% consta da própria proposta, mas o preço final precisa de confirmação escrita; sem ele a eficiência cai de 18,7 para 10,3.",
+"Concentração: criativo, dados, CRM e site em um só fornecedor contraria a premissa 'o dado é da Newe' se a portabilidade não estiver blindada em contrato.",
+"Sobreposição de fotos e vídeos com o escopo da Rebu, o que pode gerar pagamento duplicado.",
+"Equipe e capacidade não detalhadas; validade da proposta não informada.",
+"Três portões pendentes: portabilidade, trilha de auditoria e LGPD."
+],
+"objetivo":{
+"resumo":"Proposta mais ampla e mais barata por unidade de cobertura, com lacunas concentradas exatamente no bloco que a Newe trata como inegociável: o dado.",
+"comentarios":[
+"A cobertura conservadora de 51,1% é a mais alta do conjunto e já inclui itens que ninguém mais oferece (site, SEO, agente de IA).",
+"O risco não está no que a XCV prometeu, e sim no que deixou em branco: quatro requisitos de governança do dado, três deles eliminatórios.",
+"O CRM proprietário com teto de 5 usuários e 10.000 contatos não sustenta imobiliárias e parceiros, previstos no RFP 2.",
+"O preço final depende de um desconto que ainda não foi confirmado por escrito.",
+"A evidência de todas as entregas é declaratória; faltam casos medidos até a venda."
+]
+},
+"pragmatica":{
+"conclusao":"Finalista com maior potencial, mas não contratável como está. O fit sobe de médio-alto para alto se a XCV aceitar, por escrito e antes da assinatura, os três itens eliminatórios do CRM. Se não aceitar, a Newe deve contratar apenas os módulos de criativo, dados e site e manter o CRM sob titularidade própria.",
+"condicoes":[
+"Portabilidade total e exportação sem custo, a qualquer tempo, em cláusula contratual.",
+"Trilha de auditoria e relatório LGPD demonstrados, não apenas prometidos.",
+"Preço final com o desconto de 50% confirmado por escrito, com validade explícita.",
+"Custo em 12 e 24 meses do CRM e teto de usuários e contatos renegociados para a realidade das imobiliárias.",
+"Esclarecer a sobreposição de fotos e vídeos com a custódia antes de qualquer composição."
+],
+"recomendacao":"Levar a XCV à rodada final com as cinco condições acima como pré-requisito de contratação."
+}
+},
+{
+"slug":"fmd","nome":"F&MD","rfp":"RFP 2 (Criativo, dados, performance e CRM)","cor":"terracota",
+"score":5.0,"scoreSemDesconto":5.4,"ranking":2,
+"nivelFit":"Médio, condicionado","fitFrase":"Forte em mídia, dados e integração com CRMs de mercado; fraco em estratégia, tom da marca e governança do dado, que não oferece.",
+"proposta":{"versao":"V1","data":"sem data","total":"R$ 308.650,02","contrato":"12 meses (a janela do RFP é de 6)","validade":"não informada"},
+"cobertura":{"conservadora":40.1,"otimista":75.0,"essenciais":"8 de 18"},
+"componentes":[{"nome":"Cobertura dos requisitos","nota":5.1},{"nome":"Requisitos essenciais atendidos","nota":4.4},{"nome":"Custo-benefício","nota":7.0},{"nome":"Risco e portões","nota":4.0}],
+"forcas":[
+"Prova de portfólio imobiliário declarada: 26 incorporadoras e mais de 140 empreendimentos (Q2.3), ainda não comprovada.",
+"Integração com mais de 10 CRMs (Q2.5): modelo agnóstico de ferramenta, que favorece manter o CRM e o dado na Newe.",
+"Produção recorrente (Q1.1), eventos e réguas (Q1.2), material comercial (Q1.4), dashboards (Q2.2), mídia multicanal (Q2.4) e SEO (Q4.2) cobertos.",
+"Segunda melhor eficiência do conjunto: 13,0 pontos de cobertura por R$ 100 mil.",
+"Cobertura otimista de 75,0%, a maior do conjunto, o que indica espaço para ganho se as dúvidas forem esclarecidas."
+],
+"fraquezas":[
+"Não oferece CRM nem governança do dado: o bloco inteiro de Q3.1 a Q3.6 fica sem resposta, incluindo os três eliminatórios.",
+"Estratégia antes da produção (Q1.5) e protocolo de testes A/B com retroalimentação (Q1.6) não informados, em choque com a premissa inegociável.",
+"Chama a marca de 'NEWE Construtora' e lista entregáveis genéricos (Q1.7 apenas parcial): sinal de que o brandbook não foi absorvido.",
+"Foto e vídeo (Q1.8) e agente de IA (Q4.4) não cobertos; landing pages só parciais (Q4.3).",
+"Linha de base (Q2.6) e código e acessos do site (Q4.1) não informados."
+],
+"cobertas":["Q1.1 volume-base","Q1.2 eventos e réguas","Q1.4 material comercial","Q2.2 dashboards","Q2.3 prova de dados até a venda","Q2.4 mídia multicanal","Q2.5 integração mídia–CRM","Q4.2 SEO e busca por IA"],
+"parciais":["Q1.3 pesquisas","Q1.7 aderência ao tom","Q2.1 funil e dicionário","Q4.3 landing pages no CRM"],
+"naoCobertas":["Q1.5 estratégia antes da produção","Q1.6 testes A/B e retroalimentação","Q1.8 foto e vídeo","Q2.6 linha de base","Q3.1 a Q3.8 CRM e governança do dado (eliminatórios Q3.1, Q3.3, Q3.4)","Q4.1 código e acessos do site","Q4.4 agente de IA"],
+"atencao":[
+"Exclusões contradizem o próprio escopo: a proposta diz não contemplar performance e gestão de redes, mas oferece entregas dessas áreas. Exigir correção por escrito.",
+"Contrato de 12 meses e squad de performance cobrado por produto; com marca, empreendimento 1 e empreendimento 2, o custo pode multiplicar.",
+"Proposta sem data e sem validade.",
+"Portfólio e integrações declarados, sem comprovação.",
+"Três portões pendentes: LGPD, portabilidade e trilha de auditoria."
+],
+"objetivo":{
+"resumo":"Operação de mídia e dados experiente em real estate, com fragilidade em marca e estratégia e ausência total do bloco de CRM.",
+"comentarios":[
+"A força está em performance e integração: funciona bem como camada de dados sobre um CRM que a Newe controla.",
+"O tratamento da marca como 'Construtora' é um indicador direto de risco de aderência ao tom, avaliado em 25% no briefing.",
+"Sem Q1.5 e Q1.6, a proposta não demonstra o ciclo 'testar, medir e retroalimentar' que sustenta o RFP 2.",
+"A cobertura otimista (75,0%) está bem acima da conservadora (40,1%): há muito a esclarecer e, se esclarecido, a posição melhora.",
+"O custo por produto e o contrato de 12 meses pedem renegociação antes de qualquer comparação com propostas de 6 meses."
+]
+},
+"pragmatica":{
+"conclusao":"Parceiro adequado para dados e performance, não para marca nem para CRM. Faz sentido como módulo dentro de uma composição com CRM de terceiro ou da própria Newe, desde que prove aderência ao tom em um piloto curto. Como parceiro criativo principal, o fit é baixo.",
+"condicoes":[
+"Corrigir por escrito as exclusões contraditórias e confirmar o que está de fato no escopo.",
+"Contrato de 6 meses, com preço fechado por módulo e sem cobrança por produto de forma que multiplique o custo.",
+"Teste de aderência ao tom Newe com peça-piloto avaliada pela custódia.",
+"Comprovar portfólio e integrações com casos medidos até a venda.",
+"Apresentar protocolo de testes A/B e estratégia antes da produção."
+],
+"recomendacao":"Manter como alternativa para os módulos de dados e performance, com piloto de tom como condição para ampliar escopo."
+}
+},
+{
+"slug":"folhetim","nome":"Folhetim","rfp":"RFP 2 (Criativo, dados, performance e CRM)","cor":"verde-cerrado",
+"score":4.1,"scoreSemDesconto":4.4,"ranking":3,
+"nivelFit":"Médio-baixo","fitFrase":"Rigor de gestão criativa acima da média, mas sem dados nem CRM e com custo alto por cobertura.",
+"proposta":{"versao":"V1","data":"out/2026, sem dia informado","total":"R$ 421.000,00","contrato":"6 meses","validade":"não informada"},
+"cobertura":{"conservadora":31.5,"otimista":61.9,"essenciais":"6 de 18"},
+"componentes":[{"nome":"Cobertura dos requisitos","nota":4.1},{"nome":"Requisitos essenciais atendidos","nota":3.3},{"nome":"Custo-benefício","nota":4.0},{"nome":"Risco e portões","nota":5.0}],
+"forcas":[
+"Escopo de gestão mais rigoroso: brief aprovado, metas por trimestre (Q1.5) e relatório mensal de leads, alinhado à premissa 'estratégia antes da produção'.",
+"Produção recorrente (Q1.1), eventos e réguas (Q1.2), pesquisas (Q1.3) e material comercial (Q1.4) cobertos.",
+"Entrega de código, CMS e acessos do site à Newe (Q4.1), requisito essencial que XCV e F&MD não informam.",
+"Gestão de mídia multicanal (Q2.4) coberta.",
+"Regras comerciais explícitas, o que facilita auditoria do contrato."
+],
+"fraquezas":[
+"Não oferece dados nem CRM: funil e dicionário (Q2.1) e integração mídia–CRM (Q2.5) em zero; todo o bloco Q3 fica sem resposta, incluindo os três eliminatórios.",
+"Protocolo de testes A/B (Q1.6), aderência ao tom (Q1.7), prova de dados (Q2.3) e linha de base (Q2.6) não informados.",
+"Segundo maior custo (R$ 421 mil) com cobertura conservadora de 31,5%: 7,5 pontos por R$ 100 mil, contra 18,7 da XCV.",
+"SEO (Q4.2), agente de IA (Q4.4) e foto e vídeo (Q1.8) não cobertos."
+],
+"cobertas":["Q1.1 volume-base","Q1.2 eventos e réguas","Q1.3 pesquisas","Q1.4 material comercial","Q1.5 estratégia antes da produção","Q2.4 mídia multicanal","Q4.1 código e acessos do site"],
+"parciais":["Q2.2 dashboards","Q4.3 landing pages no CRM"],
+"naoCobertas":["Q1.6 testes A/B","Q1.7 aderência ao tom","Q1.8 foto e vídeo","Q2.1 funil e dicionário","Q2.3 prova de dados","Q2.5 integração mídia–CRM","Q2.6 linha de base","Q3.1 a Q3.8 CRM e governança do dado (eliminatórios Q3.1, Q3.3, Q3.4)","Q4.2 SEO","Q4.4 agente de IA"],
+"atencao":[
+"Crédito do mês não transfere e crédito avulso custa 25% a mais: rigidez em meses de pico (novembro, fevereiro e março), quando o volume sobe.",
+"Sem dados e CRM, a Newe precisaria de outros dois fornecedores e de uma camada de integração entre três partes.",
+"Proposta sem dia e sem validade.",
+"Três portões pendentes: trilha de auditoria, portabilidade e LGPD."
+],
+"objetivo":{
+"resumo":"Boa disciplina de processo criativo, aplicada a um escopo estreito e a um preço alto para o que cobre.",
+"comentarios":[
+"O diferencial é metodológico (brief aprovado, metas trimestrais, relatório mensal), não de cobertura.",
+"Sem funil, dicionário e integração com o CRM, o ciclo testar–medir–retroalimentar não fecha.",
+"O modelo de créditos que não transferem é incompatível com a sazonalidade de eventos prevista no plano.",
+"Custo-benefício é o segundo pior do conjunto, acima apenas da Rebu."
+]
+},
+"pragmatica":{
+"conclusao":"Fit médio-baixo como parceiro único. Só se justifica em desenho com três fornecedores (criativo, dados, CRM) e forte gestão de integração por parte da Newe. O rigor de brief e metas trimestrais deve ser usado como régua nas negociações com XCV e F&MD.",
+"condicoes":[
+"Revisão do modelo de créditos: transferência entre meses e fim do acréscimo de 25% em avulsos.",
+"Preço por módulo, com redução proporcional ao escopo estreito.",
+"Piloto de tom Newe e protocolo de testes A/B por escrito.",
+"Confirmar validade e data da proposta."
+],
+"recomendacao":"Não levar à rodada final como proposta única; manter como referência de método e alternativa para o módulo criativo."
+}
+},
+{
+"slug":"rebu","nome":"Rebu","rfp":"RFP 1 (Custódia da marca)","cor":"flamboyant",
+"score":3.3,"scoreSemDesconto":3.5,"ranking":4,
+"nivelFit":"Baixo (como proposto)","fitFrase":"Conhece a marca como ninguém, mas a V5 não sustenta a função central da custódia: validar 40 a 50 peças por mês.",
+"proposta":{"versao":"V5","data":"27/10/2026","total":"R$ 465.000,00 (fotos e vídeos R$ 300 mil; manifesto R$ 45 mil; consultoria R$ 120 mil)","contrato":"6 meses","validade":"30 dias (até 26/11/2026)"},
+"cobertura":{"conservadora":23.0,"otimista":34.5,"essenciais":"3 de 7"},
+"componentes":[{"nome":"Cobertura dos requisitos","nota":2.6},{"nome":"Requisitos essenciais atendidos","nota":4.3},{"nome":"Custo-benefício","nota":2.7},{"nome":"Risco e portões","nota":4.0}],
+"forcas":[
+"Autora do brandbook V1.0: conhecimento profundo da ideia 'Luxo é para se sentir', da voz e dos mantras.",
+"Evolução de fotos e vídeos institucionais coberta integralmente (R4.1) e manifesto de 1 minuto (R4.4).",
+"Workshop inicial de alinhamento e reuniões quinzenais e mensais com os sócios previstas, o que sustenta a passagem de contexto.",
+"Disposição de revisar: a V5 reduziu a consultoria de R$ 200 mil por 12 meses para R$ 120 mil por 6 meses e o total de R$ 545 mil para R$ 465 mil."
+],
+"fraquezas":[
+"Capacidade de validação inadequada: 5 horas por mês (R3.2) contra 40 a 50 peças por mês. É o requisito de maior peso do RFP.",
+"Retorno em até 2 dias úteis para tudo (R3.1), sem a distinção por níveis (conceito, peça final, adaptação) que viabiliza o volume.",
+"Política de conflito entre quem custodia e quem produz (R3.4, eliminatório) não informada.",
+"Não cobre materiais e gifts (R4.2), aplicações gráficas (R4.3, excluídas no item 01 das considerações gerais) nem consultoria de ativações (R5.1).",
+"Calendário de ações (R2.1) e portfólio de desdobramentos (R2.2) não informados."
+],
+"cobertas":["R4.1 fotos e vídeos","R4.4 manifesto"],
+"parciais":["R1.1 plano de transição (workshop inicial)","R3.1 modelo de validação (retorno em 2 dias úteis)"],
+"naoCobertas":["R1.2 guia de uso para agências","R2.1 calendário de ações","R2.2 portfólio de desdobramentos","R3.2 capacidade de 40 a 50 peças por mês","R3.3 relatório mensal de aderência","R3.4 política de conflito (eliminatório)","R4.2 materiais e gifts","R4.3 aplicações gráficas","R5.1 consultoria de ativações"],
+"atencao":[
+"Conflito de interesse estrutural: a autora do brandbook seria a validadora das peças de quem disputa o mesmo cliente; a política de conflito é eliminatória e está pendente.",
+"Ativos baseados em renders atuais e geração por IA (60 clipes e manifesto), com impacto potencial na percepção de luxo e na autenticidade.",
+"Sobreposição de fotos e vídeos com a XCV/WiVO.",
+"Cinco versões em poucas semanas: o escopo e o preço ainda se movem; a V5 vale 30 dias (26/11/2026).",
+"Dois portões pendentes: modelo de validação com SLA e política de conflito.",
+"O volume de 40 a 50 peças vem de propostas de outras agências e precisa ser revalidado."
+],
+"objetivo":{
+"resumo":"Excelente para evoluir ativos da marca; insuficiente para exercer a custódia como porta única de validação.",
+"comentarios":[
+"A proposta entrega bem o que é produção de ativos, mas não responde ao núcleo do RFP 1: validação com capacidade, prazos por nível e relatório de aderência.",
+"R$ 465 mil por 23% de cobertura conservadora é o pior custo-benefício do conjunto; a maior parte do valor está em fotos e vídeos, não em custódia.",
+"A consultoria de R$ 120 mil compra 5 horas por mês: cerca de R$ 4.000 por hora, sem capacidade para o volume previsto.",
+"A autoria do brandbook é vantagem de conhecimento e, ao mesmo tempo, risco de neutralidade."
+]
+},
+"pragmatica":{
+"conclusao":"Fit baixo para a custódia como proposta. A Rebu é a melhor opção para evoluir ativos da marca, mas não para validar o fluxo de peças. A decisão realista é separar as funções: contratar a Rebu para ativos e abrir a custódia a outro modelo, ou exigir uma V6 com capacidade, SLA por níveis e política de conflito.",
+"condicoes":[
+"Capacidade dimensionada ao volume: horas mensais por nível e equipe nomeada.",
+"SLA por níveis: conceito (até 3 dias úteis), peça final (até 2) e adaptação (mesmo dia ou 1 dia útil, por checklist).",
+"Política de conflito escrita, com regra de impedimento e auditoria dos pareceres.",
+"Relatório mensal de aderência e calendário de ações.",
+"Definir o que é feito pela Rebu e o que fica com a XCV em fotos e vídeos, evitando pagamento duplicado.",
+"Aceite formal dentro da validade de 30 dias."
+],
+"recomendacao":"Não contratar a V5 como custódia integral. Contratar o módulo de ativos de forma separada, se a Newe quiser, e reabrir a custódia ou pedir V6 com as seis condições acima."
+}
+}
+]
+}
