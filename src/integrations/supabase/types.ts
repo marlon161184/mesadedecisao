@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      acesso_autorizado: {
+        Row: {
+          convidado_em: string | null
+          criado_em: string
+          email: string
+          grupo: string
+          nome: string | null
+          revogado_em: string | null
+          user_id: string | null
+        }
+        Insert: {
+          convidado_em?: string | null
+          criado_em?: string
+          email: string
+          grupo: string
+          nome?: string | null
+          revogado_em?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          convidado_em?: string | null
+          criado_em?: string
+          email?: string
+          grupo?: string
+          nome?: string | null
+          revogado_em?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       ata: {
         Row: {
           aprovada_em: string | null
@@ -634,6 +664,30 @@ export type Database = {
           quem?: string | null
           registro?: string | null
           tabela?: string
+        }
+        Relationships: []
+      }
+      log_entrada: {
+        Row: {
+          email: string
+          id: number
+          ip: string | null
+          quando: string
+          user_id: string
+        }
+        Insert: {
+          email: string
+          id?: never
+          ip?: string | null
+          quando?: string
+          user_id: string
+        }
+        Update: {
+          email?: string
+          id?: never
+          ip?: string | null
+          quando?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -1277,6 +1331,30 @@ export type Database = {
           numero?: number
           periodo?: string | null
           status?: string
+        }
+        Relationships: []
+      }
+      tentativa_login: {
+        Row: {
+          email: string
+          id: number
+          ip: string | null
+          quando: string
+          sucesso: boolean
+        }
+        Insert: {
+          email: string
+          id?: never
+          ip?: string | null
+          quando?: string
+          sucesso: boolean
+        }
+        Update: {
+          email?: string
+          id?: never
+          ip?: string | null
+          quando?: string
+          sucesso?: boolean
         }
         Relationships: []
       }

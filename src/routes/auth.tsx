@@ -8,6 +8,7 @@ import { AlternarTema } from "@/components/newe/AlternarTema";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { entrarComSenha, pedirRedefinicao } from "@/lib/acesso.functions";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -56,18 +57,24 @@ function Entrar() {
     setCarregando(true);
     await sairDeConvidado();
     localStorage.removeItem("newe-reuniao");
-    const { error } = await supabase.auth.signInWithPassword({ email, password: senha });
-    setCarregando(false);
-    if (error) { toast.error("E-mail ou senha não conferem."); return; }
-    navigate({ to: "/inicio" });
+    try {
+      const r = await entrarComSenha({ data: { email, senha } });
+      if (!r.ok) { toast.error(r.erro); return; }
+      const { error } = await supabase.auth.setSession({ access_token: r.access_token, refresh_token: r.refresh_token });
+      if (error) { toast.error("Não foi possível abrir a sessão."); return; }
+      navigate({ to: "/inicio" });
+    } catch {
+      toast.error("Não foi possível entrar agora.");
+    } finally {
+      setCarregando(false);
+    }
   }
 
   async function esqueci() {
     if (!email) { toast.error("Informe seu e-mail primeiro."); return; }
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/definir-senha`,
-    });
-    if (error) { toast.error(error.message); return; }
+    try {
+      await pedirRedefinicao({ data: { email, redirectTo: `${window.location.origin}/definir-senha` } });
+    } catch { /* resposta sempre igual */ }
     toast.success("Se o e-mail tiver acesso, enviamos um link para redefinir a senha.");
   }
 

@@ -6,6 +6,8 @@ import { Logo, RotuloMono } from "@/components/newe/brand";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { definirSenha } from "@/lib/acesso.functions";
+import { senhaValida, SENHA_MINIMA } from "@/lib/acesso";
 
 export const Route = createFileRoute("/definir-senha")({
   head: () => ({
@@ -32,9 +34,8 @@ function DefinirSenha() {
 
   async function salvar(e: FormEvent) {
     e.preventDefault();
-    if (senha.length < 8) { toast.error("Use pelo menos 8 caracteres."); return; }
-    const { error } = await supabase.auth.updateUser({ password: senha });
-    if (error) { toast.error(error.message); return; }
+    if (!senhaValida(senha)) { toast.error(`Use pelo menos ${SENHA_MINIMA} caracteres.`); return; }
+    try { await definirSenha({ data: { senha } }); } catch (err) { toast.error((err as Error).message); return; }
     toast.success("Senha definida.");
     navigate({ to: "/inicio" });
   }
@@ -48,7 +49,7 @@ function DefinirSenha() {
           <h1 className="chamada mt-3 text-3xl">Definir senha</h1>
         </div>
         {!pronto ? (
-          <p className="text-sm text-ink-muted">Abra esta página pelo link enviado ao seu e-mail.</p>
+          <p className="text-sm text-ink-muted">Abra esta página pelo link enviado ao seu e-mail. Links usados, expirados ou revogados não funcionam; peça um novo ao facilitador.</p>
         ) : (
           <>
             <div>
