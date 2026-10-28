@@ -1,9 +1,9 @@
 # Roadmap
 
 ## Correção · acesso aos documentos
-- [ ] Verificação no servidor por Admin, grupo Sócios e reunião ativa
-- [ ] JSONs somente no servidor; telas e impressão protegidas; menus filtrados
-- [ ] Testes de permissões, menus e verificação do fluxo real
+- [x] Verificação no servidor por Admin, grupo Sócios e reunião ativa
+- [x] JSONs somente no servidor; telas e impressão protegidas; menus filtrados
+- [x] Testes de permissões, menus e fluxo Admin real em desktop/celular; arquivos de origem negados (403)
 
 ## Ajuste · janela de reunião
 - [x] Encerramento livre em Brasília, atalhos e aviso no Admin
