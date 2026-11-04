@@ -1,6 +1,8 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import type { Database } from "@/integrations/supabase/types";
 import {
   CATEGORIAS, MIME, TIPOS_PRECO, UNIDADES, cabecalhoSchema, caminhoArquivo, conteudoSchema, linhasAprovacao,
   montarRascunho, rascunhoManual, sanearNome, validarArquivo, type Contexto, type TipoArquivo,
@@ -63,7 +65,7 @@ export const anexarDocumentoProposta = createServerFn({ method: "POST" })
     return { ok: true };
   });
 
-async function contexto(sb: Parameters<Parameters<ReturnType<typeof createServerFn>["handler"]>[0]>[0] extends never ? never : any, rfpNumero: number): Promise<Contexto> {
+async function contexto(sb: SupabaseClient<Database>, rfpNumero: number): Promise<Contexto & { modulos: { id: string; codigo: string; nome: string }[] }> {
   const { data: rfp } = await sb.from("rfp").select("id, janela_meses").eq("numero", rfpNumero).maybeSingle();
   if (!rfp) throw new Error("RFP não encontrado.");
   const { data: modulos } = await sb.from("modulo").select("id, codigo, nome").eq("rfp_id", rfp.id).order("codigo");
