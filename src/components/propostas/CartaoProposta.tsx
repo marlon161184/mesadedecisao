@@ -6,7 +6,7 @@ import { Paperclip } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import type { Base } from "@/lib/base";
 import { decisaoQuery } from "@/lib/decisao-dados";
-import { analisarRfp, premissasEfetivas } from "@/lib/equalizacao";
+import { analisarProposta, premissasEfetivas } from "@/lib/equalizacao";
 import { pontosAutomaticos, pontosManuais } from "@/lib/pontos";
 import { dadosPropostaParaIA, parecerDaProposta } from "@/lib/parecer";
 import { ACEITE } from "@/lib/rascunho";
@@ -69,9 +69,9 @@ export function ParecerProposta({ base, propostaId }: { base: Base; propostaId: 
   const { analise, pontos } = useMemo(() => {
     const premissas = premissasEfetivas(base, {});
     const p = base.propostas.find((x) => x.id === propostaId);
-    const rfp = base.rfps.find((r) => p && base.players.find((pl) => pl.id === p.player_id)?.rfp_numeros.includes(r.numero))?.numero ?? 2;
-    const analises = analisarRfp(base, rfp, { filtros: { incluirNaoValidadas: true } as never, premissas });
-    const a = analises.find((x) => x.proposta.id === propostaId) ?? null;
+    const player = base.players.find((pl) => pl.id === p?.player_id);
+    const rfp = base.rfps.find((r) => player?.rfp_numeros.includes(r.numero))?.numero ?? 2;
+    const a = p && player ? analisarProposta(base, rfp, p, player, { filtros: {}, premissas }) : null;
     const pts = a ? [...pontosAutomaticos(a, premissas), ...pontosManuais(base, [a])].map((x) => ({ severidade: x.severidade, texto: x.texto })) : [];
     return { analise: a, pontos: pts };
   }, [base, propostaId]);
