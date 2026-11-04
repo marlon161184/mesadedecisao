@@ -64,6 +64,13 @@
       "when": 1793227386433,
       "tag": "0008_acesso_individual",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1793821150278,
+      "tag": "0009_nova_proposta_upload",
+      "breakpoints": true
     }
   ]
 }
