@@ -49,7 +49,7 @@ export function versaoSugerida(propostas: { player_id: string; versao: number }[
 export const CORES_NOVAS = ["terra-vermelha", "cinza-quente-1", "cinza-quente-2", "cinza-quente-3"] as const;
 export function proximaCor(players: { cor_token: string | null }[]): string {
   const usadas = new Set(players.map((p) => p.cor_token));
-  return CORES_NOVAS.find((c) => !usadas.has(c)) ?? CORES_NOVAS[CORES_NOVAS.length - 1];
+  return CORES_NOVAS.find((c) => !usadas.has(c)) ?? "cinza-quente-3";
 }
 
 // ===== Rascunho =====

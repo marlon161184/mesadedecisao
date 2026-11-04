@@ -74,7 +74,7 @@ async function contexto(sb: SupabaseClient<Database>, rfpNumero: number): Promis
   return { modulos: modulos ?? [], requisitos: requisitos ?? [], janelaMeses: rfp.janela_meses };
 }
 
-function instrucoesLeitura(ctx: Contexto & { modulos: { codigo: string; nome?: string }[] }) {
+function instrucoesLeitura(ctx: Contexto & { modulos: { id: string; codigo: string; nome: string }[] }) {
   return `Você lê propostas comerciais de agências para a NEWE e devolve SOMENTE um objeto JSON, sem comentários.
 Regra editorial: só fatos presentes no documento. Dado ausente é null. Não invente número, nome, entrega ou página.
 Honorários do facilitador (Arquê) nunca entram como item.

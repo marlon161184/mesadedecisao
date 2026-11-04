@@ -22,7 +22,7 @@ const PASSOS = ["Upload", "Identificação", "Leitura assistida", "Revisão"] as
 
 interface Arquivo { id: string; tipo: string; caminho: string; nome: string }
 
-export function NovaProposta({ base, playerInicial, onFechar }: { base: Base; playerInicial?: string; onFechar: () => void }) {
+export function NovaProposta({ base, playerInicial, onFechar }: { base: Base; playerInicial?: string | undefined; onFechar: () => void }) {
   const qc = useQueryClient();
   const enviar = useServerFn(enviarArquivoProposta);
   const ler = useServerFn(lerRascunhoProposta);
