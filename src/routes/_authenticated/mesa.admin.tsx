@@ -1,7 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, type ChangeEvent } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { Download, Upload } from "lucide-react";
+import { Download, Plus, Upload } from "lucide-react";
+import { NovaProposta } from "@/components/propostas/NovaProposta";
+import { ArquivosProposta, ParecerProposta } from "@/components/propostas/CartaoProposta";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useMesa } from "@/components/mesa/useMesa";
@@ -50,6 +52,7 @@ function Admin() {
   const { base } = useMesa();
   const qc = useQueryClient();
   const [aba, setAba] = useState<(typeof ABAS)[number]>("Propostas");
+  const [nova, setNova] = useState<{ player?: string } | null>(null);
 
   if (sessao && !sessao.papeis.includes("admin")) {
     return (
@@ -121,6 +124,14 @@ function Admin() {
 
         {aba === "Propostas" && (
           <div className="space-y-12">
+            {nova ? (
+              <NovaProposta key={nova.player ?? "nova"} base={base} playerInicial={nova.player} onFechar={() => setNova(null)} />
+            ) : (
+              <div className="flex flex-wrap items-center gap-3">
+                <Button onClick={() => setNova({})}><Plus strokeWidth={1.5} />Nova proposta</Button>
+                <span className="text-sm text-ink-muted">Upload do documento, leitura assistida e revisão antes de gravar.</span>
+              </div>
+            )}
             {base.propostas.map((p) => {
               const marcados = new Set(base.checklist.filter((c) => c.proposta_id === p.id && c.concluido).map((c) => c.chave));
               return (
@@ -151,6 +162,8 @@ function Admin() {
                     )}
                     {p.status === "validada" && <Button size="sm" variant="secondary" onClick={() => mudarStatus(p.id, "em_equalizacao")}>Voltar para equalização</Button>}
                   </div>
+                  <ArquivosProposta propostaId={p.id} onNovaVersao={() => { setNova({ player: p.player_id }); window.scrollTo({ top: 0, behavior: "smooth" }); }} />
+                  <ParecerProposta base={base} propostaId={p.id} />
                 </section>
               );
             })}

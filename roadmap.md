@@ -52,3 +52,10 @@
 - [x] Abre no modo reunião com atalho para a Mesa; selo com nome, horário e conectados; revalida a cada 60 s
 - [x] Log: criação, encerramento, entrada (nome, IP), acessos negados
 - [x] Testes: unitários (token) + RLS em bloco desfeito (supabase/tests/reuniao_rls.sql)
+
+## Propostas novas por upload (Admin)
+- [x] Nova proposta: upload (PDF/DOCX/PPTX/XLSX, 20 MB), identificação (agência existente ou nova, versão sugerida), leitura assistida opcional, revisão e "Aprovar e gravar" como Recebida
+- [x] Anexar documento, histórico de arquivos e "Substituir por nova versão" em cada cartão
+- [x] Parecer por regra + rascunho com IA da proposta nova, revisão e publicação (tabela própria)
+- [x] Testes do rascunho e RLS (supabase/tests/proposta_upload_rls.sql)
+- [ ] Gravação completa com um PDF real — aguarda a primeira proposta pelo Admin (não criamos dados fictícios)

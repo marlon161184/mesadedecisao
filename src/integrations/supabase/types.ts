@@ -774,6 +774,53 @@ export type Database = {
           },
         ]
       }
+      parecer_proposta: {
+        Row: {
+          atualizado_em: string
+          autor: string
+          criado_em: string
+          id: string
+          origem: string
+          proposta_id: string
+          publicado: boolean
+          publicado_em: string | null
+          revisado: boolean
+          texto: string
+        }
+        Insert: {
+          atualizado_em?: string
+          autor?: string
+          criado_em?: string
+          id?: string
+          origem: string
+          proposta_id: string
+          publicado?: boolean
+          publicado_em?: string | null
+          revisado?: boolean
+          texto: string
+        }
+        Update: {
+          atualizado_em?: string
+          autor?: string
+          criado_em?: string
+          id?: string
+          origem?: string
+          proposta_id?: string
+          publicado?: boolean
+          publicado_em?: string | null
+          revisado?: boolean
+          texto?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "parecer_proposta_proposta_id_fkey"
+            columns: ["proposta_id"]
+            isOneToOne: false
+            referencedRelation: "proposta"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       pergunta_filtro: {
         Row: {
           id: string
@@ -1096,6 +1143,68 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "proposta_arquivo_proposta_id_fkey"
+            columns: ["proposta_id"]
+            isOneToOne: false
+            referencedRelation: "proposta"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      proposta_rascunho: {
+        Row: {
+          aprovado_em: string | null
+          aprovado_por: string | null
+          arquivo_caminho: string
+          arquivo_nome: string
+          arquivo_tamanho: number
+          arquivo_tipo: string
+          conteudo: Json
+          criado_em: string
+          criado_por: string
+          erro: string | null
+          id: string
+          lido_em: string | null
+          proposta_id: string | null
+          rfp_numero: number
+          status: string
+        }
+        Insert: {
+          aprovado_em?: string | null
+          aprovado_por?: string | null
+          arquivo_caminho: string
+          arquivo_nome: string
+          arquivo_tamanho: number
+          arquivo_tipo: string
+          conteudo?: Json
+          criado_em?: string
+          criado_por?: string
+          erro?: string | null
+          id?: string
+          lido_em?: string | null
+          proposta_id?: string | null
+          rfp_numero?: number
+          status?: string
+        }
+        Update: {
+          aprovado_em?: string | null
+          aprovado_por?: string | null
+          arquivo_caminho?: string
+          arquivo_nome?: string
+          arquivo_tamanho?: number
+          arquivo_tipo?: string
+          conteudo?: Json
+          criado_em?: string
+          criado_por?: string
+          erro?: string | null
+          id?: string
+          lido_em?: string | null
+          proposta_id?: string | null
+          rfp_numero?: number
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "proposta_rascunho_proposta_id_fkey"
             columns: ["proposta_id"]
             isOneToOne: false
             referencedRelation: "proposta"
@@ -1472,6 +1581,7 @@ export type Database = {
           socio_id: string
         }[]
       }
+      grupo_socios: { Args: { _user_id: string }; Returns: boolean }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
