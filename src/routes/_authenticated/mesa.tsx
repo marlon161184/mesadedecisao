@@ -94,7 +94,7 @@ function BotaoApresentar({ aoNavegar }: { aoNavegar?: () => void }) {
       to="/mesa/apresentacao"
       search={((p: Record<string, unknown>) => ({ ...p, slide: undefined })) as never}
       onClick={aoNavegar}
-      className="inline-flex min-h-11 items-center gap-2 border border-preto bg-amarelo px-4 py-2 font-medium text-preto hover:bg-amarelo/85 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground"
+      className="inline-flex min-h-11 items-center gap-2 whitespace-nowrap border border-preto bg-amarelo px-4 py-2 font-medium text-preto hover:bg-amarelo/85 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground"
     >
       <Presentation className="size-4" strokeWidth={1.5} /> Apresentar ao Conselho
     </Link>
