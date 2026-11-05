@@ -34,6 +34,7 @@ import { Route as AuthenticatedMesaPlayersRouteImport } from './routes/_authenti
 import { Route as AuthenticatedMesaPontosRouteImport } from './routes/_authenticated/mesa.pontos'
 import { Route as AuthenticatedMesaSimuladorRouteImport } from './routes/_authenticated/mesa.simulador'
 import { Route as AuthenticatedMesaVisaoRouteImport } from './routes/_authenticated/mesa.visao'
+import { Route as AuthenticatedMesaApresentacaoRouteImport } from './routes/_authenticated/mesa_.apresentacao'
 import { Route as AuthenticatedMesaPareceresIndexRouteImport } from './routes/_authenticated/mesa.pareceres.index'
 import { Route as AuthenticatedMesaPareceresSlugRouteImport } from './routes/_authenticated/mesa.pareceres.$slug'
 import { Route as AuthenticatedMesaRfpsIndexRouteImport } from './routes/_authenticated/mesa.rfps.index'
@@ -174,6 +175,12 @@ const AuthenticatedMesaVisaoRoute = AuthenticatedMesaVisaoRouteImport.update({
   path: '/visao',
   getParentRoute: () => AuthenticatedMesaRoute,
 } as any)
+const AuthenticatedMesaApresentacaoRoute =
+  AuthenticatedMesaApresentacaoRouteImport.update({
+    id: '/mesa_/apresentacao',
+    path: '/mesa/apresentacao',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedMesaPareceresIndexRoute =
   AuthenticatedMesaPareceresIndexRouteImport.update({
     id: '/pareceres/',
@@ -224,6 +231,7 @@ export interface FileRoutesByFullPath {
   '/mesa/pontos': typeof AuthenticatedMesaPontosRoute
   '/mesa/simulador': typeof AuthenticatedMesaSimuladorRoute
   '/mesa/visao': typeof AuthenticatedMesaVisaoRoute
+  '/mesa/apresentacao': typeof AuthenticatedMesaApresentacaoRoute
   '/mesa/pareceres/$slug': typeof AuthenticatedMesaPareceresSlugRoute
   '/mesa/rfps/$numero': typeof AuthenticatedMesaRfpsNumeroRoute
   '/mesa/pareceres/': typeof AuthenticatedMesaPareceresIndexRoute
@@ -254,6 +262,7 @@ export interface FileRoutesByTo {
   '/mesa/pontos': typeof AuthenticatedMesaPontosRoute
   '/mesa/simulador': typeof AuthenticatedMesaSimuladorRoute
   '/mesa/visao': typeof AuthenticatedMesaVisaoRoute
+  '/mesa/apresentacao': typeof AuthenticatedMesaApresentacaoRoute
   '/mesa/pareceres/$slug': typeof AuthenticatedMesaPareceresSlugRoute
   '/mesa/rfps/$numero': typeof AuthenticatedMesaRfpsNumeroRoute
   '/mesa/pareceres': typeof AuthenticatedMesaPareceresIndexRoute
@@ -286,6 +295,7 @@ export interface FileRoutesById {
   '/_authenticated/mesa/pontos': typeof AuthenticatedMesaPontosRoute
   '/_authenticated/mesa/simulador': typeof AuthenticatedMesaSimuladorRoute
   '/_authenticated/mesa/visao': typeof AuthenticatedMesaVisaoRoute
+  '/_authenticated/mesa_/apresentacao': typeof AuthenticatedMesaApresentacaoRoute
   '/_authenticated/mesa/pareceres/$slug': typeof AuthenticatedMesaPareceresSlugRoute
   '/_authenticated/mesa/rfps/$numero': typeof AuthenticatedMesaRfpsNumeroRoute
   '/_authenticated/mesa/pareceres/': typeof AuthenticatedMesaPareceresIndexRoute
@@ -318,6 +328,7 @@ export interface FileRouteTypes {
     | '/mesa/pontos'
     | '/mesa/simulador'
     | '/mesa/visao'
+    | '/mesa/apresentacao'
     | '/mesa/pareceres/$slug'
     | '/mesa/rfps/$numero'
     | '/mesa/pareceres/'
@@ -348,6 +359,7 @@ export interface FileRouteTypes {
     | '/mesa/pontos'
     | '/mesa/simulador'
     | '/mesa/visao'
+    | '/mesa/apresentacao'
     | '/mesa/pareceres/$slug'
     | '/mesa/rfps/$numero'
     | '/mesa/pareceres'
@@ -379,6 +391,7 @@ export interface FileRouteTypes {
     | '/_authenticated/mesa/pontos'
     | '/_authenticated/mesa/simulador'
     | '/_authenticated/mesa/visao'
+    | '/_authenticated/mesa_/apresentacao'
     | '/_authenticated/mesa/pareceres/$slug'
     | '/_authenticated/mesa/rfps/$numero'
     | '/_authenticated/mesa/pareceres/'
@@ -570,6 +583,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMesaVisaoRouteImport
       parentRoute: typeof AuthenticatedMesaRoute
     }
+    '/_authenticated/mesa_/apresentacao': {
+      id: '/_authenticated/mesa_/apresentacao'
+      path: '/mesa/apresentacao'
+      fullPath: '/mesa/apresentacao'
+      preLoaderRoute: typeof AuthenticatedMesaApresentacaoRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/mesa/pareceres/': {
       id: '/_authenticated/mesa/pareceres/'
       path: '/pareceres'
@@ -651,6 +671,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedImprimirAtaIdRoute: typeof AuthenticatedImprimirAtaIdRoute
   AuthenticatedImprimirRfpNumeroRoute: typeof AuthenticatedImprimirRfpNumeroRoute
   AuthenticatedImprimirIdRoute: typeof AuthenticatedImprimirIdRoute
+  AuthenticatedMesaApresentacaoRoute: typeof AuthenticatedMesaApresentacaoRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -662,6 +683,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedImprimirAtaIdRoute: AuthenticatedImprimirAtaIdRoute,
   AuthenticatedImprimirRfpNumeroRoute: AuthenticatedImprimirRfpNumeroRoute,
   AuthenticatedImprimirIdRoute: AuthenticatedImprimirIdRoute,
+  AuthenticatedMesaApresentacaoRoute: AuthenticatedMesaApresentacaoRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
