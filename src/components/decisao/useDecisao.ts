@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { baseQuery, rfpOuPrimeiro, type Base } from "@/lib/base";
 import { decisaoQuery, type DadosDecisao } from "@/lib/decisao-dados";
+import { pendentesPerguntas as calcularPendentes } from "@/lib/perguntas";
 import { avaliarVotacao, divergencias, mediasPorCriterio, type Decisao, type Regra, type StatusEtapa } from "@/lib/decisao";
 
 export function propostasDoRfp(base: Base, rfpId: string) {

@@ -76,7 +76,7 @@ export function Preparar({ base, m }: P) {
         <ul className="mt-2 max-h-72 space-y-1 overflow-y-auto">
           {m.pendentesPerguntas.map(({ q, p }) => (
             <li key={q.id + p.id} className="flex items-start justify-between gap-3 border-b border-line py-1.5 text-sm">
-              <span><span className="label-mono mr-2">{nomeProposta(base, p.id)}</span>{q.texto}</span>
+              <span><span className="label-mono mr-2">{nomeProposta(base, p.id)}</span>{q.player_id && <Badge variant="outline" className="mr-2">Só {base.players.find((pl) => pl.id === q.player_id)?.nome ?? "agência"}</Badge>}{q.secao && <span className="text-ink-muted">{q.secao} · </span>}{q.texto}</span>
               {m.admin && <Button size="sm" variant="outline" onClick={() => semResposta(q.id, p.id)}>Sem resposta</Button>}
             </li>
           ))}
