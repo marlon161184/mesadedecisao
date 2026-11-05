@@ -271,20 +271,31 @@ export function montarApresentacao({ base, filtros: f, decisoes = [], documentos
     });
   }
 
-  // 10 · Pontos de atenção críticos e altos
+  // 10 · Pontos de atenção críticos e altos: resumo por agência + lista dos críticos
   {
-    const graves = comPropostas.flatMap((r) => r.pontos.filter((x) => x.severidade === "critico" || x.severidade === "alto"));
-    const l = leituraPontos(base, comPropostas.flatMap((r) => r.pontos), todas);
-    const crit = graves.filter((x) => x.severidade === "critico").length;
-    const ordenados = [...graves].sort((a, b) => (a.playerNome ?? "").localeCompare(b.playerNome ?? "", "pt-BR") || ORDEM_SEV[a.severidade] - ORDEM_SEV[b.severidade]);
-    paginar(ordenados).forEach((bloco, i, all) => add({
-      id: `pontos-${i}`, secao: "Pontos de atenção",
-      titulo: `${crit} alertas críticos e ${graves.length - crit} altos pedem resposta antes da decisão` + (all.length > 1 ? ` (${i + 1}/${all.length})` : ""),
+    const todos = comPropostas.flatMap((r) => r.pontos);
+    const graves = todos.filter((x) => x.severidade === "critico" || x.severidade === "alto");
+    const l = leituraPontos(base, todos, todas);
+    const crit = graves.filter((x) => x.severidade === "critico");
+    const nomes = [...new Set(graves.map((x) => x.playerNome ?? "Geral"))].sort((a, b) => a.localeCompare(b, "pt-BR"));
+    add({
+      id: "pontos-resumo", secao: "Pontos de atenção",
+      titulo: `${crit.length} alertas críticos e ${graves.length - crit.length} altos pedem resposta antes da decisão`,
       tabela: {
-        colunas: ["Agência", "Gravidade", "Alerta"],
-        linhas: bloco.map((x) => [x.playerNome ?? "Geral", ROTULO_SEV[x.severidade], x.texto]),
+        colunas: ["Agência", "Críticos", "Altos", "Principal alerta"],
+        linhas: nomes.slice(0, LINHAS_POR_SLIDE).map((n) => {
+          const ps = graves.filter((x) => (x.playerNome ?? "Geral") === n);
+          return [n, String(ps.filter((x) => x.severidade === "critico").length), String(ps.filter((x) => x.severidade === "alto").length), ps[0]!.texto];
+        }),
+        numericas: [1, 2],
       },
-      leitura: i === 0 ? leituraParaSlide(l, J).slice(0, 2) : [],
+      leitura: leituraParaSlide(l, J).slice(0, 3),
+      rodape: rodape(l.ressalvas),
+    });
+    if (crit.length) paginar(crit).forEach((bloco, i, all) => add({
+      id: `pontos-criticos-${i}`, secao: "Pontos de atenção",
+      titulo: `Os ${crit.length} alertas críticos, em linguagem de risco` + (all.length > 1 ? ` (${i + 1}/${all.length})` : ""),
+      tabela: { colunas: ["Agência", "Alerta", "O que fazer"], linhas: bloco.map((x) => [x.playerNome ?? "Geral", x.texto, x.acao]) },
       rodape: rodape(l.ressalvas),
     }));
   }
@@ -293,17 +304,24 @@ export function montarApresentacao({ base, filtros: f, decisoes = [], documentos
   for (const { nome, r } of cen.itens) {
     const l = leituraComposicoes(base, [{ nome, r }], "simulador");
     const res = ressalvasComposicao(base, [r]);
-    paginar(r.modulos).forEach((bloco, i, all) => add({
-      id: `cenario-${nome}-${i}`, secao: "Cenários",
-      titulo: `${nome}: ${brl(r.total.central)}, cobre ${pct(r.cobertura.conservadora)}` + (all.length > 1 ? ` (${i + 1}/${all.length})` : ""),
+    const grupos = new Map<string, { mods: string[]; valor: number }>();
+    for (const m of r.modulos) {
+      const k = m.player?.nome ?? (m.opcao.tipo === "interno" ? "Interno" : "A cotar");
+      const g = grupos.get(k) ?? { mods: [], valor: 0 };
+      g.mods.push(m.modulo.codigo); g.valor += m.player ? m.total : 0;
+      grupos.set(k, g);
+    }
+    add({
+      id: `cenario-${nome}`, secao: "Cenários",
+      titulo: `${nome}: ${brl(r.total.central)}, cobre ${pct(r.cobertura.conservadora)}`,
       tabela: {
-        colunas: ["Módulo", "Quem faz", "Custo"],
-        linhas: bloco.map((m) => [`${m.modulo.codigo} ${m.modulo.nome}`, m.player?.nome ?? (m.opcao.tipo === "interno" ? "Interno" : "A cotar"), m.player ? brl(m.total) : "—"]),
+        colunas: ["Quem faz", "Módulos", "Custo"],
+        linhas: [...grupos].slice(0, LINHAS_POR_SLIDE).map(([k, g]) => [k, g.mods.join(", "), k === "A cotar" || k === "Interno" ? "sem preço" : brl(g.valor)]),
         numericas: [2],
       },
       leitura: leituraParaSlide(l, J).slice(0, 3),
       rodape: [...rodape(res), ...(r.motivosInviavel.length ? [`Não passa nas regras mínimas: ${r.motivosInviavel.join("; ")}.`] : [])],
-    }));
+    });
   }
 
   // 12 · Mesa de cenários
