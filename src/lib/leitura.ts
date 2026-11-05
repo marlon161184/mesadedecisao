@@ -162,7 +162,7 @@ export function leituraCobertura(base: Base, analises: AnaliseProposta[]): Leitu
   const declaradas = cobs.filter((c) => c.evidencia === "declarado").length;
   const porCob = [...analises].sort((a, b) => b.cobertura.conservadora - a.cobertura.conservadora);
   const abertos = new Map<string, string[]>();
-  for (const a of analises) for (const b of a.bloqueios) abertos.set(b.requisito.codigo, [...(abertos.get(b.requisito.codigo) ?? []), a.player.nome]);
+  for (const a of analises) for (const b of a.bloqueios) { const k = b.requisito.codigo ?? b.requisito.id; abertos.set(k, [...(abertos.get(k) ?? []), a.player.nome]); }
   const frases = [
     GLOSSARIO.cobertura,
     `A medida conservadora conta como zero o que a agência não informou; a otimista olha só o que foi informado.`,
@@ -381,10 +381,10 @@ export function leituraPareceres(docs: Pick<ConteudoDocumentos, "fornecedores">)
   return {
     frases: [
       `Os pareceres dão a cada fornecedor uma nota de 0 a 10 de aderência ao que a Newe precisa; é uma régua de apoio, não uma sentença.`,
-      top ? `${top.nome} lidera, com nota ${top.score.replace(".", ",")} e aderência ${top.nivelFit.toLowerCase()}.` : "Não há pareceres publicados.",
+      top ? `${top.nome} lidera, com nota ${String(top.score).replace(".", ",")} e aderência ${top.nivelFit.toLowerCase()}.` : "Não há pareceres publicados.",
       `Cada parecer tem duas leituras: a objetiva, com os fatos, e a pragmática, com a conclusão para decidir.`,
     ],
-    topicos: fs.slice(0, 4).map((f) => `${f.nome} (${f.score.replace(".", ",")}): ${f.pragmatica.conclusao.split(". ")[0]}.`),
+    topicos: fs.slice(0, 4).map((f) => `${f.nome} (${String(f.score).replace(".", ",")}): ${f.pragmatica.conclusao.split(". ")[0]}.`),
     ressalvas: { estimativas: [], avisos: [], soDeclarada: [] },
   };
 }

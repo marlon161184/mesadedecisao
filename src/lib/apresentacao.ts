@@ -94,7 +94,7 @@ export function montarApresentacao({ base, filtros: f, decisoes = [], documentos
   const ressalvasGerais = ressalvas(base, todas.map((a) => a.proposta.id));
   const slides: Slide[] = [];
   const add = (s: Omit<Slide, "tipo" | "rodape"> & Partial<Pick<Slide, "tipo" | "rodape">>) =>
-    slides.push({ tipo: "padrao", rodape: [], ...s, topicos: s.topicos?.slice(0, MAX_TOPICOS) });
+    slides.push({ tipo: "padrao", rodape: [], ...s, ...(s.topicos ? { topicos: s.topicos.slice(0, MAX_TOPICOS) } : {}) });
 
   // 1 · Capa
   const dd = dataDecisao(base);
@@ -368,7 +368,7 @@ export function montarApresentacao({ base, filtros: f, decisoes = [], documentos
     add({
       id: "pareceres", secao: "Pareceres",
       titulo: top[0] ? `Pelos pareceres, ${top[0].nome} tem a maior aderência, mas condicionada` : "Pareceres",
-      tabela: { colunas: ["Fornecedor", "Nota", "Aderência"], linhas: top.slice(0, LINHAS_POR_SLIDE).map((x) => [x.nome, x.score.replace(".", ","), x.nivelFit]), numericas: [1] },
+      tabela: { colunas: ["Fornecedor", "Nota", "Aderência"], linhas: top.slice(0, LINHAS_POR_SLIDE).map((x) => [x.nome, String(x.score).replace(".", ","), x.nivelFit]), numericas: [1] },
       leitura: lp.frases.slice(0, 3),
     });
     const lr = leituraRfps(documentos);
@@ -381,11 +381,11 @@ export function montarApresentacao({ base, filtros: f, decisoes = [], documentos
     add({
       id: "decisao", secao: "Decisão",
       titulo: "O que precisa ser decidido e os próximos passos",
-      tabela: decisoes.length ? {
+      ...(decisoes.length ? { tabela: {
         colunas: ["Pedido", "Etapa", "Portões pendentes", "Respostas pendentes"],
         linhas: decisoes.slice(0, LINHAS_POR_SLIDE).map((d) => [d.rfpNome, leituraDecisao(d).frases[0]!.replace(/^Em .*?, estamos na etapa: /, "").replace(/\.$/, ""), String(d.portoesPendentes), String(d.perguntasPendentes)]),
         numericas: [2, 3],
-      } : undefined,
+      } } : {}),
       topicos: [
         "Receber as respostas pendentes e a proposta oficial onde ainda há estimativa.",
         "Validar as propostas e fechar os portões.",
