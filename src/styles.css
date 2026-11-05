@@ -358,6 +358,8 @@ textarea {
   --slide-leitura: 26px;
   --slide-caption: 22px;
   --slide-chrome: 20px;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
 }
 .slide-title-lg { font-size: var(--slide-title-lg); line-height: 1; letter-spacing: -0.03em; }
 .slide-title { font-size: var(--slide-title); line-height: 1.08; letter-spacing: -0.02em; }
