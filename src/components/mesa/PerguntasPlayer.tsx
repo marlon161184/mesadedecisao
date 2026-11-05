@@ -62,7 +62,7 @@ function Linha({ n, base, q, propostaId, admin }: { n: number; base: Base; q: Ba
       ? await supabase.from("resposta_filtro").update(dados).eq("id", r.id)
       : await supabase.from("resposta_filtro").insert({ pergunta_id: q.id, proposta_id: propostaId, ...dados });
     setSalvando(false);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success("Resposta registrada.");
     setEditando(false);
     await Promise.all([qc.invalidateQueries({ queryKey: ["base"] }), qc.invalidateQueries({ queryKey: ["decisao"] })]);
