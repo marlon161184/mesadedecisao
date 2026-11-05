@@ -29,7 +29,7 @@ describe("perguntas por player", () => {
   it("lista do player inclui gerais e as dele, agrupadas e em ordem", () => {
     const g = agruparPorSecao(perguntasDoPlayer(qs, "r2", "A"));
     expect(g.map((x) => x.secao)).toEqual(["Geral", "Preço", "Contrato"]);
-    expect(g[1].itens.map((q) => q.id)).toEqual(["a1", "a2"]);
+    expect(g[1]!.itens.map((q) => q.id)).toEqual(["a1", "a2"]);
   });
   it("texto para e-mail numera em sequência e mostra prazo em Brasília", () => {
     const t = textoParaEmail("A", perguntasDoPlayer(qs, "r2", "A"));

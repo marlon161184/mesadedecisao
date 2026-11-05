@@ -47,7 +47,7 @@ export function formatarPrazo(iso: string): string {
 export function textoParaEmail<Q extends Pergunta>(nomePlayer: string, perguntas: Q[]): string {
   const prazos = perguntas.map((q) => q.prazo_resposta).filter((x): x is string => !!x).sort();
   const linhas: string[] = [`Perguntas para ${nomePlayer}`];
-  if (prazos.length) linhas.push(`Prazo de resposta: ${formatarPrazo(prazos[0])} (horário de Brasília)`);
+  if (prazos.length) linhas.push(`Prazo de resposta: ${formatarPrazo(prazos[0]!)} (horário de Brasília)`);
   let n = 0;
   for (const g of agruparPorSecao(perguntas)) {
     linhas.push("", g.secao);
