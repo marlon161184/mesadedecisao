@@ -1,3 +1,6 @@
+import { LeituraGuiada } from "@/components/mesa/LeituraGuiada";
+import { leituraEntregas } from "@/lib/leitura";
+import type { ReactNode } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMesa, fundoPlayer, padraoPlayer } from "@/components/mesa/useMesa";
 import { AberturaTela, Conteudo } from "@/components/mesa/partes";
@@ -22,13 +25,13 @@ export const Route = createFileRoute("/_authenticated/mesa/entregas")({
 });
 
 function Entregas() {
-  const { rfp, analises, premissas } = useMesa();
-  return <EntregasConteudo rfp={rfp} analises={analises} premissas={premissas} />;
+  const { base, rfp, analises, premissas } = useMesa();
+  return <EntregasConteudo rfp={rfp} analises={analises} premissas={premissas} leitura={<LeituraGuiada leitura={leituraEntregas(base, analises, premissas)} />} />;
 }
 
 type Mesa = ReturnType<typeof useMesa>;
 
-export function EntregasConteudo({ rfp, analises, premissas }: Pick<Mesa, "rfp" | "analises" | "premissas">) {
+export function EntregasConteudo({ rfp, analises, premissas, leitura }: Pick<Mesa, "rfp" | "analises" | "premissas"> & { leitura?: ReactNode }) {
   const com = analises.filter((a) => a.entregas.length > 0);
   const comCusto = com.flatMap((a) => (a.custoUnitario != null ? [{ ...a, u: a.custoUnitario }] : []));
   const cats = Object.keys(premissas.volume_base_mensal) as Categoria[];
@@ -41,6 +44,7 @@ export function EntregasConteudo({ rfp, analises, premissas }: Pick<Mesa, "rfp" 
         Um preço menor com volume menor não é preço menor.
       </AberturaTela>
       <Conteudo>
+        {leitura}
         {com.length === 0 ? (
           <p className="text-ink-muted">Este RFP não tem entregas declaradas por mês.</p>
         ) : (

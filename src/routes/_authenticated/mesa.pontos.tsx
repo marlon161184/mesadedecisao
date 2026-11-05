@@ -1,3 +1,4 @@
+import { LeituraMesa } from "@/components/mesa/LeituraGuiada";
 import { createFileRoute } from "@tanstack/react-router";
 import { MessageSquareQuote } from "lucide-react";
 import { toast } from "sonner";
@@ -40,6 +41,7 @@ function Pontos() {
         Regras automáticas (P-01 a P-09) e pontos cadastrados pelo Admin, em um só lugar.
       </AberturaTela>
       <Conteudo>
+        <LeituraMesa tela="pontos" />
         <div className="mb-8 grid grid-cols-1 gap-4 border border-line p-4 sm:grid-cols-2 sm:p-5 md:grid-cols-5">
           <label><span className="label-mono mb-1.5 block text-ink-muted">Severidade</span>
             <select className="campo" value={f.severidade ?? ""} onChange={(e) => set({ severidade: e.target.value || undefined })}>

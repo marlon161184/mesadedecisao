@@ -59,3 +59,7 @@
 - [x] Parecer por regra + rascunho com IA da proposta nova, revisão e publicação (tabela própria)
 - [x] Testes do rascunho e RLS (supabase/tests/proposta_upload_rls.sql)
 - [ ] Gravação completa com um PDF real — aguarda a primeira proposta pelo Admin (não criamos dados fictícios)
+
+## Leitura guiada e apresentação ao Conselho
+- [x] Leitura guiada em todas as telas da Mesa (funções puras em leitura.ts, com testes), ressalvas de estimativa, avisos e cobertura só declarada
+- [x] Botão "Apresentar ao Conselho" e /mesa/apresentacao com slides vivos, índice, teclado, toque, tela cheia, impressão (oculta para reunião)

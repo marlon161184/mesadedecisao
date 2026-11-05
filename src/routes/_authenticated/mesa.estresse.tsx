@@ -1,3 +1,5 @@
+import { LeituraGuiada } from "@/components/mesa/LeituraGuiada";
+import { calcularEstresse, leituraEstresse } from "@/lib/leitura";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { useMesa } from "@/components/mesa/useMesa";
@@ -35,6 +37,7 @@ function Estresse() {
     const ordemS = [...ls].sort((a, b) => a.estressado - b.estressado).map((l) => l.cen.id);
     return ls.map((l) => ({ ...l, posB: ordemB.indexOf(l.cen.id) + 1, posS: ordemS.indexOf(l.cen.id) + 1 }));
   }, [base, c]);
+  const leituraEst = useMemo(() => { const e = calcularEstresse(base); return leituraEstresse(base, e.linhas, e.rs); }, [base]);
   const mudou = linhas.some((l) => l.posB !== l.posS);
 
   const chave = (k: keyof typeof c, rotulo: string) => (
@@ -49,6 +52,7 @@ function Estresse() {
         Uma escolha que só se sustenta no melhor caso não é uma escolha segura.
       </AberturaTela>
       <Conteudo>
+        <LeituraGuiada leitura={leituraEst} />
         <div className="mb-8 grid grid-cols-1 gap-3 border border-line p-4 sm:p-5 md:grid-cols-3">
           {chave("volume", "Volume de produção +20%")}
           {chave("verba", "Verba de mídia de R$ 100.000 por mês")}

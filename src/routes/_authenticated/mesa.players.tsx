@@ -1,4 +1,5 @@
 import { LinkFonte } from "@/components/decisao/Documentos";
+import { LeituraMesa } from "@/components/mesa/LeituraGuiada";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useMesa, fundoPlayer, padraoPlayer } from "@/components/mesa/useMesa";
@@ -39,6 +40,7 @@ function Players() {
     <>
       <AberturaTela numero={`RFP ${rfp.numero} · Players`} titulo="Dossiê dos players" />
       <Conteudo>
+        <LeituraMesa tela="players" />
         <div role="tablist" aria-label="Players" className="mb-10 flex overflow-x-auto border-b border-line">
           {doRfp.map((p) => (
             <button key={p.id} role="tab" aria-selected={p.id === player?.id} onClick={() => setEscolhido(p.id)}

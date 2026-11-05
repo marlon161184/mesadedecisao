@@ -1,7 +1,7 @@
 import { createFileRoute, Link, Outlet, useNavigate, useRouter, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
-import { LogOut, Menu } from "lucide-react";
+import { LogOut, Menu, Presentation } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { baseQuery, baseVazia, SemDadosError } from "@/lib/base";
 import { SemAcesso } from "@/components/mesa/SemAcesso";
@@ -79,11 +79,25 @@ function MenuMovel() {
           <SheetTitle className="label-mono mt-1 font-mono text-sidebar-foreground/70">Mesa de Decisão · Seções</SheetTitle>
           <SheetDescription className="sr-only">Escolha uma seção da Mesa.</SheetDescription>
         </div>
+        <div className="px-6 pb-4"><BotaoApresentar aoNavegar={() => setAberto(false)} /></div>
         <nav aria-label="Seções" className="flex-1 overflow-y-auto px-3 pb-8">
           <ListaSecoes grande aoNavegar={() => setAberto(false)} />
         </nav>
       </SheetContent>
     </Sheet>
+  );
+}
+
+function BotaoApresentar({ aoNavegar }: { aoNavegar?: () => void }) {
+  return (
+    <Link
+      to="/mesa/apresentacao"
+      search={((p: Record<string, unknown>) => ({ ...p, slide: undefined })) as never}
+      onClick={aoNavegar}
+      className="inline-flex min-h-11 items-center gap-2 whitespace-nowrap border border-preto bg-amarelo px-4 py-2 font-medium text-preto hover:bg-amarelo/85 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground"
+    >
+      <Presentation className="size-4" strokeWidth={1.5} /> Apresentar ao Conselho
+    </Link>
   );
 }
 
@@ -135,6 +149,7 @@ function LayoutMesaComDados() {
           <div className="flex items-center justify-between gap-4 border-t border-line px-4 py-2 md:px-8 lg:border-t-0 lg:px-12 lg:py-3">
             <SeletorRfp />
             <div className="hidden items-center gap-1 lg:flex">
+              <BotaoApresentar />
               <AlternarTema />
               <Button variant="ghost" size="icon" aria-label="Sair" onClick={sair}><LogOut strokeWidth={1.5} /></Button>
             </div>

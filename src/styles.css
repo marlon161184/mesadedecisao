@@ -344,3 +344,37 @@ textarea {
   background-color: var(--background);
   box-shadow: inset -1px 0 0 var(--line-strong);
 }
+
+/* ---------- Apresentação ao Conselho (slides 1920x1080) ---------- */
+.slide-content {
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  position: relative;
+  --slide-title-lg: 104px;
+  --slide-title: 64px;
+  --slide-body-lg: 34px;
+  --slide-body: 28px;
+  --slide-leitura: 26px;
+  --slide-caption: 22px;
+  --slide-chrome: 20px;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.slide-title-lg { font-size: var(--slide-title-lg); line-height: 1; letter-spacing: -0.03em; }
+.slide-title { font-size: var(--slide-title); line-height: 1.08; letter-spacing: -0.02em; }
+.slide-body-lg { font-size: var(--slide-body-lg); line-height: 1.22; }
+.slide-body { font-size: var(--slide-body); line-height: 1.3; }
+.slide-leitura { font-size: var(--slide-leitura); line-height: 1.35; }
+.slide-caption { font-size: var(--slide-caption); line-height: 1.3; }
+.slide-chrome { font-size: var(--slide-chrome); line-height: 1.15; white-space: nowrap; }
+
+.apresentacao-impressao { display: none; }
+@media print {
+  @page { size: 1920px 1080px; margin: 0; }
+  body * { visibility: hidden; }
+  .apresentacao-impressao, .apresentacao-impressao * { visibility: visible; }
+  .apresentacao-impressao { display: block; position: absolute; left: 0; top: 0; }
+  .apresentacao-impressao .slide-content { break-after: page; page-break-after: always; }
+  .apresentacao-tela { display: none !important; }
+}
