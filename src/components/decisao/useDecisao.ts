@@ -27,9 +27,7 @@ export function modeloDecisao(base: Base, d: DadosDecisao, rfpNumero: number) {
   const reprovadas = new Set(propostas.filter((p) => portoes.some((g) => resultado(g.id, p.id)?.resultado === "reprova")).map((p) => p.id));
   const elegiveis = propostas.filter((p) => !reprovadas.has(p.id));
   const perguntas = base.perguntas.filter((q) => q.rfp_id === rfp.id);
-  const pendentesPerguntas = perguntas.flatMap((q) => propostas
-    .filter((p) => !base.respostas.some((r) => r.pergunta_id === q.id && r.proposta_id === p.id && ((r.resposta ?? "").trim() || r.sem_resposta)))
-    .map((p) => ({ q, p })));
+  const pendentesPerguntas = calcularPendentes(perguntas, base.respostas, propostas);
   const naoValidadas = propostas.filter((p) => p.status !== "validada");
   const revelado = d.revelacoes.some((r) => r.rfp_id === rfp.id);
   const critIds = new Set(criterios.map((c) => c.id));
