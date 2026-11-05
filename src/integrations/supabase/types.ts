@@ -824,20 +824,39 @@ export type Database = {
       pergunta_filtro: {
         Row: {
           id: string
+          ordem: number | null
+          player_id: string | null
+          prazo_resposta: string | null
           rfp_id: string
+          secao: string | null
           texto: string
         }
         Insert: {
           id?: string
+          ordem?: number | null
+          player_id?: string | null
+          prazo_resposta?: string | null
           rfp_id: string
+          secao?: string | null
           texto: string
         }
         Update: {
           id?: string
+          ordem?: number | null
+          player_id?: string | null
+          prazo_resposta?: string | null
           rfp_id?: string
+          secao?: string | null
           texto?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "pergunta_filtro_player_id_fkey"
+            columns: ["player_id"]
+            isOneToOne: false
+            referencedRelation: "player"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "pergunta_filtro_rfp_id_fkey"
             columns: ["rfp_id"]
