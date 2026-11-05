@@ -1,3 +1,5 @@
+import { LeituraGuiada } from "@/components/mesa/LeituraGuiada";
+import { leituraPareceres } from "@/lib/leitura";
 import { AcessoConteudo, useConteudo } from "@/components/conteudo/AcessoConteudo";
 import { createFileRoute } from "@tanstack/react-router";
 import { AberturaTela, Conteudo } from "@/components/mesa/partes";
@@ -16,6 +18,7 @@ function PareceresTela() {
     <>
       <AberturaTela numero="Pareceres" titulo="Pareceres dos fornecedores">{pareceres.referencia}</AberturaTela>
       <Conteudo>
+        <LeituraGuiada leitura={leituraPareceres(useConteudo())} />
         <AvisoScore />
         <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
           <Alternador />

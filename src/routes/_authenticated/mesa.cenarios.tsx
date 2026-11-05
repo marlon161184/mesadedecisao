@@ -1,3 +1,5 @@
+import { LeituraGuiada } from "@/components/mesa/LeituraGuiada";
+import { leituraComposicoes } from "@/lib/leitura";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
@@ -96,6 +98,7 @@ function Cenarios() {
         Compare até quatro lado a lado. Diferenças contadas sempre em relação ao primeiro.
       </AberturaTela>
       <Conteudo>
+        <LeituraGuiada leitura={leituraComposicoes(base, base.cenarios.map((c) => ({ nome: c.nome, r: resultados.get(c.id)! })), "cenarios")} />
         <ul className="divide-y divide-line border-y border-line">
           {base.cenarios.map((c) => {
             const r = resultados.get(c.id)!;

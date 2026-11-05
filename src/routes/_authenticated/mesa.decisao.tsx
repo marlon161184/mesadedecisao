@@ -1,3 +1,5 @@
+import { LeituraGuiada } from "@/components/mesa/LeituraGuiada";
+import { estadoDecisao, leituraDecisao } from "@/lib/leitura";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -54,6 +56,7 @@ function TelaDecisao() {
         <p className="mt-2 max-w-2xl">A plataforma não decide. Ela organiza a conversa: independente no começo, justificada no fim.</p>
       </AberturaTela>
       <Conteudo>
+        <LeituraGuiada leitura={leituraDecisao(estadoDecisao(m, d.socios.length))} />
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex min-w-0 flex-wrap items-center gap-3">
             <h1 className="chamada min-w-0 break-words text-2xl sm:text-3xl">RFP {m.rfp.numero} · {m.rfp.nome}</h1>

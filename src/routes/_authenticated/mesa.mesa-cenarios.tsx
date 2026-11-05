@@ -1,3 +1,5 @@
+import { LeituraGuiada } from "@/components/mesa/LeituraGuiada";
+import { leituraMesaCenarios } from "@/lib/leitura";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { CartesianGrid, Legend, Line, ComposedChart, ResponsiveContainer, Scatter, Symbols, Tooltip, XAxis, YAxis } from "recharts";
@@ -63,6 +65,7 @@ function MesaCenarios() {
         {cands.length.toLocaleString("pt-BR")} composições da fase 1 calculadas com as premissas atuais.
       </AberturaTela>
       <Conteudo>
+        <LeituraGuiada leitura={leituraMesaCenarios(base, cands, nomeados, front, viaveis)} />
         <label className="mb-6 flex min-h-11 items-center gap-2 text-sm">
           <input type="checkbox" className="size-4" checked={naoValidadas} onChange={(e) => setNaoValidadas(e.target.checked)} />
           Incluir propostas não validadas

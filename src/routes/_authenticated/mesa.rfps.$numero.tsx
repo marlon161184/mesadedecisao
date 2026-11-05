@@ -1,3 +1,5 @@
+import { LeituraGuiada } from "@/components/mesa/LeituraGuiada";
+import { leituraRfps } from "@/lib/leitura";
 import { AcessoConteudo, useConteudo } from "@/components/conteudo/AcessoConteudo";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Conteudo } from "@/components/mesa/partes";
@@ -24,6 +26,7 @@ function RfpTela() {
   const ir = (id: string) => document.getElementById(`sec-${id}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
   return (
     <Conteudo>
+      <LeituraGuiada leitura={leituraRfps({ rfps })} />
       <nav aria-label="RFPs" className="flex flex-col gap-1 sm:flex-row sm:flex-wrap">
         {rfps.map((x) => (
           <Link key={x.numero} to="/mesa/rfps/$numero" params={{ numero: String(x.numero) }} search={true as never}

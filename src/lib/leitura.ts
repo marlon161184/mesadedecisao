@@ -401,3 +401,20 @@ export function leituraRfps(docs: Pick<ConteudoDocumentos, "rfps">): Leitura {
 }
 
 export type { Player };
+
+/** Monta o estado da decisão a partir do modelo da tela Decisão. Usa só contagens: nunca notas. */
+export function estadoDecisao(m: {
+  rfp: { numero: number; nome: string };
+  criterios: unknown[]; portoes: unknown[]; portoesPendentes: unknown[]; pendentesPerguntas: unknown[]; naoValidadas: unknown[];
+  trilha: { pontuacao_aberta: boolean; votacao_aberta: boolean; votacao_encerrada: boolean } | null;
+  revelado: boolean; enviaram: unknown[];
+}, socios: number): EstadoDecisao {
+  return {
+    rfpNome: `RFP ${m.rfp.numero} (${m.rfp.nome})`,
+    criterios: m.criterios.length, portoes: m.portoes.length, portoesPendentes: m.portoesPendentes.length,
+    perguntasPendentes: m.pendentesPerguntas.length, naoValidadas: m.naoValidadas.length,
+    pontuacaoAberta: !!m.trilha?.pontuacao_aberta, revelado: m.revelado,
+    votacaoAberta: !!m.trilha?.votacao_aberta, votacaoEncerrada: !!m.trilha?.votacao_encerrada,
+    enviaram: m.enviaram.length, socios,
+  };
+}

@@ -1,3 +1,5 @@
+import { LeituraGuiada } from "@/components/mesa/LeituraGuiada";
+import { leituraComposicoes } from "@/lib/leitura";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
@@ -140,6 +142,7 @@ function Simulador() {
       <AberturaTela numero="Simulador" titulo={cenario ? cenario.nome : "Composição de players"}>
         Escolha um player por módulo. Tudo recalcula a cada troca.
       </AberturaTela>
+      <div className="px-4 pt-6 md:px-8 lg:px-12"><LeituraGuiada className="mb-0" leitura={leituraComposicoes(base, [{ nome: cenario ? cenario.nome : "A composição atual", r }], "simulador")} /></div>
 
       {/* Controles de simulação */}
       <div className="grid grid-cols-2 gap-4 border-b border-line px-4 py-5 md:grid-cols-4 md:px-8 lg:px-12 xl:grid-cols-7">
