@@ -159,9 +159,10 @@ export function montarApresentacao({ base, filtros: f, decisoes = [], documentos
   // 5 · Visão geral por RFP
   for (const r of comPropostas) {
     const l = leituraVisao(base, nomeRfp(r.rfp), r.analises, r.pontos, p);
-    const porCusto = [...r.analises].sort((a, b) => a.total.central - b.total.central);
+    const porCusto = [...r.analises].sort((a, b) => (a.total.central > 0 ? a.total.central : Infinity) - (b.total.central > 0 ? b.total.central : Infinity));
     const porCob = [...r.analises].sort((a, b) => b.cobertura.conservadora - a.cobertura.conservadora);
-    const titulo = porCusto.length === 1 ? `RFP ${r.rfp.numero}: só ${porCusto[0]!.player.nome} respondeu`
+    const comPreco = porCusto.filter((a) => a.total.central > 0);
+    const titulo = comPreco.length <= 1 ? `RFP ${r.rfp.numero}: só ${(comPreco[0] ?? porCusto[0]!).player.nome} tem preço`
       : porCusto[0]!.proposta.id === porCob[0]!.proposta.id ? `RFP ${r.rfp.numero}: ${porCusto[0]!.player.nome} é a mais barata e a que mais cobre`
         : `RFP ${r.rfp.numero}: ${porCusto[0]!.player.nome} é a mais barata, ${porCob[0]!.player.nome} cobre mais`;
     paginar(porCusto).forEach((bloco, i, all) => add({
@@ -169,7 +170,7 @@ export function montarApresentacao({ base, filtros: f, decisoes = [], documentos
       titulo: all.length > 1 ? `${titulo} (${i + 1}/${all.length})` : titulo,
       tabela: {
         colunas: ["Agência", `Custo em ${J} meses`, "Cobertura", "Alertas críticos"],
-        linhas: bloco.map((a) => [`${a.player.nome}${est(a)}`, brl(a.total.central), pct(a.cobertura.conservadora), String(r.pontos.filter((x) => x.propostaId === a.proposta.id && x.severidade === "critico").length)]),
+        linhas: bloco.map((a) => [`${a.player.nome}${est(a)}`, a.total.central > 0 ? brl(a.total.central) : "sem preço", pct(a.cobertura.conservadora), String(r.pontos.filter((x) => x.propostaId === a.proposta.id && x.severidade === "critico").length)]),
         numericas: [1, 2, 3],
       },
       leitura: leituraParaSlide(l, J),

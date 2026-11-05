@@ -82,26 +82,29 @@ const estimada = (a: AnaliseProposta) => (ehEstimativa(a.proposta) ? " (estimado
 export function leituraVisao(base: Base, rfpNome: string, analises: AnaliseProposta[], pontos: Ponto[], p: Premissas): Leitura {
   const r = ressalvas(base, idsDe(analises));
   if (!analises.length) return { frases: [`${rfpNome} ainda não tem propostas para comparar.`], topicos: [], ressalvas: r };
-  const porCusto = [...analises].sort((a, b) => a.total.central - b.total.central);
+  const comPreco = analises.filter((a) => a.total.central > 0);
+  const semPreco = analises.filter((a) => a.total.central <= 0).map((a) => a.player.nome);
+  const porCusto = [...(comPreco.length ? comPreco : analises)].sort((a, b) => a.total.central - b.total.central);
   const porCob = [...analises].sort((a, b) => b.cobertura.conservadora - a.cobertura.conservadora);
   const barata = porCusto[0]!, cara = porCusto[porCusto.length - 1]!, completa = porCob[0]!;
   const criticos = (a: AnaliseProposta) => pontos.filter((x) => x.propostaId === a.proposta.id && x.severidade === "critico").length;
   const totalCrit = pontos.filter((x) => x.severidade === "critico").length;
   const frases = [
     `Comparamos ${plural(analises.length, "proposta", "propostas")} em ${rfpNome}. ${GLOSSARIO.janela(p.janela_meses)}`,
-    analises.length > 1
+    porCusto.length > 1
       ? `A mais barata é ${barata.player.nome}${estimada(barata)}, com ${brl(barata.total.central)}; a mais cara é ${cara.player.nome}${estimada(cara)}, com ${brl(cara.total.central)}.`
-      : `A única proposta é de ${barata.player.nome}${estimada(barata)}, com ${brl(barata.total.central)}.`,
+      : `A única proposta com preço é de ${barata.player.nome}${estimada(barata)}, com ${brl(barata.total.central)}.`,
+    ...(semPreco.length ? [`${lista(semPreco)} não ${semPreco.length === 1 ? "tem" : "têm"} preço neste RFP, então fica fora da comparação de custo.`] : []),
     `${GLOSSARIO.cobertura} Quem cobre mais é ${completa.player.nome}, com ${pct(completa.cobertura.conservadora)}.`,
     `${GLOSSARIO.ponto} ${totalCrit ? `Há ${plural(totalCrit, "alerta crítico", "alertas críticos")} neste RFP.` : "Não há alerta crítico neste RFP."}`,
   ];
-  if (analises.length > 1)
+  if (porCusto.length > 1)
     frases.push(barata.proposta.id === completa.proposta.id
       ? `Na prática, ${barata.player.nome} é ao mesmo tempo a mais barata e a que cobre mais.`
       : `Na prática, nenhuma agência é ao mesmo tempo a mais barata e a mais completa: a escolha é entre preço (${barata.player.nome}) e cobertura (${completa.player.nome}).`);
   if (r.estimativas.length) frases.push(`Atenção: ${lista(r.estimativas.map((e) => e.player))} ainda é estimativa da Newe, não proposta oficial.`);
-  const topicos = porCusto.slice(0, 4).map((a) =>
-    `${a.player.nome}${estimada(a)}: ${brl(a.total.central)} em ${p.janela_meses} meses, cobre ${pct(a.cobertura.conservadora)}, ${plural(criticos(a), "alerta crítico", "alertas críticos")}.`);
+  const topicos = [...analises].sort((a, b) => a.total.central - b.total.central).slice(0, 4).map((a) =>
+    `${a.player.nome}${estimada(a)}: ${a.total.central > 0 ? brl(a.total.central) : "sem preço"} em ${p.janela_meses} meses, cobre ${pct(a.cobertura.conservadora)}, ${plural(criticos(a), "alerta crítico", "alertas críticos")}.`);
   return { frases: frases.slice(0, 6), topicos, ressalvas: r };
 }
 
