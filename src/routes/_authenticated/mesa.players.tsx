@@ -10,6 +10,7 @@ import { formatarBRL, formatarData } from "@/lib/formato";
 import { ROTULO_TIPO, analisarProposta, propostasDoRfp } from "@/lib/equalizacao";
 import { pontosAutomaticos, ROTULO_SEV } from "@/lib/pontos";
 import { cn } from "@/lib/utils";
+import { PerguntasPlayer } from "@/components/mesa/PerguntasPlayer";
 
 export const Route = createFileRoute("/_authenticated/mesa/players")({
   head: () => ({
@@ -114,20 +115,7 @@ function Players() {
                   </ul>
                 </section>
 
-                <section>
-                  <RotuloMono as="p">Perguntas-filtro</RotuloMono>
-                  <ol className="mt-3 space-y-3 text-sm">
-                    {base.perguntas.filter((q) => q.rfp_id === rfp.id).map((q) => {
-                      const r = base.respostas.find((x) => x.pergunta_id === q.id && x.proposta_id === a.proposta.id);
-                      return (
-                        <li key={q.id} className="border-t border-line pt-3">
-                          <p>{q.texto}</p>
-                          <p className="mt-1 text-ink-muted">{r?.resposta ?? "Sem resposta registrada."}{r?.avaliacao && ` · ${r.avaliacao}`}</p>
-                        </li>
-                      );
-                    })}
-                  </ol>
-                </section>
+                <PerguntasPlayer base={base} rfpId={rfp.id} playerId={player.id} playerNome={player.nome} propostaId={a.proposta.id} />
 
                 <section>
                   <RotuloMono as="p">Portões eliminatórios</RotuloMono>
