@@ -1,3 +1,4 @@
+import { LeituraMesa } from "@/components/mesa/LeituraGuiada";
 import { createFileRoute } from "@tanstack/react-router";
 import { Fragment, useState } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
@@ -68,6 +69,7 @@ function Matriz() {
         Valor de cada módulo na janela, por player. "Não oferece" é diferente de zero.
       </AberturaTela>
       <Conteudo>
+        <LeituraMesa tela="matriz" />
         <Controles />
         {rfp.numero === 3 ? (
           <SemPropostas base={base} modulos={modulos} />

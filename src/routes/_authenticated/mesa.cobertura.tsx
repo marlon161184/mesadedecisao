@@ -1,3 +1,4 @@
+import { LeituraMesa } from "@/components/mesa/LeituraGuiada";
 import { createFileRoute } from "@tanstack/react-router";
 import { Fragment, useState } from "react";
 import { Copy } from "lucide-react";
@@ -67,6 +68,7 @@ function CoberturaTela() {
         Cada célula mostra símbolo, nível e evidência. Clique para ver a nota técnica.
       </AberturaTela>
       <Conteudo>
+        <LeituraMesa tela="cobertura" />
         <div className="mb-8 flex flex-wrap items-end gap-4 border border-line p-4 sm:gap-6 sm:p-5">
           <div>
             <RotuloMono as="p" className="mb-1.5">Rigor da evidência</RotuloMono>

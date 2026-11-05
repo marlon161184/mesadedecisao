@@ -1,3 +1,4 @@
+import { LeituraMesa } from "@/components/mesa/LeituraGuiada";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMesa, fundoPlayer, padraoPlayer } from "@/components/mesa/useMesa";
 import { AberturaTela, BarraCobertura, Conteudo, Indicador, SeloStatus, SemPropostas, Valor } from "@/components/mesa/partes";
@@ -35,6 +36,7 @@ function Visao() {
         <span className="label-mono">Fase {rfp.fase} · {rfp.periodo} · janela de {premissas.janela_meses} meses</span>
       </AberturaTela>
       <Conteudo>
+        <LeituraMesa tela="visao" />
         {rfp.numero === 3 || analises.length === 0 ? (
           <SemPropostas base={base} modulos={modulos} />
         ) : (

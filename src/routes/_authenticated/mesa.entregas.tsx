@@ -1,3 +1,4 @@
+import { LeituraMesa } from "@/components/mesa/LeituraGuiada";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMesa, fundoPlayer, padraoPlayer } from "@/components/mesa/useMesa";
 import { AberturaTela, Conteudo } from "@/components/mesa/partes";
@@ -41,6 +42,7 @@ export function EntregasConteudo({ rfp, analises, premissas }: Pick<Mesa, "rfp" 
         Um preço menor com volume menor não é preço menor.
       </AberturaTela>
       <Conteudo>
+        <LeituraMesa tela="entregas" />
         {com.length === 0 ? (
           <p className="text-ink-muted">Este RFP não tem entregas declaradas por mês.</p>
         ) : (
