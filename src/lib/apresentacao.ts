@@ -43,6 +43,8 @@ export interface EntradaApresentacao {
   filtros: Filtros;
   decisoes?: EstadoDecisao[];
   documentos?: ConteudoDocumentos | null;
+  /** Pareceres publicados em parecer_proposta (só ids; texto não entra no slide). */
+  pareceresPublicados?: { proposta_id: string }[];
 }
 
 const brl = formatarBRL;
@@ -85,7 +87,30 @@ function rodadas(base: Base, f: Filtros, p: Premissas): Rodada[] {
 const nomeRfp = (r: Rfp) => `RFP ${r.numero} (${r.nome})`;
 const est = (a: AnaliseProposta) => (ehEstimativa(a.proposta) ? " · estimado" : "");
 
-export function montarApresentacao({ base, filtros: f, decisoes = [], documentos }: EntradaApresentacao): Slide[] {
+export const POSICAO_ATUAL = "06/11/2026";
+
+/** Pareceres publicados (parecer_proposta) com valor e cobertura da base viva; ordem por nome da agência. Nunca usa notas. */
+export function linhasPareceresAtuais(
+  publicados: { proposta_id: string }[],
+  rfps: { analises: AnaliseProposta[] }[],
+): { nome: string; estimado: boolean; celulas: string[] }[] {
+  const vistos = new Set<string>();
+  const out: { nome: string; estimado: boolean; celulas: string[] }[] = [];
+  for (const p of publicados) {
+    if (vistos.has(p.proposta_id)) continue;
+    vistos.add(p.proposta_id);
+    const a = rfps.flatMap((r) => r.analises).find((x) => x.proposta.id === p.proposta_id);
+    if (!a) continue;
+    out.push({
+      nome: a.player.nome, estimado: ehEstimativa(a.proposta),
+      celulas: [`${a.player.nome}${est(a)}`, `V${a.proposta.versao}`, a.total.central > 0 ? brl(a.total.central) : "sem preço", pct(a.cobertura.conservadora)],
+    });
+  }
+  return out.sort((x, y) => x.nome.localeCompare(y.nome, "pt-BR"));
+}
+
+export function montarApresentacao(entrada: EntradaApresentacao): Slide[] {
+  const { base, filtros: f, decisoes = [], documentos } = entrada;
   const p = premissasEfetivas(base, f);
   const J = p.janela_meses;
   const rs = rodadas(base, f, p);
