@@ -5,6 +5,7 @@ import { RotuloMono } from "@/components/newe/brand";
 import { LogoNewe } from "@/components/newe/LogoNewe";
 import { useSessao } from "@/components/newe/Moldura";
 import { AvisoScore, Comparativo, MetodoConteudo, Relatorio } from "@/components/conteudo/Pareceres";
+import { PareceresNovos, RotuloPosicaoAntiga } from "@/components/propostas/PareceresNovos";
 import { type ModoParecer } from "@/lib/conteudo";
 
 export const Route = createFileRoute("/_authenticated/imprimir-pareceres")({
@@ -28,6 +29,8 @@ function ImprimirPareceres() {
         <RotuloMono>Pareceres dos fornecedores</RotuloMono>
       </header>
       <h1 className="chamada mt-4 text-2xl">Pareceres dos fornecedores</h1>
+      {!slug && <PareceresNovos impressao />}
+      {!slug && <div className="mt-6 break-before-page"><RotuloPosicaoAntiga /></div>}
       <p className="mt-1">{pareceres.referencia}</p>
       <AvisoScore />
       {!slug && <div className="mt-4"><Comparativo link={false} /></div>}

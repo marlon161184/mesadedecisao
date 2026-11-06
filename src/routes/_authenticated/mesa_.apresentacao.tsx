@@ -1,3 +1,4 @@
+import { usePareceresPublicados } from "@/components/propostas/PareceresNovos";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
@@ -62,15 +63,16 @@ function Apresentacao() {
     staleTime: 0, gcTime: 0, retry: false,
   });
 
+  const { data: publicados } = usePareceresPublicados();
   const { slide: _s, ...filtros } = busca;
   const slides = useMemo(() => {
     const decisoes = d ? base.rfps.filter((r) => base.modulos.some((m) => m.rfp_id === r.id)).map((r) => {
       const m = modeloDecisao(base, d, r.numero);
       return m.propostas.length ? estadoDecisao(m, d.socios.length) : null;
     }).filter((x): x is NonNullable<typeof x> => !!x) : [];
-    return montarApresentacao({ base, filtros: filtros as Filtros, decisoes, documentos: documentos ?? null });
+    return montarApresentacao({ base, filtros: filtros as Filtros, decisoes, documentos: documentos ?? null, pareceresPublicados: publicados ?? [] });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [base, d, documentos, JSON.stringify(filtros)]);
+  }, [base, d, documentos, publicados, JSON.stringify(filtros)]);
 
   const total = slides.length;
   const atual = Math.min(Math.max((busca.slide ?? 1) - 1, 0), total - 1);
