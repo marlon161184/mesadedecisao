@@ -47,3 +47,10 @@ export function PareceresNovos({ impressao = false }: { impressao?: boolean }) {
 }
 
 export const ROTULO_POSICAO_ANTIGA = `Posição de 28/10/2026, versões anteriores das propostas, substituída pela posição de ${POSICAO_ATUAL}`;
+
+/** Rótulo visível sobre o bloco do JSON quando já existe posição atual publicada. */
+export function RotuloPosicaoAntiga() {
+  const { data } = usePareceresPublicados();
+  if (!data?.length) return null;
+  return <p className="label-mono border-l-2 border-line-strong pl-3 text-ink-muted">{ROTULO_POSICAO_ANTIGA}</p>;
+}
