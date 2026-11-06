@@ -382,14 +382,28 @@ export function montarApresentacao({ base, filtros: f, decisoes = [], documentos
 
   // 15 · Pareceres e RFPs (só quando a sessão tem acesso a esse conteúdo)
   if (documentos) {
-    const lp = leituraPareceres(documentos);
-    const top = [...documentos.fornecedores].sort((a, b) => Number(a.ranking) - Number(b.ranking));
-    add({
-      id: "pareceres", secao: "Pareceres",
-      titulo: top[0] ? `Pelos pareceres, ${top[0].nome} tem a maior aderência, mas condicionada` : "Pareceres",
-      tabela: { colunas: ["Fornecedor", "Nota", "Aderência"], linhas: top.slice(0, LINHAS_POR_SLIDE).map((x) => [x.nome, String(x.score).replace(".", ","), x.nivelFit]), numericas: [1] },
-      leitura: lp.frases.slice(0, 3),
-    });
+    const atuais = linhasPareceresAtuais(entrada.pareceresPublicados ?? [], comPropostas);
+    if (atuais.length) {
+      const temEst = atuais.some((l) => l.estimado);
+      add({
+        id: "pareceres", secao: "Pareceres",
+        titulo: `Pareceres: posição de ${POSICAO_ATUAL}`,
+        tabela: { colunas: ["Agência", "Versão", "Valor na janela", "Cobertura"], linhas: atuais.slice(0, LINHAS_POR_SLIDE).map((l) => l.celulas), numericas: [2, 3] },
+        leitura: [
+          `Há ${atuais.length} ${atuais.length === 1 ? "parecer publicado" : "pareceres publicados"} sobre as versões atuais das propostas.`,
+          "Valor e cobertura vêm dos dados vivos da Mesa, não de notas anteriores.",
+          "A posição de 28/10/2026 avaliou versões anteriores e foi substituída.",
+        ],
+        rodape: temEst ? [RODAPE_ESTIMADO] : [],
+      });
+    } else {
+      add({
+        id: "pareceres", secao: "Pareceres",
+        titulo: "Pareceres: posição de 28/10/2026 (versões anteriores)",
+        topicos: ["Os pareceres disponíveis avaliaram versões anteriores das propostas.", "Valores e notas dessa posição não refletem as propostas atuais."],
+        leitura: ["Ainda não há parecer publicado sobre as versões atuais das propostas."],
+      });
+    }
     const lr = leituraRfps(documentos);
     add({ id: "rfps", secao: "RFPs", titulo: "O que cada pedido de proposta pede", topicos: lr.topicos, leitura: lr.frases });
   }
